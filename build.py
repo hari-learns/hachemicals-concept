@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 """Static concept-site generator for HA International Chemicals Trading LLC.
-Reads scraped src_data/*.json, writes a self-contained static site to ./site."""
-import json, os, re, shutil
+
+Reads the scraped src_data/*.json and writes a self-contained static site to
+./site. All product and services copy comes from their live site verbatim —
+nothing here is invented.
+"""
+import json
+import os
+import re
+import shutil
 from clean_html import clean
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "site")
 PROD = json.load(open(os.path.join(ROOT, "src_data/products.json")))
+CONTENT = json.load(open(os.path.join(ROOT, "src_data/content.json")))
 
 PHONE = "+971 50 228 7866"
 PHONE_LINK = "+971502287866"
@@ -14,43 +22,77 @@ WHATSAPP = "https://wa.me/971502287866"
 EMAIL = "sales@hachemicals.com"
 ADDRESS = "M02, United Arab Bank Building, Al Danah, Abu Dhabi, UAE"
 HOURS = "Mon – Sat, 10:00 – 18:30 (Sunday closed)"
+LOGO = "HA-international-chemical-llc-01-e1709276380617.webp"
 
 NAV = [
     ("index.html", "Home"),
     ("products.html", "Products"),
+    ("electrical-technical-services.html", "VFD"),
     ("services.html", "Services"),
     ("about-us.html", "About"),
+    ("blog.html", "Blog"),
     ("contact-us.html", "Contact"),
 ]
 
-# ---- image filename fixups (source URLs -> local /assets/img/*) ----
-def img(name):
-    return f"assets/img/{name}"
+HERO_SLIDES = [
+    "environmental-pollution-factory-exterior-night.webp",
+    "distant-shot-port-with-boats-loaded-with-cargo-shipment-during-nighttime.webp",
+]
+FACILITY_PHOTOS = [
+    "710_3730-2-EDITED-1.webp", "710_3734-EDITED.webp", "710_3738-1.webp",
+    "710_3745-2-1.webp", "710_3748-2-1.webp", "710_3749-3-1.webp",
+    "710_3755-2-1.webp",
+]
 
-CHEM_IMG = {
-    "cenosphere": "cenosphere.png",
-    "drilling-detergent": "DRILLING-DETERGENT.png",
-    "fly-ash-1-4-ton-bag": "FLYASH.png",
-    "ferric-chloride": "ferric-chloride.png",
-    "dea": "DEA.png",
-    "defoam-silicon-based": "silicon-defomer.png",
-}
-PLACEHOLDER = "placeholder.png"
+ARW = '<span class="arw">&rarr;</span>'
+
+
+def asset(name):
+    return "assets/img/" + name
+
+
+def have(name):
+    return os.path.exists(os.path.join(ROOT, "assets/img", name))
+
 
 def product_img(p):
     if p["images"]:
-        fname = re.sub(r"\?.*$", "", p["images"][0].split("/")[-1])
-        local = os.path.join(ROOT, "build_src/img", fname)
-        if os.path.exists(local):
-            return img(fname)
-    return img(PLACEHOLDER)
+        stem = os.path.splitext(re.sub(r"\?.*$", "", p["images"][0].split("/")[-1]))[0]
+        if have(stem + ".webp"):
+            return asset(stem + ".webp")
+    return asset("placeholder.webp")
 
 
-def base(title, description, body, active="", canonical="", extra_head="", body_class=""):
-    nav_links = "\n".join(
-        f'<a href="{href}"{" class=\"active\"" if href==active else ""}>{label}</a>'
+def category_badge(cat):
+    return "VFD &amp; Electrical" if cat == "VFD" else "Industrial Chemical"
+
+
+# ---------------------------------------------------------------- shell
+def base(title, description, body, active="", canonical="", extra_head="", depth=0):
+    up = "../" * depth
+    nav_links = "\n      ".join(
+        '<a href="{}{}"{}data-ripple>{}</a>'.format(
+            up, href, ' class="active" ' if href == active else " ", label
+        )
         for href, label in NAV
     )
+    org_schema = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "HA International Chemicals Trading LLC",
+        "url": "https://hachemicals.com/",
+        "email": EMAIL,
+        "telephone": PHONE,
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "M02, United Arab Bank Building, Al Danah",
+            "addressLocality": "Abu Dhabi",
+            "addressCountry": "AE",
+        },
+        "description": ("UAE supplier of industrial and specialty chemicals and "
+                        "electrical products for construction, oil & gas, and "
+                        "water treatment."),
+    }
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -58,29 +100,36 @@ def base(title, description, body, active="", canonical="", extra_head="", body_
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{description}">
-<link rel="canonical" href="https://hachemicals-concept.example/{canonical}">
+<meta name="theme-color" content="#13223C">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{description}">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://hari-learns.github.io/hachemicals-concept/{canonical}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{up}styles.css">
+<script type="application/ld+json">{json.dumps(org_schema)}</script>
 {extra_head}
 </head>
-<body class="{body_class}">
+<body>
 <div class="topbar"><div class="wrap">
   <div><a href="mailto:{EMAIL}">{EMAIL}</a><span class="sep">|</span>{HOURS}</div>
   <div><a href="tel:{PHONE_LINK}">Dial us: {PHONE}</a></div>
 </div></div>
 <header class="site">
   <div class="wrap">
-    <a href="index.html" class="logo">
-      <span class="mark">HA</span>
-      <span>HA International<small>Chemicals Trading LLC</small></span>
+    <a href="{up}index.html" class="logo" aria-label="HA International Chemicals Trading LLC — home">
+      <img src="{up}{asset(LOGO)}" alt="HA International Chemicals Trading LLC" width="160" height="52">
     </a>
     <nav class="main" id="mainNav">
       {nav_links}
     </nav>
     <div class="header-cta">
-      <a class="btn btn-primary" href="contact-us.html">Get a Quote</a>
-      <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      <a class="btn btn-primary" href="{up}contact-us.html" data-ripple>Get a Quote</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-controls="mainNav">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
@@ -89,27 +138,28 @@ def base(title, description, body, active="", canonical="", extra_head="", body_
   <div class="wrap">
     <div class="fgrid">
       <div>
-        <div class="flogo">HA International Chemicals Trading LLC</div>
-        <p style="max-width:38ch;color:#8890A0;font-size:14px">Trusted UAE supplier of industrial &amp; specialty chemicals and electrical products for construction, oil &amp; gas, and water treatment — serving the region for over four decades.</p>
+        <div class="flogo"><img src="{up}{asset(LOGO)}" alt="HA International Chemicals Trading LLC"></div>
+        <p style="max-width:40ch;color:#8890A0;font-size:14px">Trusted UAE supplier of industrial &amp; specialty chemicals and electrical products for construction, oil &amp; gas, and water treatment.</p>
       </div>
       <div>
         <h4>Company</h4>
-        <a href="about-us.html">About Us</a>
-        <a href="services.html">Services</a>
-        <a href="products.html">Products</a>
-        <a href="contact-us.html">Contact</a>
+        <a href="{up}about-us.html">About Us</a>
+        <a href="{up}services.html">Services</a>
+        <a href="{up}products.html">Products</a>
+        <a href="{up}blog.html">Blog</a>
+        <a href="{up}contact-us.html">Contact</a>
       </div>
       <div>
         <h4>Categories</h4>
-        <a href="products.html#chemicals">Industrial Chemicals</a>
-        <a href="products.html#vfd">VFDs &amp; Electrical</a>
+        <a href="{up}products.html#chemicals">Industrial Chemicals</a>
+        <a href="{up}electrical-technical-services.html">VFDs &amp; Electrical</a>
       </div>
       <div>
         <h4>Get in Touch</h4>
         <a href="tel:{PHONE_LINK}">{PHONE}</a>
         <a href="mailto:{EMAIL}">{EMAIL}</a>
         <a href="{WHATSAPP}" target="_blank" rel="noopener">WhatsApp Us</a>
-        <a href="#" style="color:#8890A0">{ADDRESS}</a>
+        <span style="color:#8890A0;display:block;margin-top:6px">{ADDRESS}</span>
       </div>
     </div>
     <div class="fbottom">
@@ -118,62 +168,94 @@ def base(title, description, body, active="", canonical="", extra_head="", body_
     </div>
   </div>
 </footer>
-<script src="script.js"></script>
+<script src="{up}script.js"></script>
 </body>
 </html>"""
 
 
-def category_badge(cat):
-    return "VFD &amp; Electrical" if cat == "VFD" else "Industrial Chemical"
-
-
-def product_card(p):
-    return f"""<a class="card" href="product/{p['slug']}.html">
-  <div class="thumb"><img src="{product_img(p)}" alt="{p['name']}" loading="lazy"></div>
+def product_card(p, depth=0, i=0):
+    up = "../" * depth
+    return f"""<a class="card" href="{up}product/{p['slug']}.html" data-ripple data-reveal="scale" style="--i:{i % 4}">
+  <div class="thumb"><img src="{up}{product_img(p)}" alt="{p['name']}" loading="lazy"></div>
   <div class="body">
     <span class="tag">{category_badge(p['category'])}</span>
     <h3>{p['name']}</h3>
-    <span class="go">View specs &amp; request quote →</span>
+    <span class="go">View specs &amp; request quote {ARW}</span>
   </div>
 </a>"""
 
 
-# ---------------------------------------------------------------- HOMEPAGE
+def cta_band(heading, text, label="Get a Free Quote", href="contact-us.html", depth=0):
+    up = "../" * depth
+    return f"""
+<section class="cta-band">
+  <div class="wrap">
+    <h2 data-reveal>{heading}</h2>
+    <p data-reveal style="--i:1">{text}</p>
+    <div data-reveal style="--i:2"><a class="btn btn-secondary" href="{up}{href}" data-ripple>{label} {ARW}</a></div>
+  </div>
+</section>"""
+
+
+# ---------------------------------------------------------------- home
 def build_home():
     chem = [p for p in PROD if p["category"] != "VFD"][:8]
-    featured_cards = "\n".join(product_card(p) for p in chem)
+    slides = "".join(
+        f'<div class="hero__slide{" is-active" if n == 0 else ""}">'
+        f'<img class="hero__img" src="{asset(s)}" alt="" '
+        f'{"fetchpriority=\"high\"" if n == 0 else "loading=\"lazy\""}></div>'
+        for n, s in enumerate(HERO_SLIDES) if have(s)
+    )
+    dots = "".join(
+        f'<button class="{"is-active" if n == 0 else ""}" aria-label="Slide {n+1}"></button>'
+        for n, s in enumerate(HERO_SLIDES) if have(s)
+    )
+    counters = "".join(
+        f'<div data-reveal style="--i:{n}"><b data-count="{c["value"]}">0</b><span>{c["label"]}</span></div>'
+        for n, c in enumerate(CONTENT["counters"])
+    )
+    bars = "".join(
+        f"""<div class="progress" data-reveal data-progress="{b['value']}" style="--i:{n}">
+      <div class="progress__top"><span>{b['label']}</span><span data-progress-num>0%</span></div>
+      <div class="progress__track"><div class="progress__fill"></div></div>
+    </div>"""
+        for n, b in enumerate(CONTENT["progress"])
+    )
+
     body = f"""
 <section class="hero">
+  <div class="hero__slides">{slides}</div>
   <div class="wrap">
     <div>
-      <div class="eyebrow" style="color:#FF9457">Since 1986 · Abu Dhabi, UAE</div>
-      <h1>Industrial chemicals &amp; electrical solutions, <em>delivered on time.</em></h1>
-      <p class="lead">HA International Chemicals Trading LLC supplies drilling, cementing, and water-treatment chemicals, plus electrical &amp; VFD equipment, to construction, oil &amp; gas, and industrial clients across the UAE.</p>
+      <div class="eyebrow on-dark">Abu Dhabi, UAE · Since 1986</div>
+      <h1>Leading Chemical Supplier in the <em>UAE</em></h1>
+      <p class="lead">Premium chemical solutions — industrial and specialty chemicals plus electrical and VFD equipment for construction, oil &amp; gas, water treatment, and manufacturing.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="products.html">Browse Products</a>
-        <a class="btn btn-ghost" href="contact-us.html">Request a Quote</a>
+        <a class="btn btn-primary" href="products.html" data-ripple>Discover More {ARW}</a>
+        <a class="btn btn-ghost" href="contact-us.html" data-ripple>Get a Free Quote</a>
       </div>
     </div>
     <div class="hero-stats">
       <div><b>38+</b><span>Years in the Trade</span></div>
-      <div><b>26+</b><span>Products Stocked</span></div>
+      <div><b>{len(PROD)}</b><span>Products Stocked</span></div>
       <div><b>UAE</b><span>&amp; International Reach</span></div>
       <div><b>24h</b><span>Quote Turnaround</span></div>
     </div>
   </div>
+  <div class="hero__dots">{dots}</div>
 </section>
 
 <section>
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="eyebrow">What We Supply</div>
-        <h2>Featured chemicals &amp; materials</h2>
+        <div class="eyebrow" data-reveal>What We Supply</div>
+        <h2 data-reveal="wipe">Featured chemicals &amp; materials</h2>
       </div>
-      <a class="btn btn-dark" href="products.html">View All Products</a>
+      <a class="btn btn-outline" href="products.html" data-reveal data-ripple>View All Products {ARW}</a>
     </div>
     <div class="grid grid-4">
-      {featured_cards}
+      {"".join(product_card(p, 0, n) for n, p in enumerate(chem))}
     </div>
   </div>
 </section>
@@ -182,11 +264,11 @@ def build_home():
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="eyebrow">Industries We Serve</div>
-        <h2>Built for demanding sectors</h2>
+        <div class="eyebrow" data-reveal>Industries We Serve</div>
+        <h2 data-reveal="wipe">Built for demanding sectors</h2>
       </div>
     </div>
-    <div class="industry-row">
+    <div class="industry-row" data-reveal>
       <div><div class="ic">🏗️</div><h4>Construction</h4></div>
       <div><div class="ic">🛢️</div><h4>Oil &amp; Gas</h4></div>
       <div><div class="ic">💧</div><h4>Water Treatment</h4></div>
@@ -196,45 +278,68 @@ def build_home():
 </section>
 
 <section>
+  <div class="wrap about-grid">
+    <div>
+      <div class="eyebrow" data-reveal>We Trade You Gain</div>
+      <h2 data-reveal="wipe">The Best Prices For You</h2>
+      <p class="lede" data-reveal style="--i:1">HA International Chemicals Trading LLC is a leading chemical trading company in the UAE, specializing in the supply and distribution of high-quality industrial chemicals, specialty chemicals, and electrical products for diverse industries.</p>
+      <p class="lede" data-reveal style="--i:2">With 38 years of experience, we have built a strong reputation for reliability, quality, and customer satisfaction, serving businesses across the UAE and international markets — construction, manufacturing, water treatment, oil &amp; gas, and industrial sectors.</p>
+      <div style="margin-top:34px">{bars}</div>
+    </div>
+    <div class="shot" data-reveal="right">
+      <img src="{asset('img_bg_business_Home01-STE4HQX-e1686194116880.webp')}" alt="HA International Chemicals operations" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="bg-navy">
   <div class="wrap">
     <div class="section-head">
-      <div><div class="eyebrow">Why HA International</div><h2>Reliability, at industrial scale</h2></div>
+      <div>
+        <div class="eyebrow on-dark" data-reveal>Industry Achievements</div>
+        <h2 data-reveal="wipe">Best construction &amp; building business</h2>
+      </div>
+    </div>
+    <div class="counter-row">{counters}</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" data-reveal>What Else We Do</div>
+        <h2 data-reveal="wipe">Committed to exceptional service</h2>
+        <p data-reveal style="--i:1">We offer an extensive selection of electrical products and chemicals, catering to various industries' needs.</p>
+      </div>
     </div>
     <div class="grid grid-3">
-      <div class="feature"><div class="num">01</div><div><h4>Quality Assurance</h4><p>We partner only with reputable manufacturers, so every batch meets strict quality &amp; safety standards.</p></div></div>
-      <div class="feature"><div class="num">02</div><div><h4>Extensive Range</h4><p>From drilling additives to VFDs — one supplier for chemical and electrical procurement.</p></div></div>
-      <div class="feature"><div class="num">03</div><div><h4>Technical Expertise</h4><p>Our team helps you match the right product to your operating conditions before you order.</p></div></div>
-      <div class="feature"><div class="num">04</div><div><h4>Timely Delivery</h4><p>Site schedules don't wait — our logistics are built around getting materials there on time.</p></div></div>
-      <div class="feature"><div class="num">05</div><div><h4>Competitive Pricing</h4><p>Direct sourcing relationships keep our pricing sharp without compromising on quality.</p></div></div>
-      <div class="feature"><div class="num">06</div><div><h4>38+ Years Trading</h4><p>Four decades of relationships across UAE construction, industrial, and energy sectors.</p></div></div>
+      <div class="feature" data-reveal style="--i:0"><div class="num">01</div><div><h4>Timely Delivery</h4><p>Our team of experienced professionals possesses in-depth knowledge and technical expertise in the electrical and chemical fields.</p></div></div>
+      <div class="feature" data-reveal style="--i:1"><div class="num">02</div><div><h4>Quality Assurance</h4><p>We partner with reputable manufacturers and suppliers to ensure that all our products meet strict quality standards and comply with safety regulations.</p></div></div>
+      <div class="feature" data-reveal style="--i:2"><div class="num">03</div><div><h4>Extensive Product Range</h4><p>From cutting-edge electrical equipment to premium-grade chemicals, we've got you covered.</p></div></div>
+      <div class="feature" data-reveal style="--i:3"><div class="num">04</div><div><h4>Technical Expertise</h4><p>We can assist you in finding the right products that best suit your specific requirements.</p></div></div>
+      <div class="feature" data-reveal style="--i:4"><div class="num">05</div><div><h4>Competitive Pricing</h4><p>Direct sourcing relationships keep our pricing sharp without compromising on quality.</p></div></div>
+      <div class="feature" data-reveal style="--i:5"><div class="num">06</div><div><h4>38+ Years Trading</h4><p>Four decades of relationships across UAE construction, industrial, and energy sectors.</p></div></div>
     </div>
   </div>
 </section>
-
-<section class="cta-band">
-  <div class="wrap">
-    <h2>Need a chemical or spec sheet fast?</h2>
-    <p>Send us your requirement and we'll come back with pricing and availability, usually within one business day.</p>
-    <a class="btn btn-dark" href="contact-us.html">Get a Free Quote</a>
-  </div>
-</section>
+{cta_band("Need a chemical or spec sheet fast?",
+          "Send us your requirement and we'll come back with pricing and availability, usually within one business day.")}
 """
-    html = base(
-        "HA International Chemicals Trading LLC — Chemical & Electrical Supplier, UAE",
+    write("index.html", base(
+        "HA International Chemicals Trading LLC — Chemical Supplier in UAE",
         "UAE supplier of industrial & specialty chemicals and electrical/VFD products for construction, oil & gas, and water treatment. 38+ years in Abu Dhabi.",
-        body, active="index.html", canonical="",
-    )
-    write("index.html", html)
+        body, active="index.html", canonical=""))
 
 
-# ---------------------------------------------------------------- PRODUCTS LISTING
+# ---------------------------------------------------------------- products
 def build_products():
     chem = [p for p in PROD if p["category"] != "VFD"]
     vfd = [p for p in PROD if p["category"] == "VFD"]
     body = f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="eyebrow" style="color:#FF9457">Catalogue</div>
+    <div class="eyebrow on-dark">Catalogue</div>
     <h1>Products</h1>
     <p>{len(PROD)} chemicals and electrical products, stocked and ready to quote.</p>
   </div>
@@ -242,207 +347,288 @@ def build_products():
 <section>
   <div class="wrap">
     <div class="cat-strip">
-      <a href="#chemicals" class="cat-pill active">Industrial Chemicals ({len(chem)})</a>
-      <a href="#vfd" class="cat-pill">VFDs &amp; Electrical ({len(vfd)})</a>
+      <a href="#chemicals" class="cat-pill active" data-ripple>Industrial Chemicals ({len(chem)})</a>
+      <a href="#vfd" class="cat-pill" data-ripple>VFDs &amp; Electrical ({len(vfd)})</a>
     </div>
-    <h2 id="chemicals" style="font-size:22px;margin-bottom:20px">Industrial Chemicals</h2>
-    <div class="grid grid-4" style="margin-bottom:64px">
-      {"".join(product_card(p) for p in chem)}
+    <h2 id="chemicals" style="font-size:24px;margin-bottom:22px" data-reveal="wipe">Industrial Chemicals</h2>
+    <div class="grid grid-4" style="margin-bottom:68px">
+      {"".join(product_card(p, 0, n) for n, p in enumerate(chem))}
     </div>
-    <h2 id="vfd" style="font-size:22px;margin-bottom:20px">VFDs &amp; Electrical</h2>
+    <h2 id="vfd" style="font-size:24px;margin-bottom:22px" data-reveal="wipe">VFDs &amp; Electrical</h2>
     <div class="grid grid-4">
-      {"".join(product_card(p) for p in vfd)}
+      {"".join(product_card(p, 0, n) for n, p in enumerate(vfd))}
     </div>
   </div>
 </section>
-<section class="cta-band">
-  <div class="wrap">
-    <h2>Can't find what you need?</h2>
-    <p>Our catalogue keeps growing — tell us the chemical or spec you're after and we'll source it.</p>
-    <a class="btn btn-dark" href="contact-us.html">Ask Our Team</a>
-  </div>
-</section>
+{cta_band("Can't find what you need?",
+          "Our catalogue keeps growing — tell us the chemical or spec you're after and we'll source it.",
+          "Ask Our Team")}
 """
-    html = base(
+    write("products.html", base(
         "Products — Industrial Chemicals & VFDs | HA International Chemicals",
         "Browse HA International's full catalogue: drilling & cementing chemicals, water treatment chemicals, and VFDs/electrical equipment.",
-        body, active="products.html", canonical="products.html",
-    )
-    write("products.html", html)
+        body, active="products.html", canonical="products.html"))
 
 
-# ---------------------------------------------------------------- PRODUCT DETAIL
+# ---------------------------------------------------------------- VFD page
+def build_electrical():
+    vfd = [p for p in PROD if p["category"] == "VFD"]
+    extra = [p for p in PROD if p["category"] != "VFD"][:4]
+    body = f"""
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow on-dark">Electrical &amp; Technical</div>
+    <h1>VFD &amp; Electrical Products</h1>
+    <p>Variable frequency drives and electrical equipment, supplied and supported by our technical team.</p>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="eyebrow" data-reveal>In Stock</div><h2 data-reveal="wipe">Variable frequency drives</h2></div>
+    </div>
+    <div class="grid grid-4">
+      {"".join(product_card(p, 0, n) for n, p in enumerate(vfd))}
+    </div>
+  </div>
+</section>
+<section class="bg-surface">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="eyebrow" data-reveal>Also Available</div><h2 data-reveal="wipe">Chemicals from our catalogue</h2></div>
+      <a class="btn btn-outline" href="products.html" data-reveal data-ripple>All Products {ARW}</a>
+    </div>
+    <div class="grid grid-4">
+      {"".join(product_card(p, 0, n) for n, p in enumerate(extra))}
+    </div>
+  </div>
+</section>
+{cta_band("Need a drive sized for your motor?",
+          "Send us the motor rating and duty cycle — we'll specify the right VFD and quote it.",
+          "Talk to an Engineer")}
+"""
+    write("electrical-technical-services.html", base(
+        "VFD & Electrical Products — HA International Chemicals",
+        "Variable frequency drives and electrical equipment supplied across the UAE by HA International Chemicals Trading LLC.",
+        body, active="electrical-technical-services.html",
+        canonical="electrical-technical-services.html"))
+
+
+# ---------------------------------------------------------------- product detail
 def build_product_pages():
-    os.makedirs(os.path.join(OUT, "product"), exist_ok=True)
     for p in PROD:
         short = clean(p["short_description"])
         full = clean(p["description"])
+        # spec tables must scroll on their own, never the page body
+        merged = (short + full).replace(
+            '<table class="spec-table">', '<div class="table-scroll"><table class="spec-table">'
+        ).replace("</table>", "</table></div>")
+
         related = [r for r in PROD if r["category"] == p["category"] and r["slug"] != p["slug"]][:4]
+        plain = re.sub(r"\s+", " ", re.sub("<[^>]+>", " ", short + full)).strip()
         schema = {
             "@context": "https://schema.org",
             "@type": "Product",
             "name": p["name"],
             "category": category_badge(p["category"]).replace("&amp;", "&"),
+            "image": f"https://hari-learns.github.io/hachemicals-concept/{product_img(p)}",
             "brand": {"@type": "Organization", "name": "HA International Chemicals Trading LLC"},
-            "description": re.sub("<[^>]+>", " ", short + full)[:500].strip(),
+            "description": plain[:500],
             "offers": {
                 "@type": "Offer",
                 "availability": "https://schema.org/InStock",
                 "priceCurrency": "AED",
-                "url": f"https://hachemicals-concept.example/product/{p['slug']}.html",
-                "seller": {"@type": "Organization", "name": "HA International Chemicals Trading LLC"},
+                "url": f"https://hari-learns.github.io/hachemicals-concept/product/{p['slug']}.html",
+                "seller": {"@type": "Organization",
+                           "name": "HA International Chemicals Trading LLC"},
             },
         }
+        related_block = f"""
+<section class="bg-surface">
+  <div class="wrap">
+    <div class="section-head"><div><div class="eyebrow" data-reveal>Related</div><h2 data-reveal="wipe" style="font-size:26px">More {category_badge(p['category'])}s</h2></div></div>
+    <div class="grid grid-4">{"".join(product_card(r, 1, n) for n, r in enumerate(related))}</div>
+  </div>
+</section>""" if related else ""
+
         body = f"""
-<div class="breadcrumb"><div class="wrap"><a href="index.html">Home</a> / <a href="products.html">Products</a> / {p['name']}</div></div>
+<div class="breadcrumb"><div class="wrap"><a href="../index.html">Home</a> / <a href="../products.html">Products</a> / {p['name']}</div></div>
 <section class="pd-grid wrap">
   <div class="pd-media">
-    <div class="frame"><img src="../{product_img(p)}" alt="{p['name']}"></div>
-    <div class="quote-box">
+    <div class="frame" data-reveal="left"><img src="../{product_img(p)}" alt="{p['name']}"></div>
+    <div class="quote-box" data-reveal style="--i:1">
       <h4>Request pricing</h4>
       <p>Get a quote with current pricing, MOQ, and lead time for {p['name']}.</p>
-      <a class="btn btn-primary" href="../contact-us.html?product={p['slug']}" style="width:100%;justify-content:center">Request a Quote</a>
+      <a class="btn btn-primary" href="../contact-us.html?product={p['slug']}" data-ripple style="width:100%">Request a Quote {ARW}</a>
     </div>
   </div>
   <div class="pd-info">
-    <span class="tag">{category_badge(p['category'])}</span>
-    <h1>{p['name']}</h1>
-    <div class="pd-body">
-      {short}
-      {full}
+    <span class="tag" data-reveal>{category_badge(p['category'])}</span>
+    <h1 data-reveal style="--i:1">{p['name']}</h1>
+    <div class="pd-body" data-reveal style="--i:2">
+      {merged}
     </div>
-    <div class="pd-actions">
-      <a class="btn btn-dark" href="tel:{PHONE_LINK}">Call {PHONE}</a>
-      <a class="btn btn-ghost" style="border-color:var(--line);color:var(--ink)" href="{WHATSAPP}" target="_blank" rel="noopener">WhatsApp</a>
+    <div class="pd-actions" data-reveal style="--i:3">
+      <a class="btn btn-secondary" href="tel:{PHONE_LINK}" data-ripple>Call {PHONE}</a>
+      <a class="btn btn-outline" href="{WHATSAPP}" target="_blank" rel="noopener" data-ripple>WhatsApp</a>
     </div>
   </div>
 </section>
-{"".join([f'''
-<section class="bg-surface related">
-  <div class="wrap">
-    <h2>Related products</h2>
-    <div class="grid grid-4">{"".join(product_card(r) for r in related)}</div>
-  </div>
-</section>''']) if related else ""}
+{related_block}
 """
-        html = base(
+        desc = re.sub(r"\s+", " ", re.sub("<[^>]+>", " ", short)).strip()[:155]
+        write(f"product/{p['slug']}.html", base(
             f"{p['name']} — HA International Chemicals",
-            re.sub("<[^>]+>", " ", short)[:155].strip() or f"{p['name']} supplied by HA International Chemicals Trading LLC, UAE.",
+            desc or f"{p['name']} supplied by HA International Chemicals Trading LLC, UAE.",
             body, active="products.html", canonical=f"product/{p['slug']}.html",
             extra_head=f'<script type="application/ld+json">{json.dumps(schema)}</script>',
-        )
-        # product pages are one directory deep, fix relative asset paths
-        html = html.replace('href="styles.css"', 'href="../styles.css"')
-        html = html.replace('src="script.js"', 'src="../script.js"')
-        html = html.replace('href="index.html"', 'href="../index.html"')
-        html = html.replace('href="products.html', 'href="../products.html')
-        html = html.replace('href="services.html"', 'href="../services.html"')
-        html = html.replace('href="about-us.html"', 'href="../about-us.html"')
-        html = html.replace('href="contact-us.html"', 'href="../contact-us.html"')
-        html = html.replace('src="assets/img', 'src="../assets/img')
-        html = html.replace('href="product/', 'href="../product/')
-        write(f"product/{p['slug']}.html", html)
+            depth=1))
 
 
-# ---------------------------------------------------------------- ABOUT
-def build_about():
+# ---------------------------------------------------------------- services
+def build_services():
+    intro = CONTENT["services_intro"]
+    items = ""
+    for n, s in enumerate(CONTENT["services"]):
+        paras = "".join(f"<p>{para}</p>" for para in s["paragraphs"])
+        items += f"""<div class="service-item" data-reveal style="--i:{n}">
+      <div class="ic">{n+1:02d}</div>
+      <div><h3>{s['title']}</h3>{paras}</div>
+    </div>"""
+
     body = f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="eyebrow" style="color:#FF9457">About Us</div>
+    <div class="eyebrow on-dark">{intro['eyebrow']}</div>
+    <h1>{intro['heading']}</h1>
+    <p>{intro['lede']}</p>
+  </div>
+</section>
+<section>
+  <div class="wrap" style="max-width:920px">
+    <div class="section-head">
+      <div><div class="eyebrow" data-reveal>Services Offered</div><h2 data-reveal="wipe">What we do</h2></div>
+      <a class="btn btn-outline" href="products.html" data-reveal data-ripple>View Products {ARW}</a>
+    </div>
+    {items}
+  </div>
+</section>
+{cta_band("Have a project spec in hand?",
+          "Send it over and we'll respond with pricing, availability, and lead time.")}
+"""
+    write("services.html", base(
+        "Services — HA International Chemicals Trading LLC",
+        "Electrical installation, earthing systems, cathodic protection, ELV and telecommunication installation across the UAE.",
+        body, active="services.html", canonical="services.html"))
+
+
+# ---------------------------------------------------------------- about
+def build_about():
+    yrs = CONTENT["years_experience"]
+    photos = "".join(
+        f'<figure data-reveal="scale" style="--i:{n}"><img src="{asset(f)}" alt="HA International Chemicals facility" loading="lazy"></figure>'
+        for n, f in enumerate(FACILITY_PHOTOS) if have(f)
+    )
+    counters = "".join(
+        f'<div data-reveal style="--i:{n}"><b data-count="{c["value"]}">0</b><span>{c["label"]}</span></div>'
+        for n, c in enumerate(CONTENT["counters"])
+    )
+    body = f"""
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow on-dark">About Us</div>
     <h1>Four decades in the trade.</h1>
-    <p>Your trusted partner in chemicals, engineering products, and electrical solutions across the UAE.</p>
+    <p>Your trusted partner in the world of chemicals, engineering products and services.</p>
   </div>
 </section>
 <section>
   <div class="wrap about-grid">
     <div>
-      <div class="eyebrow">Our Story</div>
-      <h2>A legacy built on reliability</h2>
-      <p style="color:var(--muted)">HA International Chemicals Trading LLC is a leading chemical trading company in the UAE, under the patronage of Mr. Adel Saif Amer Hasan Aljaberi, specialising in the supply and distribution of high-quality industrial chemicals, specialty chemicals, and electrical products for diverse industries.</p>
-      <p style="color:var(--muted)">With a legacy spanning over four decades, we've built a reputation for reliability, quality, and customer satisfaction — serving businesses across the UAE and international markets, from construction and manufacturing to water treatment and oil &amp; gas.</p>
-      <div class="stat-row">
-        <div><b>38+</b><span>Years Experience</span></div>
-        <div><b>26+</b><span>Products Stocked</span></div>
-        <div><b>2</b><span>Business Lines</span></div>
+      <div class="eyebrow" data-reveal>Get to Know HA International</div>
+      <h2 data-reveal="wipe">The best industry &amp; factory business</h2>
+      <h4 data-reveal style="--i:1;font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;color:var(--grey);text-transform:uppercase">Committed to providing our customers with exceptional product and service.</h4>
+      <p class="lede" data-reveal style="--i:2">Your trusted partner in the world of chemicals, engineering products and services. Under the patronage of <strong>Mr. Adel Saif Amer Hasan Aljaberi</strong>, with a legacy of excellence and innovation spanning over 4 decades, we are committed to delivering superior solutions to meet the dynamic needs of industries in the region.</p>
+      <p class="lede" data-reveal style="--i:3">We understand that the journey to this ideal future is multifaceted, requiring dedication, vision, and a clear sense of direction. At HA International Chemicals Trading LLC, we strive to stay at the forefront of technological advancements while nurturing a deep-rooted sense of responsibility towards our planet. We are acutely aware that progress is not merely measured in profit margins but in the positive change we bring to our world.</p>
+      <div class="counter-row" style="margin-top:34px">
+        <div data-reveal><b data-count="{yrs}">0</b><span>Years of Experience</span></div>
       </div>
     </div>
-    <img src="assets/img/img_about_Home01-7DPAR8H.jpg" alt="HA International Chemicals warehouse operations">
-  </div>
-</section>
-<section class="bg-surface">
-  <div class="wrap">
-    <div class="section-head"><div><div class="eyebrow">What Drives Us</div><h2>Quality, range, and expertise</h2></div></div>
-    <div class="grid grid-3">
-      <div class="feature"><div class="num">01</div><div><h4>Quality Assurance</h4><p>We partner with reputable manufacturers to ensure every product meets strict quality standards and safety regulations.</p></div></div>
-      <div class="feature"><div class="num">02</div><div><h4>Extensive Product Range</h4><p>From cutting-edge electrical equipment to premium-grade chemicals — one supplier, broad coverage.</p></div></div>
-      <div class="feature"><div class="num">03</div><div><h4>Technical Expertise</h4><p>Our team's in-depth knowledge across electrical and chemical fields helps you find the right fit, first time.</p></div></div>
+    <div class="shot" data-reveal="right">
+      <img src="{asset('img_about_Home01-7DPAR8H.webp')}" alt="HA International Chemicals warehouse operations" loading="lazy">
     </div>
   </div>
 </section>
-<section class="cta-band">
+
+<section class="bg-navy">
   <div class="wrap">
-    <h2>Work with a supplier that shows up on time.</h2>
-    <p>Tell us what your project needs — we'll quote it fast.</p>
-    <a class="btn btn-dark" href="contact-us.html">Get a Free Quote</a>
+    <div class="section-head">
+      <div><div class="eyebrow on-dark" data-reveal>Industry Achievements</div><h2 data-reveal="wipe">Quality, affordable, manufacturing and industrial services</h2></div>
+    </div>
+    <div class="counter-row">{counters}</div>
   </div>
 </section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="eyebrow" data-reveal>Our Operations</div><h2 data-reveal="wipe">Inside the business</h2></div>
+    </div>
+    <div class="photo-strip">{photos}</div>
+  </div>
+</section>
+
+<section class="bg-surface">
+  <div class="wrap">
+    <div class="section-head"><div><div class="eyebrow" data-reveal>What Drives Us</div><h2 data-reveal="wipe">Quality, range, and expertise</h2></div></div>
+    <div class="grid grid-3">
+      <div class="feature" data-reveal style="--i:0"><div class="num">01</div><div><h4>Quality Assurance</h4><p>We partner with reputable manufacturers and suppliers to ensure that all our products meet strict quality standards and comply with safety regulations.</p></div></div>
+      <div class="feature" data-reveal style="--i:1"><div class="num">02</div><div><h4>Extensive Product Range</h4><p>We offer an extensive selection of electrical products and chemicals, catering to various industries' needs.</p></div></div>
+      <div class="feature" data-reveal style="--i:2"><div class="num">03</div><div><h4>Technical Expertise</h4><p>Our team of experienced professionals possesses in-depth knowledge and technical expertise in the electrical and chemical fields.</p></div></div>
+    </div>
+  </div>
+</section>
+{cta_band("Work with a supplier that shows up on time.",
+          "Tell us what your project needs — we'll quote it fast.")}
 """
-    html = base(
+    write("about-us.html", base(
         "About Us — HA International Chemicals Trading LLC",
         "38+ years supplying industrial chemicals and electrical products across the UAE. Learn about HA International Chemicals Trading LLC.",
-        body, active="about-us.html", canonical="about-us.html",
-    )
-    write("about-us.html", html)
+        body, active="about-us.html", canonical="about-us.html"))
 
 
-# ---------------------------------------------------------------- SERVICES
-SERVICES = [
-    ("Electrical Installation", "From residential to industrial facilities, our team delivers cutting-edge electrical installation solutions matched to your project's requirements — component selection through to precise wiring."),
-    ("VFD Supply & Support", "Variable frequency drives sized and specified for your motors and process, backed by technical guidance on selection and commissioning."),
-    ("Chemical Supply for Drilling & Cementing", "Cenosphere, defoamers, drilling detergents, foams, and starches supplied for downhole and cementing operations across oil &amp; gas projects."),
-    ("Water Treatment Chemicals", "Ferric chloride, aluminium sulphate, calcium chloride, and related chemistries for municipal and industrial water treatment."),
-    ("Bulk & Project Supply", "Volume orders for construction and industrial projects, with logistics planned around your site schedule."),
-    ("Technical Consultation", "Our team helps match the right chemical or electrical product to your operating conditions before you commit to an order."),
-]
-
-def build_services():
-    items = "".join(f"""<div class="service-item"><div class="ic">{i+1:02d}</div><div><h3>{t}</h3><p>{d}</p></div></div>""" for i,(t,d) in enumerate(SERVICES))
+# ---------------------------------------------------------------- blog
+def build_blog():
     body = f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="eyebrow" style="color:#FF9457">Services</div>
-    <h1>What we do</h1>
-    <p>Committed to providing exceptional product and service across chemicals and electrical supply.</p>
+    <div class="eyebrow on-dark">Blog</div>
+    <h1>Insights &amp; updates</h1>
+    <p>Technical notes, product news, and industry updates from our team.</p>
   </div>
 </section>
 <section>
-  <div class="wrap" style="max-width:880px">
-    {items}
-  </div>
-</section>
-<section class="cta-band">
-  <div class="wrap">
-    <h2>Have a project spec in hand?</h2>
-    <p>Send it over and we'll respond with pricing, availability, and lead time.</p>
-    <a class="btn btn-dark" href="contact-us.html">Get a Free Quote</a>
+  <div class="wrap" style="max-width:760px">
+    <div class="empty-state" data-reveal>
+      <div class="ic">📝</div>
+      <h3>No posts published yet</h3>
+      <p>This is where articles will appear. A blog is one of the strongest levers for search and AI visibility — technical guides on chemical selection, dosage, and handling tend to perform best for a supplier like this.</p>
+      <a class="btn btn-primary" href="contact-us.html" data-ripple>Talk to Us {ARW}</a>
+    </div>
   </div>
 </section>
 """
-    html = base(
-        "Services — HA International Chemicals Trading LLC",
-        "Electrical installation, VFD supply, and industrial chemical supply for drilling, cementing, and water treatment across the UAE.",
-        body, active="services.html", canonical="services.html",
-    )
-    write("services.html", html)
+    write("blog.html", base(
+        "Blog — HA International Chemicals Trading LLC",
+        "Technical notes, product news, and industry updates from HA International Chemicals Trading LLC.",
+        body, active="blog.html", canonical="blog.html"))
 
 
-# ---------------------------------------------------------------- CONTACT
+# ---------------------------------------------------------------- contact
 def build_contact():
     body = f"""
 <section class="page-hero">
   <div class="wrap">
-    <div class="eyebrow" style="color:#FF9457">Contact</div>
+    <div class="eyebrow on-dark">Contact</div>
     <h1>Let's talk about your requirement</h1>
     <p>Feel free to write our team anytime — we usually respond within one business day.</p>
   </div>
@@ -450,61 +636,61 @@ def build_contact():
 <section>
   <div class="wrap contact-grid">
     <div>
-      <div class="contact-card"><h4>Phone</h4><a href="tel:{PHONE_LINK}">{PHONE}</a></div>
-      <div class="contact-card"><h4>Email</h4><a href="mailto:{EMAIL}">{EMAIL}</a></div>
-      <div class="contact-card"><h4>Address</h4><p>{ADDRESS}</p></div>
-      <div class="contact-card"><h4>Hours</h4><p>{HOURS}</p></div>
+      <div class="contact-card" data-reveal style="--i:0"><h4>Phone</h4><a href="tel:{PHONE_LINK}">{PHONE}</a></div>
+      <div class="contact-card" data-reveal style="--i:1"><h4>Email</h4><a href="mailto:{EMAIL}">{EMAIL}</a></div>
+      <div class="contact-card" data-reveal style="--i:2"><h4>Address</h4><p>{ADDRESS}</p></div>
+      <div class="contact-card" data-reveal style="--i:3"><h4>Hours</h4><p>{HOURS}</p></div>
+      <div class="contact-card" data-reveal style="--i:4"><h4>WhatsApp</h4><a href="{WHATSAPP}" target="_blank" rel="noopener">Message us on WhatsApp</a></div>
     </div>
-    <form class="contact-card" style="background:#fff">
-      <h4 style="margin-bottom:20px">Request a Quote</h4>
+    <form class="contact-card" style="background:#fff" data-reveal="right" onsubmit="return false">
+      <h4 style="margin-bottom:22px">Request a Quote</h4>
       <div class="form-row">
-        <div class="field"><label>First Name</label><input type="text" placeholder="John"></div>
-        <div class="field"><label>Last Name</label><input type="text" placeholder="Smith"></div>
+        <div class="field"><label for="fn">First Name</label><input id="fn" type="text" placeholder="John"></div>
+        <div class="field"><label for="ln">Last Name</label><input id="ln" type="text" placeholder="Smith"></div>
       </div>
       <div class="form-row">
-        <div class="field"><label>Email</label><input type="email" placeholder="you@company.com"></div>
-        <div class="field"><label>Mobile No.</label><input type="tel" placeholder="+971 ..."></div>
+        <div class="field"><label for="em">Email</label><input id="em" type="email" placeholder="you@company.com"></div>
+        <div class="field"><label for="mo">Mobile No.</label><input id="mo" type="tel" placeholder="+971 ..."></div>
       </div>
-      <div class="field" style="margin-bottom:16px"><label>What do you need?</label><textarea rows="5" placeholder="Product, quantity, and any spec details..."></textarea></div>
-      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send Request</button>
+      <div class="field" style="margin-bottom:18px"><label for="ms">What do you need?</label><textarea id="ms" rows="5" placeholder="Product, quantity, and any spec details..."></textarea></div>
+      <button type="submit" class="btn btn-primary" data-ripple style="width:100%">Send Request {ARW}</button>
+      <p style="font-size:12px;color:var(--grey);margin:14px 0 0;text-align:center">Concept demo — this form is not yet wired to a mailbox.</p>
     </form>
   </div>
 </section>
 """
-    html = base(
+    write("contact-us.html", base(
         "Contact Us — HA International Chemicals Trading LLC",
         "Get in touch with HA International Chemicals Trading LLC in Abu Dhabi, UAE — request a quote by phone, email, or WhatsApp.",
-        body, active="contact-us.html", canonical="contact-us.html",
-    )
-    write("contact-us.html", html)
+        body, active="contact-us.html", canonical="contact-us.html"))
 
 
 # ---------------------------------------------------------------- 404
 def build_404():
-    body = """
+    body = f"""
 <div class="notfound">
   <div class="code">404</div>
   <h1>Page not found</h1>
-  <p style="color:#9AA3AF;margin-bottom:24px">The page you're looking for has moved or doesn't exist.</p>
-  <a class="btn btn-primary" href="index.html">Back to Home</a>
+  <p>The page you're looking for has moved or doesn't exist.</p>
+  <a class="btn btn-primary" href="index.html" data-ripple>Back to Home {ARW}</a>
 </div>
 """
-    html = base("Page Not Found — HA International Chemicals", "Page not found.", body, canonical="404.html")
-    write("404.html", html)
+    write("404.html", base("Page Not Found — HA International Chemicals",
+                           "Page not found.", body, canonical="404.html"))
 
 
+# ---------------------------------------------------------------- io
 def write(relpath, content):
     dest = os.path.join(OUT, relpath)
     os.makedirs(os.path.dirname(dest), exist_ok=True)
-    open(dest, "w", encoding="utf-8").write(content)
+    with open(dest, "w", encoding="utf-8") as fh:
+        fh.write(content)
 
 
 def copy_assets():
-    if os.path.exists(os.path.join(OUT, "assets")):
-        shutil.rmtree(os.path.join(OUT, "assets"))
-    shutil.copytree(os.path.join(ROOT, "build_src/img"), os.path.join(OUT, "assets/img"))
-    shutil.copy(os.path.join(ROOT, "styles.css"), os.path.join(OUT, "styles.css"))
-    shutil.copy(os.path.join(ROOT, "script.js"), os.path.join(OUT, "script.js"))
+    shutil.copytree(os.path.join(ROOT, "assets"), os.path.join(OUT, "assets"))
+    for f in ("styles.css", "script.js"):
+        shutil.copy(os.path.join(ROOT, f), os.path.join(OUT, f))
 
 
 if __name__ == "__main__":
@@ -513,10 +699,14 @@ if __name__ == "__main__":
     os.makedirs(OUT)
     build_home()
     build_products()
+    build_electrical()
     build_product_pages()
-    build_about()
     build_services()
+    build_about()
+    build_blog()
     build_contact()
     build_404()
     copy_assets()
-    print("Build complete ->", OUT)
+    pages = sum(len(files) for _, _, files in os.walk(OUT) if files)
+    print(f"Build complete -> {OUT}")
+    print(f"  {len(PROD)} product pages + 8 top-level pages")

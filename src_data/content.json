@@ -1,0 +1,68 @@
+{
+  "services": [
+    {
+      "title": "Electrical installation",
+      "paragraphs": [
+        "At HA International Chemicals Trading LLC, we pride ourselves on being at the forefront of electrical installation services. With our team of experienced professionals and a commitment to quality, we offer cutting-edge solutions that meet your unique requirements and surpass your expectations.",
+        "Whether you are embarking on a residential project, setting up a commercial space, or building industrial facilities, the expertise of skilled electrical installers is indispensable. From selecting the right components to precise wiring and adherence to safety codes, a well-executed electrical installation guarantees uninterrupted power supply and peace of mind.",
+        "Discover the power of seamless electrical installation with us \u2013 where precision, efficiency, and safety converge to illuminate the world around us. Let\u2019s electrify your vision together!"
+      ]
+    },
+    {
+      "title": "Earthing systems",
+      "paragraphs": [
+        "Electrical earthing installation is a crucial system that ensures safety and protects both people and equipment from the hazards of electrical faults. Grounding, commonly known as earthing, refers to the process of establishing a low-resistance path between electrical circuits and the earth\u2019s surface. By doing so, it effectively dissipates fault currents and prevents electric shock, fire, and damage to sensitive equipment.",
+        "Proper electrical earthing installation requires the expertise of skilled professionals who understand the complexities of electrical systems and safety standards. The process involves careful planning, accurate measurements, and the use of high-quality materials to ensure a reliable and effective grounding system.",
+        "At HA International Chemicals Trading LLC, we specialize in electrical earthing installation services, providing comprehensive solutions for residential, commercial, and industrial applications. Our experienced team of engineers and technicians ensure that your electrical system meets the highest safety standards, complying with local regulations and industry best practices."
+      ]
+    },
+    {
+      "title": "Cathodic protection",
+      "paragraphs": [
+        "We take pride in being industry leaders in providing top-notch cathodic protection installation services. Whether you are a large industrial facility or a small residential property owner, we have the expertise and experience to safeguard your valuable assets against the relentless forces of corrosion.Protecting your assets from corrosion is not just a matter of necessity; it\u2019s a smart investment in the longevity and reliability of your infrastructure. We combine our technical expertise with a passion for innovation to deliver unparalleled cathodic protection solutions that stand the test of time."
+      ]
+    },
+    {
+      "title": "ELV installation",
+      "paragraphs": [
+        "We are proud to be your go-to experts for ELV (Extra-Low Voltage) installation services. As technology continues to advance rapidly, ELV systems have become an integral part of modern buildings and facilities. Our team of skilled professionals is equipped with the knowledge and expertise to deliver cutting-edge ELV installations that cater to your specific needs.Investing in the right ELV systems is essential for modern buildings and facilities, as they not only enhance security but also improve efficiency and convenience. We take pride in delivering ELV installations that set new standards in the industry."
+      ]
+    },
+    {
+      "title": "Telecommunication installation",
+      "paragraphs": [
+        "Dedicated to revolutionizing the way people connect through our top-of-the-line telecommunication installation services. With the world becoming increasingly interconnected, a robust and efficient telecommunication infrastructure is essential for businesses and individuals alike. Our team of highly skilled professionals is committed to delivering cutting-edge solutions that empower you with seamless communication and connectivity.you can rest assured that your telecommunication needs are in the hands of professionals who are passionate about creating reliable and efficient communication networks. Whether you\u2019re a small business looking to enhance your internal communication or a large enterprise seeking a robust data center solution, we have the expertise to turn your vision into reality."
+      ]
+    }
+  ],
+  "services_intro": {
+    "eyebrow": "Explore Our Solutions",
+    "heading": "Innovative Solutions to Meet Every Need",
+    "lede": "At HA International Chemicals Trading LLC, we offer a wide selection of high-quality chemicals suitable for many industries. From industrial solutions to specialty products, our range is crafted to enhance your operations and fuel your success."
+  },
+  "counters": [
+    {
+      "label": "Chain of Factories",
+      "value": 176
+    },
+    {
+      "label": "Projects Completed",
+      "value": 800
+    },
+    {
+      "label": "Expert Engineers",
+      "value": 230
+    }
+  ],
+  "progress": [
+    {
+      "label": "Construction",
+      "value": 78
+    },
+    {
+      "label": "Building",
+      "value": 36
+    }
+  ],
+  "years_experience": 18
+}

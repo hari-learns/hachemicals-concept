@@ -5,40 +5,49 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Contact Us — HA International Chemicals Trading LLC</title>
 <meta name="description" content="Get in touch with HA International Chemicals Trading LLC in Abu Dhabi, UAE — request a quote by phone, email, or WhatsApp.">
-<link rel="canonical" href="https://hachemicals-concept.example/contact-us.html">
+<meta name="theme-color" content="#13223C">
+<meta property="og:title" content="Contact Us — HA International Chemicals Trading LLC">
+<meta property="og:description" content="Get in touch with HA International Chemicals Trading LLC in Abu Dhabi, UAE — request a quote by phone, email, or WhatsApp.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://hari-learns.github.io/hachemicals-concept/contact-us.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "HA International Chemicals Trading LLC", "url": "https://hachemicals.com/", "email": "sales@hachemicals.com", "telephone": "+971 50 228 7866", "address": {"@type": "PostalAddress", "streetAddress": "M02, United Arab Bank Building, Al Danah", "addressLocality": "Abu Dhabi", "addressCountry": "AE"}, "description": "UAE supplier of industrial and specialty chemicals and electrical products for construction, oil & gas, and water treatment."}</script>
 
 </head>
-<body class="">
+<body>
 <div class="topbar"><div class="wrap">
   <div><a href="mailto:sales@hachemicals.com">sales@hachemicals.com</a><span class="sep">|</span>Mon – Sat, 10:00 – 18:30 (Sunday closed)</div>
   <div><a href="tel:+971502287866">Dial us: +971 50 228 7866</a></div>
 </div></div>
 <header class="site">
   <div class="wrap">
-    <a href="index.html" class="logo">
-      <span class="mark">HA</span>
-      <span>HA International<small>Chemicals Trading LLC</small></span>
+    <a href="index.html" class="logo" aria-label="HA International Chemicals Trading LLC — home">
+      <img src="assets/img/HA-international-chemical-llc-01-e1709276380617.webp" alt="HA International Chemicals Trading LLC" width="160" height="52">
     </a>
     <nav class="main" id="mainNav">
-      <a href="index.html">Home</a>
-<a href="products.html">Products</a>
-<a href="services.html">Services</a>
-<a href="about-us.html">About</a>
-<a href="contact-us.html" class="active">Contact</a>
+      <a href="index.html" data-ripple>Home</a>
+      <a href="products.html" data-ripple>Products</a>
+      <a href="electrical-technical-services.html" data-ripple>VFD</a>
+      <a href="services.html" data-ripple>Services</a>
+      <a href="about-us.html" data-ripple>About</a>
+      <a href="blog.html" data-ripple>Blog</a>
+      <a href="contact-us.html" class="active" data-ripple>Contact</a>
     </nav>
     <div class="header-cta">
-      <a class="btn btn-primary" href="contact-us.html">Get a Quote</a>
-      <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      <a class="btn btn-primary" href="contact-us.html" data-ripple>Get a Quote</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-controls="mainNav">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
 
 <section class="page-hero">
   <div class="wrap">
-    <div class="eyebrow" style="color:#FF9457">Contact</div>
+    <div class="eyebrow on-dark">Contact</div>
     <h1>Let's talk about your requirement</h1>
     <p>Feel free to write our team anytime — we usually respond within one business day.</p>
   </div>
@@ -46,23 +55,25 @@
 <section>
   <div class="wrap contact-grid">
     <div>
-      <div class="contact-card"><h4>Phone</h4><a href="tel:+971502287866">+971 50 228 7866</a></div>
-      <div class="contact-card"><h4>Email</h4><a href="mailto:sales@hachemicals.com">sales@hachemicals.com</a></div>
-      <div class="contact-card"><h4>Address</h4><p>M02, United Arab Bank Building, Al Danah, Abu Dhabi, UAE</p></div>
-      <div class="contact-card"><h4>Hours</h4><p>Mon – Sat, 10:00 – 18:30 (Sunday closed)</p></div>
+      <div class="contact-card" data-reveal style="--i:0"><h4>Phone</h4><a href="tel:+971502287866">+971 50 228 7866</a></div>
+      <div class="contact-card" data-reveal style="--i:1"><h4>Email</h4><a href="mailto:sales@hachemicals.com">sales@hachemicals.com</a></div>
+      <div class="contact-card" data-reveal style="--i:2"><h4>Address</h4><p>M02, United Arab Bank Building, Al Danah, Abu Dhabi, UAE</p></div>
+      <div class="contact-card" data-reveal style="--i:3"><h4>Hours</h4><p>Mon – Sat, 10:00 – 18:30 (Sunday closed)</p></div>
+      <div class="contact-card" data-reveal style="--i:4"><h4>WhatsApp</h4><a href="https://wa.me/971502287866" target="_blank" rel="noopener">Message us on WhatsApp</a></div>
     </div>
-    <form class="contact-card" style="background:#fff">
-      <h4 style="margin-bottom:20px">Request a Quote</h4>
+    <form class="contact-card" style="background:#fff" data-reveal="right" onsubmit="return false">
+      <h4 style="margin-bottom:22px">Request a Quote</h4>
       <div class="form-row">
-        <div class="field"><label>First Name</label><input type="text" placeholder="John"></div>
-        <div class="field"><label>Last Name</label><input type="text" placeholder="Smith"></div>
+        <div class="field"><label for="fn">First Name</label><input id="fn" type="text" placeholder="John"></div>
+        <div class="field"><label for="ln">Last Name</label><input id="ln" type="text" placeholder="Smith"></div>
       </div>
       <div class="form-row">
-        <div class="field"><label>Email</label><input type="email" placeholder="you@company.com"></div>
-        <div class="field"><label>Mobile No.</label><input type="tel" placeholder="+971 ..."></div>
+        <div class="field"><label for="em">Email</label><input id="em" type="email" placeholder="you@company.com"></div>
+        <div class="field"><label for="mo">Mobile No.</label><input id="mo" type="tel" placeholder="+971 ..."></div>
       </div>
-      <div class="field" style="margin-bottom:16px"><label>What do you need?</label><textarea rows="5" placeholder="Product, quantity, and any spec details..."></textarea></div>
-      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send Request</button>
+      <div class="field" style="margin-bottom:18px"><label for="ms">What do you need?</label><textarea id="ms" rows="5" placeholder="Product, quantity, and any spec details..."></textarea></div>
+      <button type="submit" class="btn btn-primary" data-ripple style="width:100%">Send Request <span class="arw">&rarr;</span></button>
+      <p style="font-size:12px;color:var(--grey);margin:14px 0 0;text-align:center">Concept demo — this form is not yet wired to a mailbox.</p>
     </form>
   </div>
 </section>
@@ -71,27 +82,28 @@
   <div class="wrap">
     <div class="fgrid">
       <div>
-        <div class="flogo">HA International Chemicals Trading LLC</div>
-        <p style="max-width:38ch;color:#8890A0;font-size:14px">Trusted UAE supplier of industrial &amp; specialty chemicals and electrical products for construction, oil &amp; gas, and water treatment — serving the region for over four decades.</p>
+        <div class="flogo"><img src="assets/img/HA-international-chemical-llc-01-e1709276380617.webp" alt="HA International Chemicals Trading LLC"></div>
+        <p style="max-width:40ch;color:#8890A0;font-size:14px">Trusted UAE supplier of industrial &amp; specialty chemicals and electrical products for construction, oil &amp; gas, and water treatment.</p>
       </div>
       <div>
         <h4>Company</h4>
         <a href="about-us.html">About Us</a>
         <a href="services.html">Services</a>
         <a href="products.html">Products</a>
+        <a href="blog.html">Blog</a>
         <a href="contact-us.html">Contact</a>
       </div>
       <div>
         <h4>Categories</h4>
         <a href="products.html#chemicals">Industrial Chemicals</a>
-        <a href="products.html#vfd">VFDs &amp; Electrical</a>
+        <a href="electrical-technical-services.html">VFDs &amp; Electrical</a>
       </div>
       <div>
         <h4>Get in Touch</h4>
         <a href="tel:+971502287866">+971 50 228 7866</a>
         <a href="mailto:sales@hachemicals.com">sales@hachemicals.com</a>
         <a href="https://wa.me/971502287866" target="_blank" rel="noopener">WhatsApp Us</a>
-        <a href="#" style="color:#8890A0">M02, United Arab Bank Building, Al Danah, Abu Dhabi, UAE</a>
+        <span style="color:#8890A0;display:block;margin-top:6px">M02, United Arab Bank Building, Al Danah, Abu Dhabi, UAE</span>
       </div>
     </div>
     <div class="fbottom">
