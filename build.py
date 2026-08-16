@@ -5,16 +5,33 @@ Reads the scraped src_data/*.json and writes a self-contained static site to
 ./site. All product and services copy comes from their live site verbatim —
 nothing here is invented.
 """
+import datetime
+import html
 import json
 import os
 import re
 import shutil
+import sys
 from clean_html import clean
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "site")
+
+# `python3 build.py --production` builds for the real domain: indexable,
+# canonicals and sitemap on hachemicals.com. The default build is the shareable
+# concept, which is noindex so it can never compete with the client's own site
+# for their own content.
+PRODUCTION = "--production" in sys.argv
+SITE_URL = ("https://hachemicals.com" if PRODUCTION
+            else "https://hari-learns.github.io/hachemicals-concept")
 PROD = json.load(open(os.path.join(ROOT, "src_data/products.json")))
 CONTENT = json.load(open(os.path.join(ROOT, "src_data/content.json")))
+
+# WordPress stores titles HTML-encoded ("77 &#8211; 78 %"). That renders fine in
+# markup but leaks raw entities into JSON-LD and llms.txt, which are plain text.
+# Decode once here so every consumer gets a real en-dash.
+for _p in PROD:
+    _p["name"] = re.sub(r"\s+", " ", html.unescape(_p["name"])).strip()
 
 PHONE = "+971 50 228 7866"
 PHONE_LINK = "+971502287866"
@@ -46,6 +63,37 @@ FACILITY_PHOTOS = [
 
 ARW = '<span class="arw">&rarr;</span>'
 
+# Every answer below is verifiable from their own catalogue or contact details.
+# Nothing about pricing, MOQ, lead times or certifications — those are unknown,
+# and inventing them would put false claims in schema markup.
+FAQS = [
+    ("What chemicals does HA International Chemicals Trading LLC supply?",
+     "We supply drilling and cementing chemicals including Cenosphere, Barite, "
+     "Bentonite, Drilling Detergent, Drilling Foam, Drilling Starch and C.M.C HV; "
+     "water treatment chemicals including Ferric Chloride, Aluminium Sulphate and "
+     "Calcium Chloride; and industrial chemicals including Caustic Soda Prills, "
+     "Citric Acid, DEA, Butyl Glycol, Biocide, Ammonium Chloride and Ammonium "
+     "Bisulfite."),
+    ("Where is HA International Chemicals Trading LLC based?",
+     "We are based at M02, United Arab Bank Building, Al Danah, Abu Dhabi, United "
+     "Arab Emirates, and supply customers across the UAE and international markets."),
+    ("Which industries does HA International Chemicals serve?",
+     "We serve construction, oil and gas, water treatment, manufacturing and "
+     "general industrial sectors across the UAE."),
+    ("Does HA International supply drilling fluid additives for oil and gas?",
+     "Yes. Our oil and gas range includes Cenosphere for lightweight cementing, "
+     "Barite for weighting drilling fluids, Bentonite, Drilling Detergent, "
+     "Drilling Foam, Drilling Starch and C.M.C HV."),
+    ("Does HA International supply VFDs and electrical products?",
+     "Yes. We supply MD290 series variable frequency drives and provide electrical "
+     "installation, earthing systems, cathodic protection, ELV installation and "
+     "telecommunication installation services."),
+    ("How do I request a quote from HA International Chemicals?",
+     f"Call {PHONE}, email {EMAIL}, or message us on WhatsApp. Tell us the product, "
+     "quantity and any specification details and we will respond with pricing and "
+     "availability."),
+]
+
 
 def asset(name):
     return "assets/img/" + name
@@ -70,6 +118,8 @@ def category_badge(cat):
 # ---------------------------------------------------------------- shell
 def base(title, description, body, active="", canonical="", extra_head="", depth=0):
     up = "../" * depth
+    robots = ("index,follow,max-image-preview:large,max-snippet:-1"
+              if PRODUCTION else "noindex,nofollow")
     nav_links = "\n      ".join(
         '<a href="{}{}"{}data-ripple>{}</a>'.format(
             up, href, ' class="active" ' if href == active else " ", label
@@ -101,10 +151,19 @@ def base(title, description, body, active="", canonical="", extra_head="", depth
 <title>{title}</title>
 <meta name="description" content="{description}">
 <meta name="theme-color" content="#13223C">
+<meta name="robots" content="{robots}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{description}">
 <meta property="og:type" content="website">
-<link rel="canonical" href="https://hari-learns.github.io/hachemicals-concept/{canonical}">
+<meta property="og:url" content="{SITE_URL}/{canonical}">
+<meta property="og:site_name" content="HA International Chemicals Trading LLC">
+<meta property="og:locale" content="en_AE">
+<meta property="og:image" content="{SITE_URL}/{asset(HERO_SLIDES[0])}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{description}">
+<meta name="twitter:image" content="{SITE_URL}/{asset(HERO_SLIDES[0])}">
+<link rel="canonical" href="{SITE_URL}/{canonical}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -183,6 +242,54 @@ def product_card(p, depth=0, i=0):
     <span class="go">View specs &amp; request quote {ARW}</span>
   </div>
 </a>"""
+
+
+def faq_section():
+    """Visible FAQ block. FAQPage schema must mirror on-page content, so this
+    renders the same questions it declares in the markup."""
+    items = "".join(
+        f"""<div class="faq-item" data-reveal style="--i:{n % 3}">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>""" for n, (q, a) in enumerate(FAQS)
+    )
+    return f"""
+<section class="bg-surface">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" data-reveal>Common Questions</div>
+        <h2 data-reveal="wipe">What buyers ask us</h2>
+      </div>
+    </div>
+    <div class="faq-grid">{items}</div>
+  </div>
+</section>"""
+
+
+def faq_schema():
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q,
+             "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in FAQS
+        ],
+    }
+
+
+def breadcrumb_schema(trail):
+    """trail: list of (name, relative_url)."""
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": name,
+             "item": f"{SITE_URL}/{url}"}
+            for i, (name, url) in enumerate(trail)
+        ],
+    }
 
 
 def cta_band(heading, text, label="Get a Free Quote", href="contact-us.html", depth=0):
@@ -323,13 +430,15 @@ def build_home():
     </div>
   </div>
 </section>
+{faq_section()}
 {cta_band("Need a chemical or spec sheet fast?",
           "Send us your requirement and we'll come back with pricing and availability, usually within one business day.")}
 """
     write("index.html", base(
         "HA International Chemicals Trading LLC — Chemical Supplier in UAE",
         "UAE supplier of industrial & specialty chemicals and electrical/VFD products for construction, oil & gas, and water treatment. 38+ years in Abu Dhabi.",
-        body, active="index.html", canonical=""))
+        body, active="index.html", canonical="",
+        extra_head=f'<script type="application/ld+json">{json.dumps(faq_schema())}</script>'))
 
 
 # ---------------------------------------------------------------- products
@@ -431,18 +540,23 @@ def build_product_pages():
             "@type": "Product",
             "name": p["name"],
             "category": category_badge(p["category"]).replace("&amp;", "&"),
-            "image": f"https://hari-learns.github.io/hachemicals-concept/{product_img(p)}",
+            "image": f"{SITE_URL}/{product_img(p)}",
             "brand": {"@type": "Organization", "name": "HA International Chemicals Trading LLC"},
             "description": plain[:500],
             "offers": {
                 "@type": "Offer",
                 "availability": "https://schema.org/InStock",
                 "priceCurrency": "AED",
-                "url": f"https://hari-learns.github.io/hachemicals-concept/product/{p['slug']}.html",
+                "url": f"{SITE_URL}/product/{p['slug']}.html",
                 "seller": {"@type": "Organization",
                            "name": "HA International Chemicals Trading LLC"},
             },
         }
+        crumbs = breadcrumb_schema([
+            ("Home", ""),
+            ("Products", "products.html"),
+            (p["name"], f"product/{p['slug']}.html"),
+        ])
         related_block = f"""
 <section class="bg-surface">
   <div class="wrap">
@@ -481,7 +595,8 @@ def build_product_pages():
             f"{p['name']} — HA International Chemicals",
             desc or f"{p['name']} supplied by HA International Chemicals Trading LLC, UAE.",
             body, active="products.html", canonical=f"product/{p['slug']}.html",
-            extra_head=f'<script type="application/ld+json">{json.dumps(schema)}</script>',
+            extra_head=(f'<script type="application/ld+json">{json.dumps(schema)}</script>\n'
+                        f'<script type="application/ld+json">{json.dumps(crumbs)}</script>'),
             depth=1))
 
 
@@ -679,6 +794,116 @@ def build_404():
                            "Page not found.", body, canonical="404.html"))
 
 
+# ---------------------------------------------------------------- SEO files
+TOP_PAGES = [
+    ("", "1.0", "weekly"),
+    ("products.html", "0.9", "weekly"),
+    ("electrical-technical-services.html", "0.8", "monthly"),
+    ("services.html", "0.8", "monthly"),
+    ("about-us.html", "0.6", "monthly"),
+    ("contact-us.html", "0.7", "monthly"),
+    ("blog.html", "0.5", "weekly"),
+]
+
+
+def build_sitemap():
+    today = datetime.date.today().isoformat()
+    urls = []
+    for path, priority, freq in TOP_PAGES:
+        urls.append((f"{SITE_URL}/{path}", priority, freq))
+    for p in PROD:
+        urls.append((f"{SITE_URL}/product/{p['slug']}.html", "0.8", "monthly"))
+
+    entries = "\n".join(
+        f"  <url>\n"
+        f"    <loc>{loc}</loc>\n"
+        f"    <lastmod>{today}</lastmod>\n"
+        f"    <changefreq>{freq}</changefreq>\n"
+        f"    <priority>{pri}</priority>\n"
+        f"  </url>"
+        for loc, pri, freq in urls
+    )
+    write("sitemap.xml",
+          '<?xml version="1.0" encoding="UTF-8"?>\n'
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+          f"{entries}\n</urlset>\n")
+    return len(urls)
+
+
+def build_robots():
+    if not PRODUCTION:
+        # the concept must never be crawled — it would duplicate the client's
+        # own content and compete with their real domain
+        write("robots.txt", "User-agent: *\nDisallow: /\n")
+        return
+    # Assistant crawlers are named explicitly. A blanket allow already covers
+    # them, but several of these respect only their own token, and being
+    # explicit makes the intent auditable later.
+    agents = [
+        "GPTBot",            # OpenAI / ChatGPT
+        "OAI-SearchBot",     # ChatGPT search
+        "ChatGPT-User",      # ChatGPT live browsing
+        "ClaudeBot",         # Anthropic
+        "anthropic-ai",
+        "Claude-Web",
+        "PerplexityBot",
+        "Google-Extended",   # Gemini grounding
+        "Applebot-Extended",
+        "CCBot",             # Common Crawl — feeds many models
+        "Bingbot",
+        "Googlebot",
+    ]
+    blocks = "\n\n".join(f"User-agent: {a}\nAllow: /" for a in agents)
+    write("robots.txt",
+          f"User-agent: *\nAllow: /\n\n{blocks}\n\nSitemap: {SITE_URL}/sitemap.xml\n")
+
+
+def build_llms_txt():
+    """Emerging convention: a plain-text brief models can read directly."""
+    chem = [p for p in PROD if p["category"] != "VFD"]
+    vfd = [p for p in PROD if p["category"] == "VFD"]
+    chem_links = "\n".join(
+        f"- [{p['name']}]({SITE_URL}/product/{p['slug']}.html)" for p in chem)
+    vfd_links = "\n".join(
+        f"- [{p['name']}]({SITE_URL}/product/{p['slug']}.html)" for p in vfd)
+    faq_lines = "\n\n".join(f"**{q}**\n{a}" for q, a in FAQS)
+
+    write("llms.txt", f"""# HA International Chemicals Trading LLC
+
+> Supplier of industrial and specialty chemicals and electrical/VFD products,
+> based in Abu Dhabi, United Arab Emirates. Serving construction, oil and gas,
+> water treatment and manufacturing sectors across the UAE and international
+> markets for over 38 years.
+
+## Contact
+- Address: {ADDRESS}
+- Phone: {PHONE}
+- Email: {EMAIL}
+- Hours: {HOURS}
+
+## Industrial Chemicals ({len(chem)} products)
+{chem_links}
+
+## VFD & Electrical ({len(vfd)} products)
+{vfd_links}
+
+## Services
+{chr(10).join('- ' + s['title'] for s in CONTENT['services'])}
+
+## Frequently Asked Questions
+
+{faq_lines}
+
+## Pages
+- [Home]({SITE_URL}/)
+- [Products]({SITE_URL}/products.html)
+- [VFD & Electrical]({SITE_URL}/electrical-technical-services.html)
+- [Services]({SITE_URL}/services.html)
+- [About]({SITE_URL}/about-us.html)
+- [Contact]({SITE_URL}/contact-us.html)
+""")
+
+
 # ---------------------------------------------------------------- io
 def write(relpath, content):
     dest = os.path.join(OUT, relpath)
@@ -706,7 +931,13 @@ if __name__ == "__main__":
     build_blog()
     build_contact()
     build_404()
+    n_urls = build_sitemap()
+    build_robots()
+    build_llms_txt()
     copy_assets()
-    pages = sum(len(files) for _, _, files in os.walk(OUT) if files)
+    mode = "PRODUCTION (indexable)" if PRODUCTION else "concept (noindex)"
     print(f"Build complete -> {OUT}")
+    print(f"  mode: {mode}")
+    print(f"  base URL: {SITE_URL}")
     print(f"  {len(PROD)} product pages + 8 top-level pages")
+    print(f"  sitemap.xml: {n_urls} URLs · robots.txt · llms.txt")

@@ -408,6 +408,19 @@ ul.benefits-list li:hover::before{background:var(--green)}
 .field input:focus,.field textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(5,153,0,.13)}
 .field textarea{resize:vertical}
 
+/* ---------------------------------------------------------- FAQ */
+.faq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.faq-item{
+  background:#fff;border:1px solid var(--line);border-left:3px solid var(--green);
+  border-radius:var(--radius);padding:24px 26px;
+  transition:box-shadow .35s var(--ease),transform .35s var(--ease);
+}
+@media (hover:hover){
+  .faq-item:hover{transform:translateY(-3px);box-shadow:0 18px 32px -24px rgba(19,34,60,.4)}
+}
+.faq-item h3{font-size:16.5px;margin:0 0 10px;color:var(--navy)}
+.faq-item p{margin:0;color:var(--grey);font-size:14.5px}
+
 /* ---------------------------------------------------------- blog empty */
 .empty-state{text-align:center;padding:80px 24px;border:1px dashed var(--line);border-radius:var(--radius-lg);background:var(--surface)}
 .empty-state .ic{font-size:40px;margin-bottom:16px}
@@ -477,6 +490,7 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
   .hero .wrap{min-height:auto;padding:72px 24px 72px}
   .hero-stats{grid-template-columns:repeat(2,1fr)}
   .grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
+  .faq-grid{grid-template-columns:1fr}
   .counter-row{grid-template-columns:1fr}
   .photo-strip{grid-template-columns:repeat(2,1fr)}
   .form-row{grid-template-columns:1fr}

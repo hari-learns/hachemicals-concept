@@ -1,0 +1,77 @@
+# HA International Chemicals Trading LLC
+
+> Supplier of industrial and specialty chemicals and electrical/VFD products,
+> based in Abu Dhabi, United Arab Emirates. Serving construction, oil and gas,
+> water treatment and manufacturing sectors across the UAE and international
+> markets for over 38 years.
+
+## Contact
+- Address: M02, United Arab Bank Building, Al Danah, Abu Dhabi, UAE
+- Phone: +971 50 228 7866
+- Email: sales@hachemicals.com
+- Hours: Mon – Sat, 10:00 – 18:30 (Sunday closed)
+
+## Industrial Chemicals (21 products)
+- [Cenosphere](https://hari-learns.github.io/hachemicals-concept/product/cenosphere.html)
+- [Drilling Detergent](https://hari-learns.github.io/hachemicals-concept/product/drilling-detergent.html)
+- [Fly Ash 1.4 ton bag](https://hari-learns.github.io/hachemicals-concept/product/fly-ash-1-4-ton-bag.html)
+- [Ferric chloride](https://hari-learns.github.io/hachemicals-concept/product/ferric-chloride.html)
+- [DEA](https://hari-learns.github.io/hachemicals-concept/product/dea.html)
+- [Defoam (silicon based )](https://hari-learns.github.io/hachemicals-concept/product/defoam-silicon-based.html)
+- [Drilling Foam](https://hari-learns.github.io/hachemicals-concept/product/drilling-foam.html)
+- [Drilling Strach](https://hari-learns.github.io/hachemicals-concept/product/drilling-strach.html)
+- [C.M.C HV](https://hari-learns.github.io/hachemicals-concept/product/c-m-c-hv.html)
+- [Citric Acid](https://hari-learns.github.io/hachemicals-concept/product/citric-acid.html)
+- [Calcium Carbonate](https://hari-learns.github.io/hachemicals-concept/product/calcium-carbonate.html)
+- [Caustic Soda Prills](https://hari-learns.github.io/hachemicals-concept/product/caustic-soda-prills.html)
+- [Calcium Chloride 77 – 78 %](https://hari-learns.github.io/hachemicals-concept/product/calcium-chloride-77-78.html)
+- [Calcium Chloride 94 – 97 %](https://hari-learns.github.io/hachemicals-concept/product/calcium-chloride-94-97.html)
+- [Biocide 55 Gallon](https://hari-learns.github.io/hachemicals-concept/product/biocide-55-gallon.html)
+- [Butyl Glycol 55 gallon drum](https://hari-learns.github.io/hachemicals-concept/product/butyl-glycol-55-gallon-drum.html)
+- [Bentonite 50kg](https://hari-learns.github.io/hachemicals-concept/product/bentonite-50kg.html)
+- [BARITE 1500KG BAG](https://hari-learns.github.io/hachemicals-concept/product/barite-1500kg-bag.html)
+- [Aluminium Sulphate](https://hari-learns.github.io/hachemicals-concept/product/aluminium-sulphate.html)
+- [Ammonium Bisulfite (ABS) 25kg](https://hari-learns.github.io/hachemicals-concept/product/ammonium-bisulfite-abs-25kg.html)
+- [Ammonium Chloride ( 25 kg )](https://hari-learns.github.io/hachemicals-concept/product/ammonium-chloride-25-kg.html)
+
+## VFD & Electrical (5 products)
+- [MD290T2.2G/3.0PB-INT](https://hari-learns.github.io/hachemicals-concept/product/md290t2-2g-3-0pb-int.html)
+- [MD290T1.1G/1.5PB-INT](https://hari-learns.github.io/hachemicals-concept/product/md290t1-1g-1-5pb-int.html)
+- [VFD MD290T1.5/2.2PB-INT](https://hari-learns.github.io/hachemicals-concept/product/vfd-md290t1-5-2-2pb-int.html)
+- [VFD MD290T3.0G/3.7PB-INT](https://hari-learns.github.io/hachemicals-concept/product/vfd-md290t3-0g-3-7pb-int.html)
+- [VFD MD290T0.4G/0.7PB-INT](https://hari-learns.github.io/hachemicals-concept/product/vfd-md290t0-4g-0-7pb-int.html)
+
+## Services
+- Electrical installation
+- Earthing systems
+- Cathodic protection
+- ELV installation
+- Telecommunication installation
+
+## Frequently Asked Questions
+
+**What chemicals does HA International Chemicals Trading LLC supply?**
+We supply drilling and cementing chemicals including Cenosphere, Barite, Bentonite, Drilling Detergent, Drilling Foam, Drilling Starch and C.M.C HV; water treatment chemicals including Ferric Chloride, Aluminium Sulphate and Calcium Chloride; and industrial chemicals including Caustic Soda Prills, Citric Acid, DEA, Butyl Glycol, Biocide, Ammonium Chloride and Ammonium Bisulfite.
+
+**Where is HA International Chemicals Trading LLC based?**
+We are based at M02, United Arab Bank Building, Al Danah, Abu Dhabi, United Arab Emirates, and supply customers across the UAE and international markets.
+
+**Which industries does HA International Chemicals serve?**
+We serve construction, oil and gas, water treatment, manufacturing and general industrial sectors across the UAE.
+
+**Does HA International supply drilling fluid additives for oil and gas?**
+Yes. Our oil and gas range includes Cenosphere for lightweight cementing, Barite for weighting drilling fluids, Bentonite, Drilling Detergent, Drilling Foam, Drilling Starch and C.M.C HV.
+
+**Does HA International supply VFDs and electrical products?**
+Yes. We supply MD290 series variable frequency drives and provide electrical installation, earthing systems, cathodic protection, ELV installation and telecommunication installation services.
+
+**How do I request a quote from HA International Chemicals?**
+Call +971 50 228 7866, email sales@hachemicals.com, or message us on WhatsApp. Tell us the product, quantity and any specification details and we will respond with pricing and availability.
+
+## Pages
+- [Home](https://hari-learns.github.io/hachemicals-concept/)
+- [Products](https://hari-learns.github.io/hachemicals-concept/products.html)
+- [VFD & Electrical](https://hari-learns.github.io/hachemicals-concept/electrical-technical-services.html)
+- [Services](https://hari-learns.github.io/hachemicals-concept/services.html)
+- [About](https://hari-learns.github.io/hachemicals-concept/about-us.html)
+- [Contact](https://hari-learns.github.io/hachemicals-concept/contact-us.html)
