@@ -354,13 +354,28 @@ table.spec-table th,table.spec-table td{text-align:left;padding:12px 16px;border
 table.spec-table th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey);background:var(--surface);font-weight:600}
 table.spec-table tbody tr{transition:background-color .22s var(--ease)}
 table.spec-table tbody tr:hover{background:var(--surface)}
-ul.benefits-list{list-style:none;padding:0;margin:16px 0;display:grid;gap:11px}
-ul.benefits-list li{padding-left:28px;position:relative;font-size:14.5px;color:var(--grey)}
+ul.benefits-list{list-style:none;padding:0;margin:16px 0;display:grid;gap:12px}
+ul.benefits-list li{padding-left:30px;position:relative;font-size:14.5px;color:var(--grey);line-height:1.65}
+/* hexagon marker — benzene-ring motif, apt for a chemicals catalogue */
 ul.benefits-list li::before{
-  content:"";position:absolute;left:0;top:7px;width:11px;height:11px;
-  border:2px solid var(--green);border-radius:2px;transition:background-color .25s var(--ease);
+  content:"";position:absolute;left:0;top:6px;width:13px;height:14px;background:var(--green);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  transition:transform .35s var(--ease);
 }
-ul.benefits-list li:hover::before{background:var(--green)}
+@media (hover:hover){
+  ul.benefits-list li:hover::before{transform:rotate(90deg) scale(1.15)}
+}
+ul.benefits-list li strong{color:var(--navy)}
+
+/* links inside product copy — COA / MSDS datasheets live here, so they have to
+   be visibly clickable. Their own markup wraps these in inline #00ff00, which
+   clean_html strips; without this they'd render as plain body text. */
+.pd-body a{
+  color:var(--green);font-weight:600;
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;
+  transition:color .2s var(--ease);
+}
+.pd-body a:hover{color:var(--green-dark)}
 .pd-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
 
 /* ---------------------------------------------------------- CTA band */
