@@ -10,6 +10,9 @@
   --green-light:#B8FFAE;
   --green-dark:#023B00;
   --orange:#FC811B;
+  /* applications lists only — distinguishes "where it's used" from "what it
+     does" without introducing a second brand colour anywhere else */
+  --blue:#2563C9;
 
   --ink:#13223C;
   --grey:#76787C;
@@ -366,6 +369,15 @@ ul.benefits-list li::before{
   ul.benefits-list li:hover::before{transform:rotate(90deg) scale(1.15)}
 }
 ul.benefits-list li strong{color:var(--navy)}
+/* applications lists: same hexagon, blue — "where it's used" vs "what it does" */
+ul.benefits-list.is-applications li::before{background:var(--blue)}
+/* nested lists inherit their parent's colour */
+ul.benefits-list ul{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+ul.benefits-list ul li{padding-left:26px}
+ul.benefits-list ul li::before{opacity:.55;transform:scale(.8)}
+@media (hover:hover){
+  ul.benefits-list ul li:hover::before{transform:rotate(90deg) scale(.92)}
+}
 
 /* links inside product copy — COA / MSDS datasheets live here, so they have to
    be visibly clickable. Their own markup wraps these in inline #00ff00, which
