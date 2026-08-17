@@ -126,19 +126,52 @@ def base(title, description, body, active="", canonical="", extra_head="", depth
         )
         for href, label in NAV
     )
+    # Everything here is verifiable from their own site. knowsAbout/areaServed
+    # help search and assistants tie the company to the right subject and place;
+    # no geo coordinates because we don't have verified ones and guessing them
+    # would put a false location into structured data.
     org_schema = {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "HA International Chemicals Trading LLC",
+        "alternateName": "HA International Chemicals",
         "url": "https://hachemicals.com/",
+        "logo": f"{SITE_URL}/{asset(LOGO)}",
+        "image": f"{SITE_URL}/{asset(HERO_SLIDES[0])}",
         "email": EMAIL,
         "telephone": PHONE,
+        "foundingDate": "1986",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "M02, United Arab Bank Building, Al Danah",
             "addressLocality": "Abu Dhabi",
             "addressCountry": "AE",
         },
+        "areaServed": [
+            {"@type": "Country", "name": "United Arab Emirates"},
+            {"@type": "Place", "name": "GCC"},
+        ],
+        "knowsAbout": [
+            "Industrial chemicals", "Specialty chemicals",
+            "Drilling fluid additives", "Oil well cementing additives",
+            "Water treatment chemicals", "Variable frequency drives",
+            "Electrical installation", "Cathodic protection",
+        ],
+        "openingHoursSpecification": [{
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday",
+                          "Friday", "Saturday"],
+            "opens": "10:00",
+            "closes": "18:30",
+        }],
+        "contactPoint": [{
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "telephone": PHONE,
+            "email": EMAIL,
+            "areaServed": "AE",
+            "availableLanguage": ["English"],
+        }],
         "description": ("UAE supplier of industrial and specialty chemicals and "
                         "electrical products for construction, oil & gas, and "
                         "water treatment."),
