@@ -5,6 +5,38 @@ No framework, no npm — Python 3 and Pillow only.
 
 ---
 
+## Status: built, verified, awaiting client greenlight
+
+Nothing on the client's live site has been touched. The work sits in this repo
+and on GitHub Pages as a private-by-obscurity preview that is deliberately
+`noindex`, so it cannot compete with hachemicals.com for their own content.
+
+**Preview:** <https://hari-learns.github.io/hachemicals-concept/>
+
+Verified on the current production build:
+
+| Check | Result |
+|---|---|
+| Pages generated | 34 (8 top-level + 26 products) |
+| JSON-LD blocks | 87 valid, 0 invalid — Organization ×34, Product ×26, BreadcrumbList ×26, FAQPage ×1 |
+| Titles / descriptions | unique on every page, no duplicates |
+| Headings | exactly one `<h1>` per page |
+| Images | `alt` on every image; 67 MB → 2 MB as WebP |
+| Internal links & assets | all resolve, no 404s |
+| Responsive | no horizontal overflow at 320 / 375 / 768 / 1280 / 1440 |
+| Source junk | pasted styling, leaked forms and the broken payment link all stripped |
+| `robots.txt` | allows Googlebot, Bingbot, GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot |
+| `sitemap.xml` / `llms.txt` | generated, 33 URLs |
+
+**On greenlight:** run `python3 build.py --production`, then work the go-live
+checklist below.
+
+⚠️ The repo is kept in **concept (noindex)** state on purpose. Never commit a
+`--production` build into `docs/` — GitHub Pages serves that folder publicly and
+an indexable copy would duplicate the client's own content.
+
+---
+
 ## Build
 
 ```bash
@@ -39,33 +71,63 @@ the two scrape scripts, so it does not belong in the repo.
 
 ## Going live on WordPress
 
-The plan is to replace the current theme output with this markup. Options, best
-first:
+**Recommended: convert this build into a WordPress theme.** `styles.css` and
+`script.js` drop in unchanged; the page templates become PHP. Products map onto
+the existing WooCommerce post type, so the `PROD` list in `build.py` is replaced
+by `WP_Query` / WooCommerce template tags.
 
-1. **Static export served by the host, WordPress kept for admin only.** Fastest
-   and keeps every SEO gain. Needs host-level control of the document root.
-2. **Convert to a minimal WordPress theme.** `styles.css` and `script.js` drop in
-   as-is; the page templates become PHP. Products map to the existing
-   WooCommerce post type, so `build.py:ROOMS`-style data is replaced by
-   `WP_Query`.
-3. **Paste per-page into Elementor as HTML widgets.** Quickest, but the theme
-   keeps injecting its own CSS and you lose much of the performance win. Not
-   recommended.
+This was originally scoped as a static export with WordPress kept for admin
+only. **That is no longer the right call.** The client wants to write and publish
+articles herself, and a static site cannot have someone press Publish and see it
+live. Everything below assumes the theme route.
 
-### Must-do at cutover
+Two consequences worth knowing:
 
-- [ ] Build with `--production`
-- [ ] Copy `sitemap.xml`, `robots.txt`, `llms.txt` to the **domain root**
+- **The URL-migration risk disappears.** WordPress keeps its own permalinks, so
+  `/shop/chemicals/<slug>/` and `/about-us/` survive untouched. No 301 map, no
+  lost rankings. (Under a static export those paths would have had to be
+  reproduced by hand — the single largest risk in the original plan.)
+- **The blog works natively.** Each article gets its own URL, joins the listing
+  page, and renders in this design automatically.
+
+Rejected alternative: pasting pages into Elementor as HTML widgets. Quick, but
+the theme keeps injecting its own CSS and most of the performance win is lost.
+
+### Blog / self-publishing setup
+
+The client publishes her own articles. Do these before she writes anything:
+
+- [ ] **Set the permalink structure first** — `/blog/%postname%/` or similar.
+      Changing this after articles exist breaks every article URL and its
+      rankings. Five-minute setting, painful to undo.
+- [ ] Invite her as **Editor** (publish freely, cannot touch settings, plugins
+      or the theme). Use **Contributor** instead if the work should be reviewed
+      before going public.
+- [ ] Create categories up front — Drilling, Water Treatment, Electrical.
+- [ ] Add `Article` / `BlogPosting` schema to the single-post template.
+- [ ] Include new posts in `sitemap.xml`.
+- [ ] Give her the one-page cheat sheet and the short screen recordings.
+
+Her own login also removes the shared-password problem noted below.
+
+### Go-live checklist
+
+- [ ] Build with `python3 build.py --production` (never the default — that one
+      is deliberately `noindex`)
+- [ ] Confirm `<meta name="robots">` reads `index,follow` on the live pages
+- [ ] Place `sitemap.xml`, `robots.txt`, `llms.txt` at the **domain root**
       (`hachemicals.com/robots.txt` — a subdirectory copy does nothing)
 - [ ] Confirm no SEO plugin (Yoast/RankMath) is emitting a second, conflicting
       `robots` meta or canonical — duplicates cancel each other out
-- [ ] Redirect old URLs. Current product URLs are
-      `/shop/chemicals/<slug>/`; this build uses `/product/<slug>.html`.
-      **Either match their existing structure or 301 every old URL** — getting
-      this wrong drops existing rankings
+- [ ] Spot-check that existing product permalinks still resolve after the theme
+      switch
+- [ ] Set real prices, or switch the catalogue to quote-only — every product is
+      currently `price: 0` and unpurchasable
 - [ ] Submit sitemap to **Google Search Console** *and* **Bing Webmaster Tools**
       (ChatGPT search runs on Bing — this is the commonly missed one)
 - [ ] Validate schema at <https://search.google.com/test/rich-results>
+- [ ] Create and verify the **Google Business Profile** (postcard to the Abu
+      Dhabi address — only the client can complete this)
 
 ---
 

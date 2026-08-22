@@ -1,5 +1,6 @@
 __pycache__/
 build_src/
+release/
 wc-store-products.json
 wp-json-root.json
 wp-pages.json
