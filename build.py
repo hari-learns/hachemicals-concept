@@ -26,6 +26,8 @@ SITE_URL = ("https://hachemicals.com" if PRODUCTION
             else "https://hari-learns.github.io/hachemicals-concept")
 PROD = json.load(open(os.path.join(ROOT, "src_data/products.json")))
 CONTENT = json.load(open(os.path.join(ROOT, "src_data/content.json")))
+_posts_path = os.path.join(ROOT, "src_data/posts.json")
+POSTS = json.load(open(_posts_path)) if os.path.exists(_posts_path) else []
 
 # WordPress stores titles HTML-encoded ("77 &#8211; 78 %"). That renders fine in
 # markup but leaks raw entities into JSON-LD and llms.txt, which are plain text.
@@ -423,7 +425,7 @@ def build_home():
       <div class="eyebrow" data-reveal>We Trade You Gain</div>
       <h2 data-reveal="wipe">The Best Prices For You</h2>
       <p class="lede" data-reveal style="--i:1">HA International Chemicals Trading LLC is a leading chemical trading company in the UAE, specializing in the supply and distribution of high-quality industrial chemicals, specialty chemicals, and electrical products for diverse industries.</p>
-      <p class="lede" data-reveal style="--i:2">With 38 years of experience, we have built a strong reputation for reliability, quality, and customer satisfaction, serving businesses across the UAE and international markets — construction, manufacturing, water treatment, oil &amp; gas, and industrial sectors.</p>
+      <p class="lede" data-reveal style="--i:2">With 38 years of experience, we have built a strong reputation for reliability, quality, and customer satisfaction, serving businesses across the UAE and international markets. Our commitment to excellence, timely delivery, and competitive pricing makes us a trusted partner for construction, manufacturing, water treatment, oil &amp; gas, and industrial sectors. We deliver premium products and dependable solutions tailored to meet modern industry demands.</p>
       <div style="margin-top:34px">{bars}</div>
     </div>
     <div class="shot" data-reveal="right">
@@ -455,7 +457,7 @@ def build_home():
     </div>
     <div class="grid grid-3">
       <div class="feature" data-reveal style="--i:0"><div class="num">01</div><div><h4>Timely Delivery</h4><p>Our team of experienced professionals possesses in-depth knowledge and technical expertise in the electrical and chemical fields.</p></div></div>
-      <div class="feature" data-reveal style="--i:1"><div class="num">02</div><div><h4>Quality Assurance</h4><p>We partner with reputable manufacturers and suppliers to ensure that all our products meet strict quality standards and comply with safety regulations.</p></div></div>
+      <div class="feature" data-reveal style="--i:1"><div class="num">02</div><div><h4>Quality Assurance</h4><p>At HA International Chemicals Trading LLC, quality is our top priority. We partner with reputable manufacturers and suppliers to ensure that all our products meet strict quality standards and comply with safety regulations.</p></div></div>
       <div class="feature" data-reveal style="--i:2"><div class="num">03</div><div><h4>Extensive Product Range</h4><p>From cutting-edge electrical equipment to premium-grade chemicals, we've got you covered.</p></div></div>
       <div class="feature" data-reveal style="--i:3"><div class="num">04</div><div><h4>Technical Expertise</h4><p>We can assist you in finding the right products that best suit your specific requirements.</p></div></div>
       <div class="feature" data-reveal style="--i:4"><div class="num">05</div><div><h4>Competitive Pricing</h4><p>Direct sourcing relationships keep our pricing sharp without compromising on quality.</p></div></div>
@@ -729,7 +731,7 @@ def build_about():
   <div class="wrap">
     <div class="section-head"><div><div class="eyebrow" data-reveal>What Drives Us</div><h2 data-reveal="wipe">Quality, range, and expertise</h2></div></div>
     <div class="grid grid-3">
-      <div class="feature" data-reveal style="--i:0"><div class="num">01</div><div><h4>Quality Assurance</h4><p>We partner with reputable manufacturers and suppliers to ensure that all our products meet strict quality standards and comply with safety regulations.</p></div></div>
+      <div class="feature" data-reveal style="--i:0"><div class="num">01</div><div><h4>Quality Assurance</h4><p>At HA International Chemicals Trading LLC, quality is our top priority. We partner with reputable manufacturers and suppliers to ensure that all our products meet strict quality standards and comply with safety regulations.</p></div></div>
       <div class="feature" data-reveal style="--i:1"><div class="num">02</div><div><h4>Extensive Product Range</h4><p>We offer an extensive selection of electrical products and chemicals, catering to various industries' needs.</p></div></div>
       <div class="feature" data-reveal style="--i:2"><div class="num">03</div><div><h4>Technical Expertise</h4><p>Our team of experienced professionals possesses in-depth knowledge and technical expertise in the electrical and chemical fields.</p></div></div>
     </div>
@@ -745,30 +747,143 @@ def build_about():
 
 
 # ---------------------------------------------------------------- blog
+def post_img(p, depth=0):
+    up = "../" * depth
+    if p.get("image"):
+        stem = os.path.splitext(re.sub(r"\?.*$", "", p["image"].split("/")[-1]))[0]
+        if have(stem + ".webp"):
+            return up + asset(stem + ".webp")
+    return up + asset("placeholder.webp")
+
+
+def pretty_date(iso):
+    y, m, d = iso.split("-")
+    months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"]
+    return f"{int(d)} {months[int(m) - 1]} {y}"
+
+
+def post_label(p):
+    """Their posts are all filed under "Uncategorized", which reads as a defect
+    on the page. Fall back to a neutral label until they categorise them."""
+    for c in p.get("categories") or []:
+        if c.strip().lower() != "uncategorized":
+            return c
+    return "Article"
+
+
+def post_card(p, depth=0, i=0):
+    up = "../" * depth
+    cat = post_label(p)
+    return f"""<a class="card post-card" href="{up}blog/{p['slug']}.html" data-ripple data-reveal="scale" style="--i:{i % 3}">
+  <div class="post-thumb"><img src="{post_img(p, depth)}" alt="{p['title']}" loading="lazy"></div>
+  <div class="body">
+    <span class="tag">{cat} &middot; {pretty_date(p['date'])}</span>
+    <h3>{p['title']}</h3>
+    <span class="go">Read article {ARW}</span>
+  </div>
+</a>"""
+
+
 def build_blog():
+    if not POSTS:
+        cards = """<div class="empty-state" data-reveal>
+      <div class="ic">📝</div><h3>No posts published yet</h3>
+      <p>This is where articles will appear.</p>
+    </div>"""
+    else:
+        cards = f'<div class="grid grid-3">{"".join(post_card(p, 0, n) for n, p in enumerate(POSTS))}</div>'
+
     body = f"""
 <section class="page-hero">
   <div class="wrap">
     <div class="eyebrow on-dark">Blog</div>
     <h1>Insights &amp; updates</h1>
-    <p>Technical notes, product news, and industry updates from our team.</p>
+    <p>Technical notes, product guides and industry updates from our team.</p>
   </div>
 </section>
 <section>
-  <div class="wrap" style="max-width:760px">
-    <div class="empty-state" data-reveal>
-      <div class="ic">📝</div>
-      <h3>No posts published yet</h3>
-      <p>This is where articles will appear. A blog is one of the strongest levers for search and AI visibility — technical guides on chemical selection, dosage, and handling tend to perform best for a supplier like this.</p>
-      <a class="btn btn-primary" href="contact-us.html" data-ripple>Talk to Us {ARW}</a>
-    </div>
+  <div class="wrap">
+    {cards}
   </div>
 </section>
+{cta_band("Need a product from one of these guides?",
+          "Tell us your requirement and we'll come back with pricing and availability.")}
 """
     write("blog.html", base(
         "Blog — HA International Chemicals Trading LLC",
-        "Technical notes, product news, and industry updates from HA International Chemicals Trading LLC.",
+        "Technical guides on chemical selection and supply in the UAE, from HA International Chemicals Trading LLC.",
         body, active="blog.html", canonical="blog.html"))
+
+
+def build_post_pages():
+    for n, p in enumerate(POSTS):
+        article = clean(p["content"]).replace(
+            '<table class="spec-table">',
+            '<div class="table-scroll"><table class="spec-table">'
+        ).replace("</table>", "</table></div>")
+        related = [r for r in POSTS if r["slug"] != p["slug"]][:3]
+        plain = re.sub(r"\s+", " ", re.sub("<[^>]+>", " ", article)).strip()
+
+        schema = {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": p["title"],
+            "datePublished": p["date"],
+            "dateModified": p["date"],
+            "image": f"{SITE_URL}/{post_img(p).lstrip('./')}",
+            "description": plain[:300],
+            "author": {"@type": "Organization",
+                       "name": "HA International Chemicals Trading LLC"},
+            "publisher": {
+                "@type": "Organization",
+                "name": "HA International Chemicals Trading LLC",
+                "logo": {"@type": "ImageObject", "url": f"{SITE_URL}/{asset(LOGO)}"},
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": f"{SITE_URL}/blog/{p['slug']}.html",
+            },
+        }
+        crumbs = breadcrumb_schema([
+            ("Home", ""), ("Blog", "blog.html"),
+            (p["title"], f"blog/{p['slug']}.html"),
+        ])
+
+        related_block = f"""
+<section class="bg-surface">
+  <div class="wrap">
+    <div class="section-head"><div><div class="eyebrow" data-reveal>Keep reading</div><h2 data-reveal="wipe" style="font-size:26px">More guides</h2></div></div>
+    <div class="grid grid-3">{"".join(post_card(r, 1, i) for i, r in enumerate(related))}</div>
+  </div>
+</section>""" if related else ""
+
+        cat = post_label(p)
+        body = f"""
+<div class="breadcrumb"><div class="wrap"><a href="../index.html">Home</a> / <a href="../blog.html">Blog</a> / {p['title'][:44]}</div></div>
+<article>
+  <div class="wrap post-wrap">
+    <span class="tag" data-reveal>{cat} &middot; {pretty_date(p['date'])}</span>
+    <h1 data-reveal style="--i:1">{p['title']}</h1>
+    <div class="post-hero" data-reveal style="--i:2"><img src="{post_img(p, 1)}" alt="{p['title']}"></div>
+    <div class="pd-body post-body" data-reveal style="--i:3">
+      {article}
+    </div>
+    <div class="pd-actions" data-reveal>
+      <a class="btn btn-primary" href="../contact-us.html" data-ripple>Request a Quote {ARW}</a>
+      <a class="btn btn-outline" href="../products.html" data-ripple>Browse Products</a>
+    </div>
+  </div>
+</article>
+{related_block}
+"""
+        write(f"blog/{p['slug']}.html", base(
+            f"{p['title']} — HA International Chemicals",
+            (p.get("excerpt") or plain)[:155],
+            body, active="blog.html", canonical=f"blog/{p['slug']}.html",
+            extra_head=(f'<script type="application/ld+json">{json.dumps(schema)}</script>\n'
+                        f'<script type="application/ld+json">{json.dumps(crumbs)}</script>'),
+            depth=1))
 
 
 # ---------------------------------------------------------------- contact
@@ -846,6 +961,8 @@ def build_sitemap():
         urls.append((f"{SITE_URL}/{path}", priority, freq))
     for p in PROD:
         urls.append((f"{SITE_URL}/product/{p['slug']}.html", "0.8", "monthly"))
+    for p in POSTS:
+        urls.append((f"{SITE_URL}/blog/{p['slug']}.html", "0.7", "monthly"))
 
     entries = "\n".join(
         f"  <url>\n"
@@ -900,6 +1017,8 @@ def build_llms_txt():
     vfd_links = "\n".join(
         f"- [{p['name']}]({SITE_URL}/product/{p['slug']}.html)" for p in vfd)
     faq_lines = "\n\n".join(f"**{q}**\n{a}" for q, a in FAQS)
+    post_links = "\n".join(
+        f"- [{p['title']}]({SITE_URL}/blog/{p['slug']}.html)" for p in POSTS)
 
     write("llms.txt", f"""# HA International Chemicals Trading LLC
 
@@ -926,6 +1045,9 @@ def build_llms_txt():
 ## Frequently Asked Questions
 
 {faq_lines}
+
+## Articles
+{post_links}
 
 ## Pages
 - [Home]({SITE_URL}/)
@@ -962,6 +1084,7 @@ if __name__ == "__main__":
     build_services()
     build_about()
     build_blog()
+    build_post_pages()
     build_contact()
     build_404()
     n_urls = build_sitemap()
