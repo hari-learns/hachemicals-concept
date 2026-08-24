@@ -292,6 +292,54 @@ function hachemicals_document_title( $title ) {
 }
 add_filter( 'pre_get_document_title', 'hachemicals_document_title', 20 );
 
+/**
+ * Keep the redesigned public routes on native theme templates even when a
+ * page still carries an Elementor Canvas/Full Width template assignment.
+ * Those assignments remain stored and editable; they simply no longer own
+ * the public rendering of the redesigned routes.
+ */
+function hachemicals_route_native_templates( $template ) {
+    $theme_template = '';
+
+    if ( is_front_page() ) {
+        $theme_template = 'front-page.php';
+    } elseif ( function_exists( 'is_shop' ) && is_shop() ) {
+        $theme_template = 'archive-product.php';
+    } elseif ( is_post_type_archive( 'product' ) ) {
+        $theme_template = 'archive-product.php';
+    } elseif ( is_singular( 'product' ) ) {
+        $theme_template = 'single-product.php';
+    } elseif ( is_home() ) {
+        $theme_template = 'home.php';
+    } elseif ( is_singular( 'post' ) ) {
+        $theme_template = 'single.php';
+    } elseif ( is_404() ) {
+        $theme_template = '404.php';
+    } elseif ( is_page() ) {
+        $page_templates = array(
+            'services'                      => 'page-services.php',
+            'electrical-technical-services' => 'page-electrical-technical-services.php',
+            'about-us'                      => 'page-about-us.php',
+            'contact-us'                    => 'page-contact-us.php',
+            'elementor-1264'                => 'page-elementor-1264.php',
+        );
+        $slug           = get_post_field( 'post_name', get_queried_object_id() );
+        if ( isset( $page_templates[ $slug ] ) ) {
+            $theme_template = $page_templates[ $slug ];
+        }
+    }
+
+    if ( $theme_template ) {
+        $candidate = trailingslashit( get_stylesheet_directory() ) . $theme_template;
+        if ( is_readable( $candidate ) ) {
+            return $candidate;
+        }
+    }
+
+    return $template;
+}
+add_filter( 'template_include', 'hachemicals_route_native_templates', PHP_INT_MAX );
+
 // The quote-only presentation deliberately omits WooCommerce purchase UI while
 // leaving products, orders, extensions, and all wp-admin behavior untouched.
 function hachemicals_disable_catalogue_purchase_ui() {
