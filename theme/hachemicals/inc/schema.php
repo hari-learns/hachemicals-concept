@@ -9,7 +9,7 @@ function hachemicals_meta_description() {
     if ( is_front_page() ) {
         return 'UAE supplier of industrial and specialty chemicals and electrical/VFD products for construction, oil and gas, and water treatment. 38+ years in Abu Dhabi.';
     }
-    if ( function_exists( 'is_shop' ) && is_shop() ) {
+    if ( is_page( 'products' ) || ( function_exists( 'is_shop' ) && is_shop() ) ) {
         return 'Browse industrial chemicals, drilling and cementing chemicals, water treatment chemicals, and VFD/electrical equipment from HA International Chemicals.';
     }
     if ( is_singular( array( 'post', 'product' ) ) ) {
@@ -32,7 +32,10 @@ function hachemicals_canonical_url() {
     if ( is_front_page() ) {
         return home_url( '/' );
     }
-    if ( function_exists( 'is_shop' ) && is_shop() ) {
+    if ( is_home() && get_option( 'page_for_posts' ) ) {
+        return get_permalink( (int) get_option( 'page_for_posts' ) );
+    }
+    if ( is_page( 'products' ) || ( function_exists( 'is_shop' ) && is_shop() ) ) {
         return hachemicals_shop_url();
     }
     if ( is_singular() ) {

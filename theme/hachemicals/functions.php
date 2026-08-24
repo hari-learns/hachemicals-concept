@@ -69,7 +69,7 @@ add_action( 'wp_enqueue_scripts', 'hachemicals_enqueue_assets', 30 );
 
 function hachemicals_body_classes( $classes ) {
     $classes[] = 'hachemicals-site';
-    if ( function_exists( 'is_shop' ) && ( is_shop() || is_product_taxonomy() ) ) {
+    if ( is_page( 'products' ) || ( function_exists( 'is_shop' ) && ( is_shop() || is_product_taxonomy() ) ) ) {
         $classes[] = 'hachemicals-catalogue';
     }
     return $classes;
@@ -83,7 +83,19 @@ function hachemicals_page_url( $path ) {
 }
 
 function hachemicals_shop_url() {
-    return function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+    $products_page = get_page_by_path( 'products' );
+    if ( $products_page ) {
+        return get_permalink( $products_page );
+    }
+
+    if ( function_exists( 'wc_get_page_permalink' ) ) {
+        $shop_url = wc_get_page_permalink( 'shop' );
+        if ( $shop_url && untrailingslashit( $shop_url ) !== untrailingslashit( home_url( '/' ) ) ) {
+            return $shop_url;
+        }
+    }
+
+    return home_url( '/products/' );
 }
 
 function hachemicals_quote_url( $product_slug = '' ) {
@@ -200,7 +212,7 @@ function hachemicals_clean_rich_content( $html ) {
 function hachemicals_primary_navigation_fallback() {
     $items = array(
         array( 'Home', home_url( '/' ), is_front_page() ),
-        array( 'Products', hachemicals_shop_url(), function_exists( 'is_shop' ) && ( is_shop() || is_product() || is_product_taxonomy() ) ),
+        array( 'Products', hachemicals_shop_url(), is_page( 'products' ) || ( function_exists( 'is_shop' ) && ( is_shop() || is_product() || is_product_taxonomy() ) ) ),
         array( 'VFD', hachemicals_page_url( 'electrical-technical-services' ), is_page( 'electrical-technical-services' ) ),
         array( 'Services', hachemicals_page_url( 'services' ), is_page( 'services' ) ),
         array( 'About', hachemicals_page_url( 'about-us' ), is_page( 'about-us' ) ),
@@ -285,12 +297,22 @@ function hachemicals_document_title( $title ) {
     if ( is_front_page() ) {
         return 'HA International Chemicals Trading LLC — Chemical Supplier in UAE';
     }
-    if ( function_exists( 'is_shop' ) && is_shop() ) {
+    if ( is_page( 'products' ) || ( function_exists( 'is_shop' ) && is_shop() ) ) {
         return 'Products — Industrial Chemicals & VFDs | HA International Chemicals';
     }
-    return $title;
+    return hachemicals_display_title( $title );
 }
 add_filter( 'pre_get_document_title', 'hachemicals_document_title', 20 );
+
+function hachemicals_document_title_parts( $parts ) {
+    foreach ( $parts as $key => $part ) {
+        if ( is_string( $part ) ) {
+            $parts[ $key ] = hachemicals_display_title( $part );
+        }
+    }
+    return $parts;
+}
+add_filter( 'document_title_parts', 'hachemicals_document_title_parts', PHP_INT_MAX );
 
 /**
  * Keep the redesigned public routes on native theme templates even when a
@@ -317,6 +339,7 @@ function hachemicals_route_native_templates( $template ) {
         $theme_template = '404.php';
     } elseif ( is_page() ) {
         $page_templates = array(
+            'products'                      => 'archive-product.php',
             'services'                      => 'page-services.php',
             'electrical-technical-services' => 'page-electrical-technical-services.php',
             'about-us'                      => 'page-about-us.php',

@@ -36,6 +36,7 @@
                 hachemicals_primary_navigation_fallback();
             }
             ?>
+            <a class="mobile-nav-quote" href="<?php echo esc_url( hachemicals_quote_url() ); ?>">Get a Free Quote</a>
         </nav>
         <div class="header-cta">
             <a class="btn btn-primary" href="<?php echo esc_url( hachemicals_quote_url() ); ?>" data-ripple>Get a Quote</a>
@@ -46,4 +47,3 @@
     </div>
 </header>
 <main id="main-content">
-

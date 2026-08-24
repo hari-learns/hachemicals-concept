@@ -4,7 +4,7 @@ Theme URI: https://hachemicals.com/
 Description: Production child theme for HA International Chemicals Trading LLC.
 Author: HA International Chemicals Trading LLC
 Template: hello-elementor
-Version: 1.0.1
+Version: 1.0.4
 Text Domain: hachemicals
 Requires at least: 6.6
 Requires PHP: 8.1
@@ -182,6 +182,7 @@ nav.main a.active{color:var(--green)}
 .menu-toggle.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
 .menu-toggle.open span:nth-child(2){opacity:0}
 .menu-toggle.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mobile-nav-quote{display:none}
 
 /* ---------------------------------------------------------- hero */
 .hero{position:relative;overflow:clip;background:var(--navy);color:#fff;isolation:isolate}
@@ -606,6 +607,11 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
     transition:opacity .4s var(--ease),transform .4s var(--ease),color .2s;
   }
   nav.main > li{width:100%}
+  nav.main .mobile-nav-quote{
+    display:block;margin-top:18px;padding:15px 20px;border:0;border-radius:3px;
+    background:var(--green);color:#fff;text-align:center;font-family:var(--mono);
+    font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  }
   nav.main.open a{opacity:1;transform:none;transition-delay:calc(var(--n,0) * 55ms + 90ms)}
   nav.main a::after{display:none}
   .hero .wrap{min-height:auto;padding:72px 24px 72px}
