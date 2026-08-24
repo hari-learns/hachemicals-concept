@@ -6,7 +6,19 @@
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#13223C">
-    <?php wp_head(); ?>
+    <?php
+    ob_start();
+    wp_head();
+    echo hachemicals_dedupe_head_metadata( ob_get_clean() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    ?>
+    <noscript><style>
+        @media (max-width:760px){
+            header.site .wrap{height:auto;min-height:74px;flex-wrap:wrap}
+            nav.main{position:static;width:100%;height:auto;visibility:visible;transform:none;padding:0 0 18px;display:flex}
+            nav.main a{opacity:1;transform:none}
+            .menu-toggle{display:none}
+        }
+    </style></noscript>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>

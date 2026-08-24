@@ -326,23 +326,43 @@
   }
 
   /* ------------------------------------------------------------------
-     Quote deep-link — product pages link through as ?product=<slug>,
+     Quote deep-link — product pages link through as ?quote_product=<slug>,
      so arrive with the enquiry already started rather than a blank box.
      ------------------------------------------------------------------ */
   function initQuotePrefill() {
-    var slug = new URLSearchParams(window.location.search).get("product");
+    var slug = new URLSearchParams(window.location.search).get("quote_product");
     if (!slug) return;
     var name = slug.replace(/-/g, " ").replace(/\b\w/g, function (c) {
       return c.toUpperCase();
     });
     var fields = document.querySelectorAll(
-      '#ms, textarea[name="mf-textarea"], input[name="wpforms[fields][2]"]'
+      '#ms, textarea[name="mf-textarea"], input[name="wpforms[fields][8]"]'
     );
     Array.prototype.forEach.call(fields, function (field) {
       if (!field.value) field.value = "I'd like a quote for " + name + " — quantity: ";
     });
     var heading = document.querySelector(".hachemicals-form-shell h2");
     if (heading) heading.textContent = "Request a Quote — " + name;
+  }
+
+  /* ------------------------------------------------------------------
+     Form accessibility — MetForm marks required fields visually but its
+     rendered markup omits native required semantics. Keep the plugin's AJAX
+     and delivery pipeline intact while synchronising labels and constraints.
+     ------------------------------------------------------------------ */
+  function initFormAccessibility() {
+    document.querySelectorAll(".mf-input-wrapper").forEach(function (wrapper) {
+      var field = wrapper.querySelector("input:not([type=hidden]), textarea, select");
+      var label = wrapper.querySelector("label");
+      if (!field) return;
+      if (label && label.querySelector(".mf-input-required-indicator")) {
+        field.required = true;
+        field.setAttribute("aria-required", "true");
+      }
+      if (label && field.id && label.getAttribute("for") !== field.id) {
+        label.setAttribute("for", field.id);
+      }
+    });
   }
 
   /* ------------------------------------------------------------------ */
@@ -352,6 +372,7 @@
     initHeader();
     initNav();
     initQuotePrefill();
+    initFormAccessibility();
   }
 
   if (document.readyState === "loading") {

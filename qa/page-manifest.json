@@ -8,7 +8,7 @@
   {
     "type": "page",
     "title": "Products",
-    "wordpress_path": "/shop/",
+    "wordpress_path": "/products/",
     "concept_path": "/products.html"
   },
   {

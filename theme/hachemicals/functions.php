@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'HACHEMICALS_THEME_VERSION', '1.0.0' );
+define( 'HACHEMICALS_THEME_VERSION', '1.0.13' );
 define( 'HACHEMICALS_PHONE', '+971 50 228 7866' );
 define( 'HACHEMICALS_PHONE_LINK', '+971502287866' );
 define( 'HACHEMICALS_EMAIL', 'sales@hachemicals.com' );
@@ -33,6 +33,28 @@ function hachemicals_setup() {
     );
 }
 add_action( 'after_setup_theme', 'hachemicals_setup', 20 );
+
+function hachemicals_is_staging_host() {
+    $host = (string) wp_parse_url( home_url( '/' ), PHP_URL_HOST );
+    return (bool) preg_match( '/(?:^|\.)wpcomstaging\.com$/i', $host );
+}
+
+function hachemicals_staging_robots( $robots ) {
+    if ( hachemicals_is_staging_host() ) {
+        $robots['noindex']   = true;
+        $robots['nofollow']  = true;
+        $robots['noarchive'] = true;
+    }
+    return $robots;
+}
+add_filter( 'wp_robots', 'hachemicals_staging_robots', PHP_INT_MAX );
+
+function hachemicals_send_staging_robots_header() {
+    if ( hachemicals_is_staging_host() && ! headers_sent() ) {
+        header( 'X-Robots-Tag: noindex, nofollow, noarchive', true );
+    }
+}
+add_action( 'send_headers', 'hachemicals_send_staging_robots_header', PHP_INT_MAX );
 
 function hachemicals_asset( $path ) {
     return trailingslashit( get_stylesheet_directory_uri() ) . 'assets/' . ltrim( $path, '/' );
@@ -67,6 +89,40 @@ function hachemicals_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'hachemicals_enqueue_assets', 30 );
 
+/**
+ * Elementor still sees the stored Canvas assignments on redesigned pages and
+ * enqueues its public runtime even though the child theme owns the template.
+ * That runtime expects Elementor's Canvas bootstrap data and throws before our
+ * page script runs. Keep it on the two shortcode-backed form routes, where the
+ * form plugins may depend on Elementor, and remove it from native routes.
+ */
+function hachemicals_native_route_skips_elementor() {
+    if ( is_admin() || is_page( array( 'contact-us', 'elementor-1264' ) ) ) {
+        return false;
+    }
+
+    return is_front_page()
+        || is_home()
+        || is_404()
+        || is_singular( array( 'post', 'product' ) )
+        || is_post_type_archive( 'product' )
+        || ( function_exists( 'is_shop' ) && is_shop() )
+        || is_page( array( 'products', 'services', 'electrical-technical-services', 'about-us' ) );
+}
+
+function hachemicals_dequeue_unused_elementor_runtime() {
+    if ( ! hachemicals_native_route_skips_elementor() ) {
+        return;
+    }
+
+    wp_dequeue_script( 'elementor-frontend' );
+    wp_deregister_script( 'elementor-frontend' );
+}
+add_action( 'wp_enqueue_scripts', 'hachemicals_dequeue_unused_elementor_runtime', PHP_INT_MAX );
+// Elementor may enqueue again after wp_enqueue_scripts. Run before WordPress
+// prints footer scripts (the core footer printer is attached at priority 20).
+add_action( 'wp_footer', 'hachemicals_dequeue_unused_elementor_runtime', 0 );
+
 function hachemicals_body_classes( $classes ) {
     $classes[] = 'hachemicals-site';
     if ( is_page( 'products' ) || ( function_exists( 'is_shop' ) && ( is_shop() || is_product_taxonomy() ) ) ) {
@@ -100,7 +156,21 @@ function hachemicals_shop_url() {
 
 function hachemicals_quote_url( $product_slug = '' ) {
     $url = hachemicals_page_url( 'contact-us/elementor-1264' );
-    return $product_slug ? add_query_arg( 'product', sanitize_title( $product_slug ), $url ) : $url;
+    return $product_slug ? add_query_arg( 'quote_product', sanitize_title( $product_slug ), $url ) : $url;
+}
+
+function hachemicals_requested_product_name() {
+    if ( empty( $_GET['quote_product'] ) ) {
+        return '';
+    }
+
+    $slug    = sanitize_title( wp_unslash( $_GET['quote_product'] ) );
+    $product = get_page_by_path( $slug, OBJECT, 'product' );
+    if ( ! $product || 'publish' !== $product->post_status ) {
+        return '';
+    }
+
+    return hachemicals_display_title( get_the_title( $product ) );
 }
 
 function hachemicals_display_title( $title ) {

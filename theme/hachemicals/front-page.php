@@ -106,12 +106,12 @@ $counters = array(
     <div class="wrap">
         <div class="section-head"><div><div class="eyebrow" data-reveal>Common Questions</div><h2 data-reveal="wipe">What buyers ask us</h2></div></div>
         <div class="faq-grid">
-            <div class="faq-item" data-reveal><h3>What chemicals does HA International Chemicals Trading LLC supply?</h3><p>We supply drilling and cementing chemicals, water treatment chemicals, industrial chemicals, and variable frequency drives.</p></div>
-            <div class="faq-item" data-reveal style="--i:1"><h3>Where is HA International Chemicals Trading LLC based?</h3><p>We are based at <?php echo esc_html( HACHEMICALS_ADDRESS ); ?> and supply customers across the UAE and international markets.</p></div>
-            <div class="faq-item" data-reveal style="--i:2"><h3>Which industries does HA International Chemicals serve?</h3><p>We serve construction, oil and gas, water treatment, manufacturing, and general industrial sectors across the UAE.</p></div>
-            <div class="faq-item" data-reveal><h3>Does HA International supply drilling fluid additives?</h3><p>Yes. Our range includes Cenosphere, Barite, Bentonite, Drilling Detergent, Drilling Foam, Drilling Starch, and C.M.C HV.</p></div>
-            <div class="faq-item" data-reveal style="--i:1"><h3>Does HA International supply VFDs and electrical products?</h3><p>Yes. We supply MD290 series variable frequency drives and provide electrical installation and technical services.</p></div>
-            <div class="faq-item" data-reveal style="--i:2"><h3>How do I request a quote?</h3><p>Call <?php echo esc_html( HACHEMICALS_PHONE ); ?>, email <?php echo esc_html( HACHEMICALS_EMAIL ); ?>, or use our quote form with your product and specification details.</p></div>
+            <div class="faq-item" data-reveal><h3>What chemicals does HA International Chemicals Trading LLC supply?</h3><p>We supply drilling and cementing chemicals including Cenosphere, Barite, Bentonite, Drilling Detergent, Drilling Foam, Drilling Starch and C.M.C HV; water treatment chemicals including Ferric Chloride, Aluminium Sulphate and Calcium Chloride; and industrial chemicals including Caustic Soda Prills, Citric Acid, DEA, Butyl Glycol, Biocide, Ammonium Chloride and Ammonium Bisulfite.</p></div>
+            <div class="faq-item" data-reveal style="--i:1"><h3>Where is HA International Chemicals Trading LLC based?</h3><p>We are based at <?php echo esc_html( HACHEMICALS_ADDRESS ); ?>, and supply customers across the UAE and international markets.</p></div>
+            <div class="faq-item" data-reveal style="--i:2"><h3>Which industries does HA International Chemicals serve?</h3><p>We serve construction, oil and gas, water treatment, manufacturing and general industrial sectors across the UAE.</p></div>
+            <div class="faq-item" data-reveal><h3>Does HA International supply drilling fluid additives for oil and gas?</h3><p>Yes. Our oil and gas range includes Cenosphere for lightweight cementing, Barite for weighting drilling fluids, Bentonite, Drilling Detergent, Drilling Foam, Drilling Starch and C.M.C HV.</p></div>
+            <div class="faq-item" data-reveal style="--i:1"><h3>Does HA International supply VFDs and electrical products?</h3><p>Yes. We supply MD290 series variable frequency drives and provide electrical installation, earthing systems, cathodic protection, ELV installation and telecommunication installation services.</p></div>
+            <div class="faq-item" data-reveal style="--i:2"><h3>How do I request a quote from HA International Chemicals?</h3><p>Call <?php echo esc_html( HACHEMICALS_PHONE ); ?>, email <?php echo esc_html( HACHEMICALS_EMAIL ); ?>, or message us on WhatsApp. Tell us the product, quantity and any specification details and we will respond with pricing and availability.</p></div>
         </div>
     </div>
 </section>
@@ -125,4 +125,3 @@ get_template_part(
     )
 );
 get_footer();
-

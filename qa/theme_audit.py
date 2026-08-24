@@ -36,7 +36,7 @@ def build_manifest() -> list[dict[str, str]]:
     posts = load("posts.json")
     entries = [
         {"type": "page", "title": "Home", "wordpress_path": "/", "concept_path": "/index.html"},
-        {"type": "page", "title": "Products", "wordpress_path": "/shop/", "concept_path": "/products.html"},
+        {"type": "page", "title": "Products", "wordpress_path": "/products/", "concept_path": "/products.html"},
         {"type": "page", "title": "VFD & Electrical Products", "wordpress_path": "/electrical-technical-services/", "concept_path": "/electrical-technical-services.html"},
         {"type": "page", "title": "Services", "wordpress_path": "/services/", "concept_path": "/services.html"},
         {"type": "page", "title": "About Us", "wordpress_path": "/about-us/", "concept_path": "/about-us.html"},
@@ -122,4 +122,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
