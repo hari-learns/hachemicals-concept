@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'HACHEMICALS_THEME_VERSION', '1.0.13' );
+define( 'HACHEMICALS_THEME_VERSION', '1.0.14' );
 define( 'HACHEMICALS_PHONE', '+971 50 228 7866' );
 define( 'HACHEMICALS_PHONE_LINK', '+971502287866' );
 define( 'HACHEMICALS_EMAIL', 'sales@hachemicals.com' );

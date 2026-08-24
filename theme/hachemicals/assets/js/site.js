@@ -350,7 +350,7 @@
      rendered markup omits native required semantics. Keep the plugin's AJAX
      and delivery pipeline intact while synchronising labels and constraints.
      ------------------------------------------------------------------ */
-  function initFormAccessibility() {
+  function syncMetFormAccessibility() {
     document.querySelectorAll(".mf-input-wrapper").forEach(function (wrapper) {
       var field = wrapper.querySelector("input:not([type=hidden]), textarea, select");
       var label = wrapper.querySelector("label");
@@ -363,6 +363,14 @@
         label.setAttribute("for", field.id);
       }
     });
+  }
+
+  function initFormAccessibility() {
+    syncMetFormAccessibility();
+    if (!("MutationObserver" in window) || !document.body) return;
+    var observer = new MutationObserver(syncMetFormAccessibility);
+    observer.observe(document.body, { childList: true, subtree: true });
+    setTimeout(function () { observer.disconnect(); }, 10000);
   }
 
   /* ------------------------------------------------------------------ */
