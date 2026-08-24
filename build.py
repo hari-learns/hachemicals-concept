@@ -39,7 +39,7 @@ PHONE = "+971 50 228 7866"
 PHONE_LINK = "+971502287866"
 WHATSAPP = "https://wa.me/971502287866"
 EMAIL = "sales@hachemicals.com"
-ADDRESS = "M02, United Arab Bank Building, Al Danah, Abu Dhabi, UAE"
+ADDRESS = "M01, United Arab Bank Building, Abu Dhabi, United Arab Emirates"
 HOURS = "Mon – Sat, 10:00 – 18:30 (Sunday closed)"
 LOGO = "HA-international-chemical-llc-01-e1709276380617.webp"
 
@@ -77,8 +77,8 @@ FAQS = [
      "Citric Acid, DEA, Butyl Glycol, Biocide, Ammonium Chloride and Ammonium "
      "Bisulfite."),
     ("Where is HA International Chemicals Trading LLC based?",
-     "We are based at M02, United Arab Bank Building, Al Danah, Abu Dhabi, United "
-     "Arab Emirates, and supply customers across the UAE and international markets."),
+     f"We are based at {ADDRESS}, and supply customers across the UAE and "
+     "international markets."),
     ("Which industries does HA International Chemicals serve?",
      "We serve construction, oil and gas, water treatment, manufacturing and "
      "general industrial sectors across the UAE."),
@@ -145,7 +145,7 @@ def base(title, description, body, active="", canonical="", extra_head="", depth
         "foundingDate": "1986",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "M02, United Arab Bank Building, Al Danah",
+            "streetAddress": "M01, United Arab Bank Building",
             "addressLocality": "Abu Dhabi",
             "addressCountry": "AE",
         },
