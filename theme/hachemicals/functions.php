@@ -202,7 +202,21 @@ function hachemicals_product_label( $product ) {
 
 function hachemicals_product_image_url( $product_id, $size = 'large' ) {
     $image = get_the_post_thumbnail_url( $product_id, $size );
-    return $image ?: hachemicals_asset( 'img/placeholder.webp' );
+    if ( $image ) {
+        return $image;
+    }
+
+    // The staging sync omitted this featured-media relationship. Keep the
+    // database untouched and provide the approved HA catalogue asset only when
+    // WordPress has no image of its own.
+    $fallbacks = array(
+        'drilling-strach' => 'drilling-starch-ha.webp',
+    );
+    $slug = get_post_field( 'post_name', $product_id );
+
+    return isset( $fallbacks[ $slug ] )
+        ? hachemicals_asset( 'img/' . $fallbacks[ $slug ] )
+        : hachemicals_asset( 'img/placeholder.webp' );
 }
 
 function hachemicals_post_image_url( $post_id, $size = 'large' ) {

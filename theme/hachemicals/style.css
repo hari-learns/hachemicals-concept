@@ -4,7 +4,7 @@ Theme URI: https://hachemicals.com/
 Description: Production child theme for HA International Chemicals Trading LLC.
 Author: HA International Chemicals Trading LLC
 Template: hello-elementor
-Version: 1.0.17
+Version: 1.0.18
 Text Domain: hachemicals
 Requires at least: 6.6
 Requires PHP: 8.1
@@ -327,12 +327,15 @@ section.tight{padding:60px 0}
 
 /* ---------------------------------------------------------- industries */
 .industry-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:#fff}
-.industry-row div{padding:32px 20px;border-right:1px solid var(--line);text-align:center;transition:background-color .35s var(--ease),transform .35s var(--ease)}
-.industry-row div:last-child{border-right:none}
-@media (hover:hover){.industry-row div:hover{background:var(--green-light)}}
-.industry-row .ic{font-size:30px;margin-bottom:12px;transition:transform .4s var(--ease)}
-@media (hover:hover){.industry-row div:hover .ic{transform:translateY(-4px) scale(1.1)}}
-.industry-row h4{font-size:14.5px;margin:0}
+.industry-card{min-width:0;border-right:1px solid var(--line);text-align:center;background:#fff;overflow:hidden;transition:background-color .35s var(--ease)}
+.industry-card:last-child{border-right:none}
+.industry-card__media{aspect-ratio:8/5;overflow:hidden;background:var(--surface-2)}
+.industry-card__media img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease),filter .35s var(--ease)}
+.industry-card h4{font-size:14.5px;margin:0;padding:20px 16px}
+@media (hover:hover){
+  .industry-card:hover{background:var(--green-light)}
+  .industry-card:hover img{transform:scale(1.045);filter:saturate(1.05)}
+}
 
 /* ---------------------------------------------------------- services */
 .service-item{
@@ -576,8 +579,8 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
   [data-reveal="left"],[data-reveal="right"]{transform:translateY(26px)}
   .grid-4,.grid-3{grid-template-columns:repeat(2,1fr)}
   .industry-row{grid-template-columns:repeat(2,1fr)}
-  .industry-row div:nth-child(-n+2){border-bottom:1px solid var(--line)}
-  .industry-row div:nth-child(2n){border-right:none}
+  .industry-card:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .industry-card:nth-child(2n){border-right:none}
   .pd-grid{grid-template-columns:1fr;gap:36px;padding:40px 0}
   .pd-media{position:static}
   .about-grid{grid-template-columns:1fr;gap:36px}

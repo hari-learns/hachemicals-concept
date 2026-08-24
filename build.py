@@ -106,6 +106,8 @@ def have(name):
 
 
 def product_img(p):
+    if p["slug"] == "drilling-strach" and have("drilling-starch-ha.webp"):
+        return asset("drilling-starch-ha.webp")
     if p["images"]:
         stem = os.path.splitext(re.sub(r"\?.*$", "", p["images"][0].split("/")[-1]))[0]
         if have(stem + ".webp"):
@@ -411,10 +413,10 @@ def build_home():
       </div>
     </div>
     <div class="industry-row" data-reveal>
-      <div><div class="ic">🏗️</div><h4>Construction</h4></div>
-      <div><div class="ic">🛢️</div><h4>Oil &amp; Gas</h4></div>
-      <div><div class="ic">💧</div><h4>Water Treatment</h4></div>
-      <div><div class="ic">⚙️</div><h4>Manufacturing</h4></div>
+      <article class="industry-card"><div class="industry-card__media"><img src="assets/img/sector-construction.webp" alt="UAE construction site with high-rise development and cranes" loading="lazy"></div><h4>Construction</h4></article>
+      <article class="industry-card"><div class="industry-card__media"><img src="assets/img/sector-oil-gas.webp" alt="Modern oil and gas processing facility" loading="lazy"></div><h4>Oil &amp; Gas</h4></article>
+      <article class="industry-card"><div class="industry-card__media"><img src="assets/img/sector-water-treatment.webp" alt="Industrial water treatment and filtration facility" loading="lazy"></div><h4>Water Treatment</h4></article>
+      <article class="industry-card"><div class="industry-card__media"><img src="assets/img/sector-manufacturing.webp" alt="Clean automated manufacturing facility" loading="lazy"></div><h4>Manufacturing</h4></article>
     </div>
   </div>
 </section>
