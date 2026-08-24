@@ -1,0 +1,248 @@
+[
+  {
+    "type": "page",
+    "title": "Home",
+    "wordpress_path": "/",
+    "concept_path": "/index.html"
+  },
+  {
+    "type": "page",
+    "title": "Products",
+    "wordpress_path": "/shop/",
+    "concept_path": "/products.html"
+  },
+  {
+    "type": "page",
+    "title": "VFD & Electrical Products",
+    "wordpress_path": "/electrical-technical-services/",
+    "concept_path": "/electrical-technical-services.html"
+  },
+  {
+    "type": "page",
+    "title": "Services",
+    "wordpress_path": "/services/",
+    "concept_path": "/services.html"
+  },
+  {
+    "type": "page",
+    "title": "About Us",
+    "wordpress_path": "/about-us/",
+    "concept_path": "/about-us.html"
+  },
+  {
+    "type": "page",
+    "title": "Blog",
+    "wordpress_path": "/blog/",
+    "concept_path": "/blog.html"
+  },
+  {
+    "type": "page",
+    "title": "Contact Us",
+    "wordpress_path": "/contact-us/",
+    "concept_path": "/contact-us.html"
+  },
+  {
+    "type": "page",
+    "title": "Free quote",
+    "wordpress_path": "/contact-us/elementor-1264/",
+    "concept_path": "/contact-us.html#quote"
+  },
+  {
+    "type": "product",
+    "title": "Cenosphere",
+    "wordpress_path": "/shop/chemicals/cenosphere/",
+    "concept_path": "/product/cenosphere.html"
+  },
+  {
+    "type": "product",
+    "title": "Drilling Detergent",
+    "wordpress_path": "/shop/chemicals/drilling-detergent/",
+    "concept_path": "/product/drilling-detergent.html"
+  },
+  {
+    "type": "product",
+    "title": "Fly Ash 1.4 ton bag",
+    "wordpress_path": "/shop/chemicals/fly-ash-1-4-ton-bag/",
+    "concept_path": "/product/fly-ash-1-4-ton-bag.html"
+  },
+  {
+    "type": "product",
+    "title": "Ferric chloride",
+    "wordpress_path": "/shop/uncategorized/ferric-chloride/",
+    "concept_path": "/product/ferric-chloride.html"
+  },
+  {
+    "type": "product",
+    "title": "DEA",
+    "wordpress_path": "/shop/chemicals/dea/",
+    "concept_path": "/product/dea.html"
+  },
+  {
+    "type": "product",
+    "title": "Defoam (silicon based )",
+    "wordpress_path": "/shop/chemicals/defoam-silicon-based/",
+    "concept_path": "/product/defoam-silicon-based.html"
+  },
+  {
+    "type": "product",
+    "title": "Drilling Foam",
+    "wordpress_path": "/shop/chemicals/drilling-foam/",
+    "concept_path": "/product/drilling-foam.html"
+  },
+  {
+    "type": "product",
+    "title": "Drilling Starch",
+    "wordpress_path": "/shop/chemicals/drilling-strach/",
+    "concept_path": "/product/drilling-strach.html"
+  },
+  {
+    "type": "product",
+    "title": "C.M.C HV",
+    "wordpress_path": "/shop/chemicals/c-m-c-hv/",
+    "concept_path": "/product/c-m-c-hv.html"
+  },
+  {
+    "type": "product",
+    "title": "Citric Acid",
+    "wordpress_path": "/shop/chemicals/citric-acid/",
+    "concept_path": "/product/citric-acid.html"
+  },
+  {
+    "type": "product",
+    "title": "Calcium Carbonate",
+    "wordpress_path": "/shop/chemicals/calcium-carbonate/",
+    "concept_path": "/product/calcium-carbonate.html"
+  },
+  {
+    "type": "product",
+    "title": "Caustic Soda Prills",
+    "wordpress_path": "/shop/chemicals/caustic-soda-prills/",
+    "concept_path": "/product/caustic-soda-prills.html"
+  },
+  {
+    "type": "product",
+    "title": "Calcium Chloride 77  &#8211; 78 %",
+    "wordpress_path": "/shop/chemicals/calcium-chloride-77-78/",
+    "concept_path": "/product/calcium-chloride-77-78.html"
+  },
+  {
+    "type": "product",
+    "title": "Calcium Chloride 94 &#8211; 97 %",
+    "wordpress_path": "/shop/uncategorized/calcium-chloride-94-97/",
+    "concept_path": "/product/calcium-chloride-94-97.html"
+  },
+  {
+    "type": "product",
+    "title": "Biocide 55 Gallon",
+    "wordpress_path": "/shop/chemicals/biocide-55-gallon/",
+    "concept_path": "/product/biocide-55-gallon.html"
+  },
+  {
+    "type": "product",
+    "title": "Butyl Glycol 55 gallon drum",
+    "wordpress_path": "/shop/chemicals/butyl-glycol-55-gallon-drum/",
+    "concept_path": "/product/butyl-glycol-55-gallon-drum.html"
+  },
+  {
+    "type": "product",
+    "title": "Bentonite  50kg",
+    "wordpress_path": "/shop/chemicals/bentonite-50kg/",
+    "concept_path": "/product/bentonite-50kg.html"
+  },
+  {
+    "type": "product",
+    "title": "BARITE 1500KG BAG",
+    "wordpress_path": "/shop/chemicals/barite-1500kg-bag/",
+    "concept_path": "/product/barite-1500kg-bag.html"
+  },
+  {
+    "type": "product",
+    "title": "Aluminium Sulphate",
+    "wordpress_path": "/shop/chemicals/aluminium-sulphate/",
+    "concept_path": "/product/aluminium-sulphate.html"
+  },
+  {
+    "type": "product",
+    "title": "Ammonium Bisulfite (ABS) 25kg",
+    "wordpress_path": "/shop/chemicals/ammonium-bisulfite-abs-25kg/",
+    "concept_path": "/product/ammonium-bisulfite-abs-25kg.html"
+  },
+  {
+    "type": "product",
+    "title": "Ammonium Chloride ( 25 kg )",
+    "wordpress_path": "/shop/chemicals/ammonium-chloride-25-kg/",
+    "concept_path": "/product/ammonium-chloride-25-kg.html"
+  },
+  {
+    "type": "product",
+    "title": "MD290T2.2G/3.0PB-INT",
+    "wordpress_path": "/shop/vfd/md290t2-2g-3-0pb-int/",
+    "concept_path": "/product/md290t2-2g-3-0pb-int.html"
+  },
+  {
+    "type": "product",
+    "title": "MD290T1.1G/1.5PB-INT",
+    "wordpress_path": "/shop/vfd/md290t1-1g-1-5pb-int/",
+    "concept_path": "/product/md290t1-1g-1-5pb-int.html"
+  },
+  {
+    "type": "product",
+    "title": "VFD MD290T1.5/2.2PB-INT",
+    "wordpress_path": "/shop/vfd/vfd-md290t1-5-2-2pb-int/",
+    "concept_path": "/product/vfd-md290t1-5-2-2pb-int.html"
+  },
+  {
+    "type": "product",
+    "title": "VFD MD290T3.0G/3.7PB-INT",
+    "wordpress_path": "/shop/vfd/vfd-md290t3-0g-3-7pb-int/",
+    "concept_path": "/product/vfd-md290t3-0g-3-7pb-int.html"
+  },
+  {
+    "type": "product",
+    "title": "VFD MD290T0.4G/0.7PB-INT",
+    "wordpress_path": "/shop/vfd/vfd-md290t0-4g-0-7pb-int/",
+    "concept_path": "/product/vfd-md290t0-4g-0-7pb-int.html"
+  },
+  {
+    "type": "article",
+    "title": "Variable Frequency Drive (VFD) Suppliers in UAE | Complete Guide",
+    "wordpress_path": "/variable-frequency-drive-vfd-suppliers-in-uae-complete-guide/",
+    "concept_path": "/blog/variable-frequency-drive-vfd-suppliers-in-uae-complete-guide.html"
+  },
+  {
+    "type": "article",
+    "title": "Defoamer Supplier in UAE – Uses, Benefits & Applications",
+    "wordpress_path": "/defoamer-supplier-in-uae-uses-benefits-applications/",
+    "concept_path": "/blog/defoamer-supplier-in-uae-uses-benefits-applications.html"
+  },
+  {
+    "type": "article",
+    "title": "Biocide Supplier in UAE – Uses, Benefits & Applications",
+    "wordpress_path": "/biocide-supplier-in-uae-uses-benefits-applications/",
+    "concept_path": "/blog/biocide-supplier-in-uae-uses-benefits-applications.html"
+  },
+  {
+    "type": "article",
+    "title": "Citric Acid Supplier in UAE – Uses, Benefits & Applications",
+    "wordpress_path": "/citric-acid-supplier-in-uae-uses-benefits-applications/",
+    "concept_path": "/blog/citric-acid-supplier-in-uae-uses-benefits-applications.html"
+  },
+  {
+    "type": "article",
+    "title": "Cenosphere Supplier in UAE – Uses, Benefits & Applications",
+    "wordpress_path": "/cenosphere-supplier-in-uae-uses-benefits-applications/",
+    "concept_path": "/blog/cenosphere-supplier-in-uae-uses-benefits-applications.html"
+  },
+  {
+    "type": "article",
+    "title": "Microsilica Supplier in UAE – Uses, Benefits & Applications",
+    "wordpress_path": "/microsilica-supplier-in-uae-uses-benefits-applications/",
+    "concept_path": "/blog/microsilica-supplier-in-uae-uses-benefits-applications.html"
+  },
+  {
+    "type": "article",
+    "title": "Fly Ash Supplier in UAE – Uses, Benefits & Applications",
+    "wordpress_path": "/fly-ash-supplier-uae/",
+    "concept_path": "/blog/fly-ash-supplier-uae.html"
+  }
+]

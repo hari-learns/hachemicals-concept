@@ -39,7 +39,7 @@ PHONE = "+971 50 228 7866"
 PHONE_LINK = "+971502287866"
 WHATSAPP = "https://wa.me/971502287866"
 EMAIL = "sales@hachemicals.com"
-ADDRESS = "M01, United Arab Bank Building, Abu Dhabi, United Arab Emirates"
+ADDRESS = "M02, United Arab Bank Building, Al Danah, Abu Dhabi, United Arab Emirates"
 HOURS = "Mon – Sat, 10:00 – 18:30 (Sunday closed)"
 LOGO = "HA-international-chemical-llc-01-e1709276380617.webp"
 
@@ -145,7 +145,7 @@ def base(title, description, body, active="", canonical="", extra_head="", depth
         "foundingDate": "1986",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "M01, United Arab Bank Building",
+            "streetAddress": "M02, United Arab Bank Building, Al Danah",
             "addressLocality": "Abu Dhabi",
             "addressCountry": "AE",
         },

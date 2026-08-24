@@ -1,0 +1,24 @@
+<?php
+/** Existing public Free Quote page, backed by WPForms form 1265. */
+get_header();
+?>
+<section class="page-hero"><div class="wrap"><div class="eyebrow on-dark">We Trade You Gain</div><h1>Free quote</h1><p>Tell us what you need and our team will respond with pricing and availability.</p></div></section>
+<section><div class="wrap contact-grid">
+    <div>
+        <div class="eyebrow" data-reveal>Why us?</div>
+        <h2 data-reveal="wipe">Reliable chemical and electrical supply</h2>
+        <p class="lede" data-reveal style="--i:1">At HA Chemicals International, we prioritize quality and reliability in chemical trading. Our team ensures timely deliveries of a wide range of chemicals tailored to your needs. By focusing on efficient logistics and exceptional service, we make sure you have the right materials when it matters most.</p>
+        <div class="contact-card" data-reveal style="--i:2"><h4>Direct support</h4><a href="tel:<?php echo esc_attr( HACHEMICALS_PHONE_LINK ); ?>"><?php echo esc_html( HACHEMICALS_PHONE ); ?></a></div>
+        <div class="contact-card" data-reveal style="--i:3"><h4>Email</h4><a href="mailto:<?php echo esc_attr( HACHEMICALS_EMAIL ); ?>"><?php echo esc_html( HACHEMICALS_EMAIL ); ?></a></div>
+    </div>
+    <div class="hachemicals-form-shell" data-reveal="right">
+        <h2>Products</h2>
+        <?php if ( shortcode_exists( 'wpforms' ) ) : ?>
+            <?php echo do_shortcode( '[wpforms id="1265" title="false"]' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
+            <p class="form-unavailable">The quote form is temporarily unavailable. Email <a href="mailto:<?php echo esc_attr( HACHEMICALS_EMAIL ); ?>"><?php echo esc_html( HACHEMICALS_EMAIL ); ?></a> or call <?php echo esc_html( HACHEMICALS_PHONE ); ?>.</p>
+        <?php endif; ?>
+    </div>
+</div></section>
+<?php get_footer(); ?>
+

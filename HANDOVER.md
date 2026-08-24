@@ -17,8 +17,8 @@ Verified on the current production build:
 
 | Check | Result |
 |---|---|
-| Pages generated | 34 (8 top-level + 26 products) |
-| JSON-LD blocks | 87 valid, 0 invalid — Organization ×34, Product ×26, BreadcrumbList ×26, FAQPage ×1 |
+| Pages generated | 41 (8 top-level + 26 products + 7 articles) |
+| JSON-LD blocks | 108 valid, 0 invalid — Organization ×41, Product ×26, BlogPosting ×7, BreadcrumbList ×33, FAQPage ×1 |
 | Titles / descriptions | unique on every page, no duplicates |
 | Headings | exactly one `<h1>` per page |
 | Images | `alt` on every image; 67 MB → 2 MB as WebP |
@@ -26,7 +26,7 @@ Verified on the current production build:
 | Responsive | no horizontal overflow at 320 / 375 / 768 / 1280 / 1440 |
 | Source junk | pasted styling, leaked forms and the broken payment link all stripped |
 | `robots.txt` | allows Googlebot, Bingbot, GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot |
-| `sitemap.xml` / `llms.txt` | generated, 33 URLs |
+| `sitemap.xml` / `llms.txt` | generated, 40 indexable URLs (404 intentionally excluded) |
 
 **On greenlight:** run `python3 build.py --production`, then work the go-live
 checklist below.

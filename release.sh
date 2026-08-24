@@ -36,8 +36,8 @@ grep -q '^Sitemap: https://hachemicals.com/sitemap.xml' "$OUT/robots.txt" \
   || { echo "  FAIL: robots.txt missing sitemap line"; fail=1; }
 grep -q 'Disallow: /' "$OUT/robots.txt" \
   && { echo "  FAIL: robots.txt still blocking crawlers"; fail=1; }
-[ "$(grep -c '<loc>' "$OUT/sitemap.xml")" -eq 33 ] \
-  || { echo "  FAIL: expected 33 sitemap URLs"; fail=1; }
+[ "$(grep -c '<loc>' "$OUT/sitemap.xml")" -eq 40 ] \
+  || { echo "  FAIL: expected 40 sitemap URLs"; fail=1; }
 grep -q 'noindex' "docs/index.html" \
   || { echo "  FAIL: docs/ is not noindex — do not push"; fail=1; }
 
