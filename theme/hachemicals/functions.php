@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'HACHEMICALS_THEME_VERSION', '1.0.16' );
+define( 'HACHEMICALS_THEME_VERSION', '1.0.17' );
 define( 'HACHEMICALS_PHONE', '+971 50 228 7866' );
 define( 'HACHEMICALS_PHONE_LINK', '+971502287866' );
 define( 'HACHEMICALS_EMAIL', 'sales@hachemicals.com' );
@@ -93,17 +93,18 @@ add_action( 'wp_enqueue_scripts', 'hachemicals_enqueue_assets', 30 );
  * Elementor still sees the stored Canvas assignments on redesigned pages and
  * enqueues its public runtime even though the child theme owns the template.
  * That runtime expects Elementor's Canvas bootstrap data and throws before our
- * page script runs. Keep it on the two shortcode-backed form routes, where the
- * form plugins may depend on Elementor, and remove it from native routes.
+ * page script runs. Keep it only on the MetForm-backed Contact route, whose
+ * widget rendering depends on Elementor, and remove it from native routes.
  */
 function hachemicals_native_route_skips_elementor() {
-    if ( is_admin() || is_page( array( 'contact-us', 'elementor-1264' ) ) ) {
+    if ( is_admin() || is_page( 'contact-us' ) ) {
         return false;
     }
 
     return is_front_page()
         || is_home()
         || is_404()
+        || is_page( 'elementor-1264' )
         || is_singular( array( 'post', 'product' ) )
         || is_post_type_archive( 'product' )
         || ( function_exists( 'is_shop' ) && is_shop() )
