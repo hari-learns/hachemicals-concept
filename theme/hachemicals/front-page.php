@@ -4,9 +4,9 @@ get_header();
 $featured = hachemicals_get_products( 'chemical', 8 );
 $all      = hachemicals_get_products();
 $installation_capabilities = array(
-    'Electrical Equipment Installation',
-    'Earthing & Cathodic Protection',
-    'ELV & Telecommunication Installation',
+    array( 'label' => 'Electrical Equipment Installation', 'image' => 'installation-electrical.webp' ),
+    array( 'label' => 'Earthing & Cathodic Protection', 'image' => 'installation-earthing-cathodic.webp' ),
+    array( 'label' => 'ELV & Telecommunication Installation', 'image' => 'installation-elv-telecom.webp' ),
 );
 ?>
 <section class="hero">
@@ -76,9 +76,12 @@ $installation_capabilities = array(
 <section class="bg-navy">
     <div class="wrap">
         <div class="section-head"><div><div class="eyebrow on-dark" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical equipment installation</h2></div></div>
-        <div class="counter-row">
+        <div class="installation-grid">
             <?php foreach ( $installation_capabilities as $index => $capability ) : ?>
-                <div data-reveal style="--i:<?php echo esc_attr( $index ); ?>"><b aria-hidden="true"><?php echo esc_html( sprintf( '%02d', $index + 1 ) ); ?></b><span><?php echo esc_html( $capability ); ?></span></div>
+                <article class="installation-card" data-reveal style="--i:<?php echo esc_attr( $index ); ?>">
+                    <img src="<?php echo esc_url( hachemicals_asset( 'img/' . $capability['image'] ) ); ?>" alt="" loading="lazy" aria-hidden="true">
+                    <h3><?php echo esc_html( $capability['label'] ); ?></h3>
+                </article>
             <?php endforeach; ?>
         </div>
     </div>

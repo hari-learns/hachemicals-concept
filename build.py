@@ -355,8 +355,8 @@ def build_home():
         for n, s in enumerate(HERO_SLIDES) if have(s)
     )
     installation_capabilities = "".join(
-        f'<div data-reveal style="--i:{n}"><b aria-hidden="true">{n + 1:02d}</b><span>{label}</span></div>'
-        for n, label in enumerate(CONTENT["installation_capabilities"])
+        f'<article class="installation-card" data-reveal style="--i:{n}"><img src="{asset(item["image"])}" alt="" loading="lazy" aria-hidden="true"><h3>{item["label"]}</h3></article>'
+        for n, item in enumerate(CONTENT["installation_capabilities"])
     )
 
     body = f"""
@@ -436,7 +436,7 @@ def build_home():
         <h2 data-reveal="wipe">Electromechanical equipment installation</h2>
       </div>
     </div>
-    <div class="counter-row">{installation_capabilities}</div>
+    <div class="installation-grid">{installation_capabilities}</div>
   </div>
 </section>
 
@@ -674,8 +674,8 @@ def build_about():
         for n, f in enumerate(FACILITY_PHOTOS) if have(f)
     )
     installation_capabilities = "".join(
-        f'<div data-reveal style="--i:{n}"><b aria-hidden="true">{n + 1:02d}</b><span>{label}</span></div>'
-        for n, label in enumerate(CONTENT["installation_capabilities"])
+        f'<article class="installation-card" data-reveal style="--i:{n}"><img src="{asset(item["image"])}" alt="" loading="lazy" aria-hidden="true"><h3>{item["label"]}</h3></article>'
+        for n, item in enumerate(CONTENT["installation_capabilities"])
     )
     body = f"""
 <section class="page-hero">
@@ -708,7 +708,7 @@ def build_about():
     <div class="section-head">
       <div><div class="eyebrow on-dark" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical equipment installation</h2></div>
     </div>
-    <div class="counter-row">{installation_capabilities}</div>
+    <div class="installation-grid">{installation_capabilities}</div>
   </div>
 </section>
 

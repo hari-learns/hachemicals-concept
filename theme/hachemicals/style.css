@@ -4,7 +4,7 @@ Theme URI: https://hachemicals.com/
 Description: Production child theme for HA International Chemicals Trading LLC.
 Author: HA International Chemicals Trading LLC
 Template: hello-elementor
-Version: 1.0.19
+Version: 1.0.20
 Text Domain: hachemicals
 Requires at least: 6.6
 Requires PHP: 8.1
@@ -318,6 +318,14 @@ section.tight{padding:60px 0}
 .bg-navy .counter-row b{color:#fff}
 .bg-navy .counter-row span{color:#A9B2C0}
 
+/* installation capability artwork */
+.installation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-lg);overflow:hidden}
+.installation-card{position:relative;min-width:0;min-height:360px;background:var(--navy-3);overflow:hidden;isolation:isolate}
+.installation-card::after{content:"";position:absolute;inset:42% 0 0;background:linear-gradient(180deg,transparent 0%,rgba(7,18,35,.6) 52%,rgba(7,18,35,.98) 100%);z-index:1;pointer-events:none}
+.installation-card img{position:absolute;inset:18px 18px 54px;width:calc(100% - 36px);height:calc(100% - 72px);object-fit:contain;filter:drop-shadow(0 18px 26px rgba(0,0,0,.24));transition:transform .55s var(--ease),filter .35s var(--ease)}
+.installation-card h3{position:absolute;left:0;right:0;bottom:0;z-index:2;margin:0;padding:76px 24px 24px;color:#fff;font-size:clamp(17px,1.55vw,22px);line-height:1.2;text-align:left}
+@media (hover:hover){.installation-card:hover img{transform:translateY(-5px) scale(1.035);filter:drop-shadow(0 22px 30px rgba(0,0,0,.3))}}
+
 /* progress bars */
 .progress{margin-bottom:26px}
 .progress__top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;margin-bottom:9px;letter-spacing:.05em}
@@ -623,6 +631,8 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
   .grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
   .faq-grid{grid-template-columns:1fr}
   .counter-row{grid-template-columns:1fr}
+  .installation-grid{grid-template-columns:1fr}
+  .installation-card{min-height:320px}
   .photo-strip{grid-template-columns:repeat(2,1fr)}
   .form-row{grid-template-columns:1fr}
   footer.site .fgrid{grid-template-columns:1fr;gap:30px}

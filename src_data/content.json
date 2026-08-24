@@ -41,9 +41,18 @@
     "lede": "At HA International Chemicals Trading LLC, we offer a wide selection of high-quality chemicals suitable for many industries. From industrial solutions to specialty products, our range is crafted to enhance your operations and fuel your success."
   },
   "installation_capabilities": [
-    "Electrical Equipment Installation",
-    "Earthing & Cathodic Protection",
-    "ELV & Telecommunication Installation"
+    {
+      "label": "Electrical Equipment Installation",
+      "image": "installation-electrical.webp"
+    },
+    {
+      "label": "Earthing & Cathodic Protection",
+      "image": "installation-earthing-cathodic.webp"
+    },
+    {
+      "label": "ELV & Telecommunication Installation",
+      "image": "installation-elv-telecom.webp"
+    }
   ],
   "years_experience": 38
 }
