@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'HACHEMICALS_THEME_VERSION', '1.0.15' );
+define( 'HACHEMICALS_THEME_VERSION', '1.0.16' );
 define( 'HACHEMICALS_PHONE', '+971 50 228 7866' );
 define( 'HACHEMICALS_PHONE_LINK', '+971502287866' );
 define( 'HACHEMICALS_EMAIL', 'sales@hachemicals.com' );
@@ -281,18 +281,30 @@ function hachemicals_clean_rich_content( $html ) {
 }
 
 /**
- * Prefer the full WooCommerce catalogue record and use the summary only when
- * no substantive full description survives legacy-form cleanup.
+ * Preserve WooCommerce summary and full-description copy without repeating a
+ * summary that is already contained in the full catalogue record.
  */
 function hachemicals_product_copy( $product ) {
     if ( ! $product instanceof WC_Product ) {
         return '';
     }
+    $short       = hachemicals_clean_rich_content( $product->get_short_description() );
     $description = hachemicals_clean_rich_content( $product->get_description() );
-    if ( '' !== trim( wp_strip_all_tags( $description ) ) ) {
+    $short_text  = strtolower( preg_replace( '/\s+/u', ' ', trim( wp_strip_all_tags( $short ) ) ) );
+    $full_text   = strtolower( preg_replace( '/\s+/u', ' ', trim( wp_strip_all_tags( $description ) ) ) );
+    if ( '' === $short_text ) {
         return $description;
     }
-    return hachemicals_clean_rich_content( $product->get_short_description() );
+    if ( '' === $full_text ) {
+        return $short;
+    }
+    if ( false !== strpos( $full_text, $short_text ) ) {
+        return $description;
+    }
+    if ( false !== strpos( $short_text, $full_text ) ) {
+        return $short;
+    }
+    return wp_kses_post( $short . $description );
 }
 
 function hachemicals_primary_navigation_fallback() {
