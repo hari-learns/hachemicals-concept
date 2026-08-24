@@ -40,29 +40,10 @@
     "heading": "Innovative Solutions to Meet Every Need",
     "lede": "At HA International Chemicals Trading LLC, we offer a wide selection of high-quality chemicals suitable for many industries. From industrial solutions to specialty products, our range is crafted to enhance your operations and fuel your success."
   },
-  "counters": [
-    {
-      "label": "Chain of Factories",
-      "value": 176
-    },
-    {
-      "label": "Projects Completed",
-      "value": 800
-    },
-    {
-      "label": "Expert Engineers",
-      "value": 230
-    }
-  ],
-  "progress": [
-    {
-      "label": "Construction",
-      "value": 78
-    },
-    {
-      "label": "Building",
-      "value": 36
-    }
+  "installation_capabilities": [
+    "Electrical Equipment Installation",
+    "Earthing & Cathodic Protection",
+    "ELV & Telecommunication Installation"
   ],
   "years_experience": 38
 }

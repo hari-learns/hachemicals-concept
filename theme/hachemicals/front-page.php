@@ -3,10 +3,10 @@
 get_header();
 $featured = hachemicals_get_products( 'chemical', 8 );
 $all      = hachemicals_get_products();
-$counters = array(
-    array( 'label' => 'Chain of Factories', 'value' => 176 ),
-    array( 'label' => 'Projects Completed', 'value' => 800 ),
-    array( 'label' => 'Expert Engineers', 'value' => 230 ),
+$installation_capabilities = array(
+    'Electrical Equipment Installation',
+    'Earthing & Cathodic Protection',
+    'ELV & Telecommunication Installation',
 );
 ?>
 <section class="hero">
@@ -68,10 +68,6 @@ $counters = array(
             <h2 data-reveal="wipe">The Best Prices For You</h2>
             <p class="lede" data-reveal style="--i:1">HA International Chemicals Trading LLC is a leading chemical trading company in the UAE, specializing in the supply and distribution of high-quality industrial chemicals, specialty chemicals, and electrical products for diverse industries.</p>
             <p class="lede" data-reveal style="--i:2">With 38 years of experience, we have built a strong reputation for reliability, quality, and customer satisfaction, serving businesses across the UAE and international markets. Our commitment to excellence, timely delivery, and competitive pricing makes us a trusted partner for construction, manufacturing, water treatment, oil &amp; gas, and industrial sectors. We deliver premium products and dependable solutions tailored to meet modern industry demands.</p>
-            <div style="margin-top:34px">
-                <div class="progress" data-reveal data-progress="78"><div class="progress__top"><span>Construction</span><span data-progress-num>0%</span></div><div class="progress__track"><div class="progress__fill"></div></div></div>
-                <div class="progress" data-reveal data-progress="36" style="--i:1"><div class="progress__top"><span>Building</span><span data-progress-num>0%</span></div><div class="progress__track"><div class="progress__fill"></div></div></div>
-            </div>
         </div>
         <div class="shot" data-reveal="right"><img src="<?php echo esc_url( hachemicals_asset( 'img/img_bg_business_Home01-STE4HQX-e1686194116880.webp' ) ); ?>" alt="HA International Chemicals operations" loading="lazy"></div>
     </div>
@@ -79,10 +75,10 @@ $counters = array(
 
 <section class="bg-navy">
     <div class="wrap">
-        <div class="section-head"><div><div class="eyebrow on-dark" data-reveal>Industry Achievements</div><h2 data-reveal="wipe">Best construction &amp; building business</h2></div></div>
+        <div class="section-head"><div><div class="eyebrow on-dark" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical equipment installation</h2></div></div>
         <div class="counter-row">
-            <?php foreach ( $counters as $index => $counter ) : ?>
-                <div data-reveal style="--i:<?php echo esc_attr( $index ); ?>"><b data-count="<?php echo esc_attr( $counter['value'] ); ?>">0</b><span><?php echo esc_html( $counter['label'] ); ?></span></div>
+            <?php foreach ( $installation_capabilities as $index => $capability ) : ?>
+                <div data-reveal style="--i:<?php echo esc_attr( $index ); ?>"><b aria-hidden="true"><?php echo esc_html( sprintf( '%02d', $index + 1 ) ); ?></b><span><?php echo esc_html( $capability ); ?></span></div>
             <?php endforeach; ?>
         </div>
     </div>

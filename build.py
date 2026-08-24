@@ -354,16 +354,9 @@ def build_home():
         f'<button class="{"is-active" if n == 0 else ""}" aria-label="Slide {n+1}"></button>'
         for n, s in enumerate(HERO_SLIDES) if have(s)
     )
-    counters = "".join(
-        f'<div data-reveal style="--i:{n}"><b data-count="{c["value"]}">0</b><span>{c["label"]}</span></div>'
-        for n, c in enumerate(CONTENT["counters"])
-    )
-    bars = "".join(
-        f"""<div class="progress" data-reveal data-progress="{b['value']}" style="--i:{n}">
-      <div class="progress__top"><span>{b['label']}</span><span data-progress-num>0%</span></div>
-      <div class="progress__track"><div class="progress__fill"></div></div>
-    </div>"""
-        for n, b in enumerate(CONTENT["progress"])
+    installation_capabilities = "".join(
+        f'<div data-reveal style="--i:{n}"><b aria-hidden="true">{n + 1:02d}</b><span>{label}</span></div>'
+        for n, label in enumerate(CONTENT["installation_capabilities"])
     )
 
     body = f"""
@@ -428,7 +421,6 @@ def build_home():
       <h2 data-reveal="wipe">The Best Prices For You</h2>
       <p class="lede" data-reveal style="--i:1">HA International Chemicals Trading LLC is a leading chemical trading company in the UAE, specializing in the supply and distribution of high-quality industrial chemicals, specialty chemicals, and electrical products for diverse industries.</p>
       <p class="lede" data-reveal style="--i:2">With 38 years of experience, we have built a strong reputation for reliability, quality, and customer satisfaction, serving businesses across the UAE and international markets. Our commitment to excellence, timely delivery, and competitive pricing makes us a trusted partner for construction, manufacturing, water treatment, oil &amp; gas, and industrial sectors. We deliver premium products and dependable solutions tailored to meet modern industry demands.</p>
-      <div style="margin-top:34px">{bars}</div>
     </div>
     <div class="shot" data-reveal="right">
       <img src="{asset('img_bg_business_Home01-STE4HQX-e1686194116880.webp')}" alt="HA International Chemicals operations" loading="lazy">
@@ -440,11 +432,11 @@ def build_home():
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="eyebrow on-dark" data-reveal>Industry Achievements</div>
-        <h2 data-reveal="wipe">Best construction &amp; building business</h2>
+        <div class="eyebrow on-dark" data-reveal>Installation Capabilities</div>
+        <h2 data-reveal="wipe">Electromechanical equipment installation</h2>
       </div>
     </div>
-    <div class="counter-row">{counters}</div>
+    <div class="counter-row">{installation_capabilities}</div>
   </div>
 </section>
 
@@ -681,9 +673,9 @@ def build_about():
         f'<figure data-reveal="scale" style="--i:{n}"><img src="{asset(f)}" alt="HA International Chemicals facility" loading="lazy"></figure>'
         for n, f in enumerate(FACILITY_PHOTOS) if have(f)
     )
-    counters = "".join(
-        f'<div data-reveal style="--i:{n}"><b data-count="{c["value"]}">0</b><span>{c["label"]}</span></div>'
-        for n, c in enumerate(CONTENT["counters"])
+    installation_capabilities = "".join(
+        f'<div data-reveal style="--i:{n}"><b aria-hidden="true">{n + 1:02d}</b><span>{label}</span></div>'
+        for n, label in enumerate(CONTENT["installation_capabilities"])
     )
     body = f"""
 <section class="page-hero">
@@ -697,7 +689,7 @@ def build_about():
   <div class="wrap about-grid">
     <div>
       <div class="eyebrow" data-reveal>Get to Know HA International</div>
-      <h2 data-reveal="wipe">The best industry &amp; factory business</h2>
+      <h2 data-reveal="wipe">Chemical supply and electromechanical expertise</h2>
       <h4 data-reveal style="--i:1;font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;color:var(--grey);text-transform:uppercase">Committed to providing our customers with exceptional product and service.</h4>
       <p class="lede" data-reveal style="--i:2">Your trusted partner in the world of chemicals, engineering products and services. Under the patronage of <strong>Mr. Adel Saif Amer Hasan Aljaberi</strong>, with a legacy of excellence and innovation spanning over 4 decades, we are committed to delivering superior solutions to meet the dynamic needs of industries in the region.</p>
       <p class="lede" data-reveal style="--i:3">We understand that the journey to this ideal future is multifaceted, requiring dedication, vision, and a clear sense of direction. At HA International Chemicals Trading LLC, we strive to stay at the forefront of technological advancements while nurturing a deep-rooted sense of responsibility towards our planet. We are acutely aware that progress is not merely measured in profit margins but in the positive change we bring to our world.</p>
@@ -714,9 +706,9 @@ def build_about():
 <section class="bg-navy">
   <div class="wrap">
     <div class="section-head">
-      <div><div class="eyebrow on-dark" data-reveal>Industry Achievements</div><h2 data-reveal="wipe">Quality, affordable, manufacturing and industrial services</h2></div>
+      <div><div class="eyebrow on-dark" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical equipment installation</h2></div>
     </div>
-    <div class="counter-row">{counters}</div>
+    <div class="counter-row">{installation_capabilities}</div>
   </div>
 </section>
 
