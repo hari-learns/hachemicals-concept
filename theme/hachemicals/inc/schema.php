@@ -185,7 +185,7 @@ function hachemicals_context_schema() {
             'category'    => hachemicals_product_label( $product ),
             'image'       => hachemicals_product_image_url( $product->get_id(), 'full' ),
             'brand'       => array( '@type' => 'Organization', 'name' => 'HA International Chemicals Trading LLC' ),
-            'description' => wp_trim_words( wp_strip_all_tags( $product->get_short_description() . ' ' . $product->get_description() ), 70, '' ),
+            'description' => wp_trim_words( wp_strip_all_tags( hachemicals_product_copy( $product ) ), 70, '' ),
             'url'         => get_permalink( $product->get_id() ),
         );
     }

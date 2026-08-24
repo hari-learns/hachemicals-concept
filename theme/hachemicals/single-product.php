@@ -9,7 +9,7 @@ while ( have_posts() ) :
         continue;
     }
     $name = hachemicals_display_title( $product->get_name() );
-    $copy = hachemicals_clean_rich_content( $product->get_short_description() . $product->get_description() );
+    $copy = hachemicals_product_copy( $product );
     $related = hachemicals_get_products( hachemicals_product_is_vfd( $product ) ? 'vfd' : 'chemical', 4, array( $product->get_id() ) );
     ?>
     <div class="breadcrumb"><div class="wrap"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> / <a href="<?php echo esc_url( hachemicals_shop_url() ); ?>">Products</a> / <?php echo esc_html( $name ); ?></div></div>
@@ -40,4 +40,3 @@ while ( have_posts() ) :
     <?php endif; ?>
 <?php endwhile; ?>
 <?php get_footer(); ?>
-

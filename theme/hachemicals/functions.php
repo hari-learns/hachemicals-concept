@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'HACHEMICALS_THEME_VERSION', '1.0.14' );
+define( 'HACHEMICALS_THEME_VERSION', '1.0.15' );
 define( 'HACHEMICALS_PHONE', '+971 50 228 7866' );
 define( 'HACHEMICALS_PHONE_LINK', '+971502287866' );
 define( 'HACHEMICALS_EMAIL', 'sales@hachemicals.com' );
@@ -274,9 +274,25 @@ function hachemicals_clean_rich_content( $html ) {
 
     $output = preg_replace( '/<table class="spec-table">/i', '<div class="table-scroll"><table class="spec-table">', $output );
     $output = preg_replace( '/<\/table>/i', '</table></div>', $output );
+    $output = preg_replace( '/(?:✅|✔️?|🔹)\s*/u', '', $output );
     $output = preg_replace( '/^[\s\x{00A0}]+|[\s\x{00A0}]+$/u', '', $output );
 
     return wp_kses_post( $output );
+}
+
+/**
+ * Prefer the full WooCommerce catalogue record and use the summary only when
+ * no substantive full description survives legacy-form cleanup.
+ */
+function hachemicals_product_copy( $product ) {
+    if ( ! $product instanceof WC_Product ) {
+        return '';
+    }
+    $description = hachemicals_clean_rich_content( $product->get_description() );
+    if ( '' !== trim( wp_strip_all_tags( $description ) ) ) {
+        return $description;
+    }
+    return hachemicals_clean_rich_content( $product->get_short_description() );
 }
 
 function hachemicals_primary_navigation_fallback() {
