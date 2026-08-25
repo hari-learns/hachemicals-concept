@@ -4,7 +4,7 @@ Theme URI: https://hachemicals.com/
 Description: Production child theme for HA International Chemicals Trading LLC.
 Author: HA International Chemicals Trading LLC
 Template: hello-elementor
-Version: 1.0.23
+Version: 1.0.25
 Text Domain: hachemicals
 Requires at least: 6.6
 Requires PHP: 8.1
@@ -263,7 +263,16 @@ nav.main a.active{color:var(--green)}
 section{padding:96px 0}
 section.tight{padding:60px 0}
 .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;margin-bottom:48px;flex-wrap:wrap}
-.section-head h2{font-size:clamp(28px,3.6vw,42px);max-width:20ch;margin:0}
+.section-head h2{font-size:clamp(28px,3.6vw,42px);max-width:28ch;margin:0}
+/* Section headings use a restrained measure. "Electromechanical equipment
+   installation" is longer than that and broke across two lines. It needs 820px
+   at 42px while the container offers 1192px, so lifting the cap seats it on one
+   line. Deliberately not white-space:nowrap — raising the cap cannot overflow,
+   whereas nowrap would force overflow if the container ever narrowed. Below
+   1024px the cap stays, where the measure still does useful work. */
+@media (min-width:1024px){
+  .section-head--wide h2{max-width:none}
+}
 .section-head p{color:var(--grey);max-width:46ch;margin:0}
 .bg-surface{background:var(--surface)}
 .bg-navy{background:var(--navy);color:#fff}
@@ -354,9 +363,8 @@ section.tight{padding:60px 0}
 .installation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-lg);overflow:hidden}
 .installation-card{position:relative;min-width:0;min-height:360px;background:var(--navy-3);overflow:hidden;isolation:isolate}
 .installation-card::after{content:"";position:absolute;inset:42% 0 0;background:linear-gradient(180deg,transparent 0%,rgba(7,18,35,.6) 52%,rgba(7,18,35,.98) 100%);z-index:1;pointer-events:none}
-.installation-card img{position:absolute;inset:18px 18px 54px;width:calc(100% - 36px);height:calc(100% - 72px);object-fit:contain;filter:drop-shadow(0 18px 26px rgba(0,0,0,.24));transition:transform .55s var(--ease),filter .35s var(--ease)}
+.installation-card img{position:absolute;inset:18px 18px 54px;width:calc(100% - 36px);height:calc(100% - 72px);object-fit:contain;filter:drop-shadow(0 18px 26px rgba(0,0,0,.24))}
 .installation-card h3{position:absolute;left:0;right:0;bottom:0;z-index:2;margin:0;padding:76px 24px 24px;color:#fff;font-size:clamp(17px,1.55vw,22px);line-height:1.2;text-align:left}
-@media (hover:hover){.installation-card:hover img{transform:translateY(-5px) scale(1.035);filter:drop-shadow(0 22px 30px rgba(0,0,0,.3))}}
 
 /* progress bars */
 .progress{margin-bottom:26px}
@@ -380,24 +388,20 @@ section.tight{padding:60px 0}
 
 /* ---------------------------------------------------------- services */
 .service-item{
-  display:grid;grid-template-columns:64px 1fr;gap:22px;padding:34px 0;
-  border-bottom:1px solid var(--line);transition:padding-left .4s var(--ease);
+  display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);
+  align-items:center;gap:clamp(36px,5vw,72px);padding:68px 0;border-bottom:1px solid var(--line);
 }
-.service-item:first-child{padding-top:0}
-@media (hover:hover){.service-item:hover{padding-left:10px}}
+.service-item:first-of-type{padding-top:18px}
+.service-item__copy{display:grid;grid-template-columns:52px minmax(0,1fr);gap:20px;min-width:0}
+.service-item--media-left .service-item__media{order:-1}
 .service-item .ic{font-family:var(--mono);color:var(--green);font-size:14px;font-weight:600;padding-top:4px}
 .service-item h3{margin-bottom:12px;font-size:22px}
-.service-item p{margin:0 0 .9em;color:var(--grey);font-size:15px;max-width:72ch}
+.service-item p{margin:0 0 .9em;color:var(--grey);font-size:15px;max-width:68ch}
 .service-item p:last-child{margin-bottom:0}
-.services-showcase{position:relative;isolation:isolate;overflow:hidden;background:#fff}
-.services-showcase::after{
-  content:"";position:absolute;z-index:0;right:0;bottom:0;width:min(36vw,520px);height:100%;
-  background:url('/wp-content/uploads/2025/05/october-2018-building-construction-skyscrapers-dubai1.jpg') right bottom/100% auto no-repeat;
-  opacity:.88;pointer-events:none;
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 26%);
-  mask-image:linear-gradient(to right,transparent 0%,#000 26%);
-}
-.services-showcase .wrap{position:relative;z-index:1;max-width:1240px;padding-right:min(38vw,548px)}
+.service-item__media{margin:0;aspect-ratio:4/3;overflow:hidden;border-radius:var(--radius-lg);background:var(--surface);box-shadow:0 20px 55px -38px rgba(19,34,60,.55)}
+.service-item__media img{width:100%;height:100%;object-fit:cover}
+.services-showcase{background:#fff}
+.services-showcase .wrap{max-width:1240px}
 
 /* ---------------------------------------------------------- product detail */
 .breadcrumb{font-family:var(--mono);font-size:12px;color:var(--faint);padding:22px 0;border-bottom:1px solid var(--line)}
@@ -635,6 +639,9 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
   .pd-media{position:static}
   .about-grid{grid-template-columns:1fr;gap:36px}
   .contact-grid{grid-template-columns:1fr;gap:36px}
+  .service-item{grid-template-columns:1fr;gap:30px;padding:48px 0}
+  .service-item__copy{order:1}
+  .service-item__media,.service-item--media-left .service-item__media{order:2;aspect-ratio:16/10}
   footer.site .fgrid{grid-template-columns:1fr 1fr;gap:34px}
   section{padding:72px 0}
 }
@@ -679,13 +686,6 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
   .photo-strip{grid-template-columns:repeat(2,1fr)}
   .form-row{grid-template-columns:1fr}
   footer.site .fgrid{grid-template-columns:1fr;gap:30px}
-  .service-item{grid-template-columns:1fr;gap:10px}
-  .services-showcase::after{
-    width:100%;height:300px;opacity:.3;background-size:auto 100%;background-position:center bottom;
-    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 34%);
-    mask-image:linear-gradient(to bottom,transparent 0%,#000 34%);
-  }
-  .services-showcase .wrap{padding-right:24px;padding-bottom:240px}
   .section-head{margin-bottom:34px}
   section{padding:60px 0}
   .topbar .wrap{justify-content:center;text-align:center;font-size:11.5px}
@@ -694,7 +694,7 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
 @media (max-width:380px){
   .hero-stats{grid-template-columns:1fr}
   .wrap{padding:0 18px}
-  .services-showcase .wrap{padding-right:18px}
+  .service-item__copy{grid-template-columns:1fr;gap:10px}
   .pd-media .quote-box .btn{width:100%;max-width:100%;padding-inline:14px;white-space:normal;text-align:center}
 }
 

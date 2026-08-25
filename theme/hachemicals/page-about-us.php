@@ -24,7 +24,7 @@ $installation_capabilities = array(
     <div class="shot" data-reveal="right"><img src="<?php echo esc_url( hachemicals_asset( 'img/img_about_Home01-7DPAR8H.webp' ) ); ?>" alt="HA International Chemicals warehouse operations" loading="lazy"></div>
 </div></section>
 <section class="bg-navy"><div class="wrap">
-    <div class="section-head"><div><div class="eyebrow on-dark" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical equipment installation</h2></div></div>
+    <div class="section-head section-head--wide"><div><div class="eyebrow on-dark" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical equipment installation</h2></div></div>
     <div class="installation-grid"><?php foreach ( $installation_capabilities as $index => $capability ) : ?><article class="installation-card" data-reveal style="--i:<?php echo esc_attr( $index ); ?>"><img src="<?php echo esc_url( hachemicals_asset( 'img/' . $capability['image'] ) ); ?>" alt="" loading="lazy" aria-hidden="true"><h3><?php echo esc_html( $capability['label'] ); ?></h3></article><?php endforeach; ?></div>
 </div></section>
 <section><div class="wrap">

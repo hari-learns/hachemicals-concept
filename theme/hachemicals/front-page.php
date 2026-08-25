@@ -75,7 +75,7 @@ $installation_capabilities = array(
 
 <section class="bg-navy">
     <div class="wrap">
-        <div class="section-head"><div><div class="eyebrow on-dark" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical equipment installation</h2></div></div>
+        <div class="section-head section-head--wide"><div><div class="eyebrow on-dark" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical equipment installation</h2></div></div>
         <div class="installation-grid">
             <?php foreach ( $installation_capabilities as $index => $capability ) : ?>
                 <article class="installation-card" data-reveal style="--i:<?php echo esc_attr( $index ); ?>">
