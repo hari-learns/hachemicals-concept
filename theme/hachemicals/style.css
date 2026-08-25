@@ -4,7 +4,7 @@ Theme URI: https://hachemicals.com/
 Description: Production child theme for HA International Chemicals Trading LLC.
 Author: HA International Chemicals Trading LLC
 Template: hello-elementor
-Version: 1.0.26
+Version: 1.0.27
 Text Domain: hachemicals
 Requires at least: 6.6
 Requires PHP: 8.1
@@ -126,9 +126,13 @@ body.hachemicals-kit-scope .contact-card h4{font-family:var(--mono);font-size:11
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity .22s var(--ease),visibility 0s linear .22s;
 }
-.site-transition__mark{position:absolute;display:flex;gap:1px;color:#fff;font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:-.08em}
-.site-transition__mark span:last-child{color:var(--green-light)}
-.site-transition__ring{width:64px;height:64px;border:1px solid rgba(255,255,255,.2);border-top-color:var(--green-light);border-radius:50%;animation:site-transition-spin .8s linear infinite}
+.site-transition__mark{
+  position:absolute;z-index:1;display:grid;place-items:center;width:52px;height:52px;padding:8px;
+  border:1px solid rgba(255,255,255,.72);border-radius:50%;background:rgba(255,255,255,.96);
+  box-shadow:0 12px 34px rgba(0,0,0,.28),inset 0 0 0 1px rgba(19,34,60,.05);
+}
+.site-transition__mark img{width:38px;height:auto;max-height:32px;object-fit:contain}
+.site-transition__ring{width:72px;height:72px;border:1px solid rgba(255,255,255,.2);border-top-color:var(--green-light);border-right-color:rgba(184,255,174,.5);border-radius:50%;animation:site-transition-spin .8s linear infinite}
 html.is-transitioning .site-transition{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .18s var(--ease)}
 html.is-transitioning body>:not(.site-transition){filter:blur(5px)}
 @keyframes site-transition-spin{to{transform:rotate(360deg)}}
@@ -169,10 +173,12 @@ html.is-transitioning body>:not(.site-transition){filter:blur(5px)}
 /* heading wipe */
 [data-reveal="wipe"]{
   opacity:1;transform:none;
-  clip-path:inset(0 100% 0 0);
+  /* Negative vertical insets keep descenders (g, j, p, q, y) and accents
+     outside the nominal line box from being shaved during the wipe. */
+  clip-path:inset(-.2em 100% -.32em -.04em);
   transition:clip-path .9s var(--ease);
 }
-[data-reveal="wipe"].is-visible{clip-path:inset(0 0 0 0)}
+[data-reveal="wipe"].is-visible{clip-path:inset(-.2em -.04em -.32em -.04em)}
 
 /* ---------------------------------------------------------- topbar */
 .topbar{background:var(--navy-3);color:#AEB6C4;font-family:var(--mono);font-size:12px;position:relative;z-index:60}

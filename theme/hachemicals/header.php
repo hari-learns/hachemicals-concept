@@ -23,7 +23,9 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div class="site-transition" id="siteTransition" aria-hidden="true">
-    <div class="site-transition__mark"><span>H</span><span>A</span></div>
+    <span class="site-transition__mark">
+        <img src="<?php echo esc_url( hachemicals_asset( 'img/HA-international-chemical-llc-01-e1709276380617.webp' ) ); ?>" alt="" width="40" height="28">
+    </span>
     <span class="site-transition__ring"></span>
 </div>
 <a class="screen-reader-text" href="#main-content"><?php esc_html_e( 'Skip to content', 'hachemicals' ); ?></a>
