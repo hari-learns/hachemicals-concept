@@ -65,6 +65,21 @@ button{font:inherit}
 h1,h2,h3,h4{font-family:var(--display);font-weight:700;line-height:1.14;margin:0 0 .5em;letter-spacing:-.02em}
 p{margin:0 0 1em}
 
+/* Elementor kit guard — applies ONLY to routes that still load Elementor's CSS
+   (currently /contact-us/, where MetForm's layout depends on it). Everywhere
+   else functions.php dequeues Elementor's stylesheets, so no override is needed
+   and this scope deliberately stays off those routes: at (0,1,2) it would
+   otherwise outrank legitimate component rules such as .post-card h3. */
+body.hachemicals-kit-scope{color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;font-weight:400}
+body.hachemicals-kit-scope h1,
+body.hachemicals-kit-scope h2,
+body.hachemicals-kit-scope h3,
+body.hachemicals-kit-scope h4{font-family:var(--display);font-weight:700;line-height:1.14;letter-spacing:-.02em;color:var(--ink)}
+body.hachemicals-kit-scope .page-hero h1{color:#fff}
+body.hachemicals-kit-scope .cta-band h2{color:#fff}
+/* re-assert component rules the scoped guard would otherwise outrank */
+body.hachemicals-kit-scope .contact-card h4{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--green);font-weight:600;line-height:1.45}
+
 /* focus — visible on every interactive element */
 :focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:2px}
 

@@ -124,8 +124,44 @@ add_action( 'wp_enqueue_scripts', 'hachemicals_dequeue_unused_elementor_runtime'
 // prints footer scripts (the core footer printer is attached at priority 20).
 add_action( 'wp_footer', 'hachemicals_dequeue_unused_elementor_runtime', 0 );
 
+/**
+ * Elementor also enqueues its global kit stylesheet (.elementor-kit-NNN) on
+ * redesigned routes. Its selectors are class-level, so they outrank the child
+ * theme's element-level base rules: headings rendered grey at 2.5x leading in
+ * weight 800 instead of navy at 1.14 in 700, and body text inherited the wrong
+ * colour and leading. The child theme owns the whole markup on native routes,
+ * so none of Elementor's CSS is needed there.
+ *
+ * /contact-us/ is deliberately excluded: MetForm's field layout still depends
+ * on Elementor's stylesheet. That route keeps the CSS and is corrected by the
+ * scoped guard in style.css instead.
+ */
+function hachemicals_dequeue_unused_elementor_styles() {
+    if ( ! hachemicals_native_route_skips_elementor() ) {
+        return;
+    }
+
+    $styles = wp_styles();
+    if ( ! $styles instanceof WP_Styles ) {
+        return;
+    }
+
+    foreach ( (array) $styles->queue as $handle ) {
+        if ( 0 === strpos( $handle, 'elementor' ) ) {
+            wp_dequeue_style( $handle );
+        }
+    }
+}
+add_action( 'wp_enqueue_scripts', 'hachemicals_dequeue_unused_elementor_styles', PHP_INT_MAX );
+
 function hachemicals_body_classes( $classes ) {
     $classes[] = 'hachemicals-site';
+    // Routes that still load Elementor's kit CSS need the scoped typography
+    // guard in style.css. Marking them here keeps that guard off every other
+    // route, where it would outrank legitimate component rules.
+    if ( ! hachemicals_native_route_skips_elementor() ) {
+        $classes[] = 'hachemicals-kit-scope';
+    }
     if ( is_page( 'products' ) || ( function_exists( 'is_shop' ) && ( is_shop() || is_product_taxonomy() ) ) ) {
         $classes[] = 'hachemicals-catalogue';
     }
