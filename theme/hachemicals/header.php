@@ -22,6 +22,10 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<div class="site-transition" id="siteTransition" aria-hidden="true">
+    <div class="site-transition__mark"><span>H</span><span>A</span></div>
+    <span class="site-transition__ring"></span>
+</div>
 <a class="screen-reader-text" href="#main-content"><?php esc_html_e( 'Skip to content', 'hachemicals' ); ?></a>
 <div class="topbar"><div class="wrap">
     <div><a href="mailto:<?php echo esc_attr( HACHEMICALS_EMAIL ); ?>"><?php echo esc_html( HACHEMICALS_EMAIL ); ?></a><span class="sep">|</span><?php echo esc_html( HACHEMICALS_HOURS ); ?></div>

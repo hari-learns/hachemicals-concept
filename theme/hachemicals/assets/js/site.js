@@ -5,6 +5,31 @@
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* Short page transition with no forced waiting. */
+  function clearTransition() {
+    document.documentElement.classList.remove("is-loading", "is-transitioning");
+  }
+
+  document.documentElement.classList.add("is-loading");
+  window.addEventListener("pageshow", function () {
+    window.requestAnimationFrame(clearTransition);
+  });
+  window.addEventListener("load", clearTransition);
+  setTimeout(clearTransition, 1400);
+
+  document.addEventListener("click", function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var link = e.target.closest ? e.target.closest("a[href]") : null;
+    if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+    var href = link.getAttribute("href");
+    if (!href || href.charAt(0) === "#" || /^(mailto:|tel:|javascript:)/i.test(href)) return;
+    var destination;
+    try { destination = new URL(link.href, window.location.href); } catch (ignore) { return; }
+    if (destination.origin !== window.location.origin) return;
+    if (destination.pathname === window.location.pathname && destination.search === window.location.search && destination.hash) return;
+    document.documentElement.classList.add("is-transitioning");
+  });
+
   /* ------------------------------------------------------------------
      Ripple — pointer-origin bloom.
      Vanilla port of interior.dev/docs/ripple: bloom .5s linear from the

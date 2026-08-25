@@ -4,7 +4,7 @@ Theme URI: https://hachemicals.com/
 Description: Production child theme for HA International Chemicals Trading LLC.
 Author: HA International Chemicals Trading LLC
 Template: hello-elementor
-Version: 1.0.20
+Version: 1.0.21
 Text Domain: hachemicals
 Requires at least: 6.6
 Requires PHP: 8.1
@@ -101,6 +101,21 @@ p{margin:0 0 1em}
   .btn-outline:hover{border-color:var(--navy);background:var(--navy);color:#fff;transform:translateY(-1px)}
   .btn-ghost:hover{background:rgba(255,255,255,.12);border-color:#fff;transform:translateY(-1px)}
 }
+.header-cta .btn-primary:hover,.header-cta .btn-primary:focus-visible{color:#fff}
+
+/* short page transition: continuity without delaying navigation */
+.site-transition{
+  position:fixed;inset:0;z-index:999999;display:grid;place-items:center;
+  background:rgba(7,18,35,.76);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .22s var(--ease),visibility 0s linear .22s;
+}
+.site-transition__mark{position:absolute;display:flex;gap:1px;color:#fff;font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:-.08em}
+.site-transition__mark span:last-child{color:var(--green-light)}
+.site-transition__ring{width:64px;height:64px;border:1px solid rgba(255,255,255,.2);border-top-color:var(--green-light);border-radius:50%;animation:site-transition-spin .8s linear infinite}
+html.is-transitioning .site-transition,html.is-loading .site-transition{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .18s var(--ease)}
+html.is-transitioning body>:not(.site-transition),html.is-loading body>:not(.site-transition){filter:blur(5px)}
+@keyframes site-transition-spin{to{transform:rotate(360deg)}}
 
 /* ---------------------------------------------------------- ripple
    Pointer-origin bloom, ported to vanilla from interior.dev/docs/ripple.
@@ -202,10 +217,11 @@ nav.main a.active{color:var(--green)}
 }
 .hero .wrap{
   position:relative;z-index:2;
-  padding:120px 24px 104px;
+  padding:76px 24px 68px;
   display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:end;
-  min-height:min(88svh,820px);
+  min-height:min(760px,calc(100svh - 126px));
 }
+.admin-bar .hero .wrap{min-height:min(760px,calc(100svh - 158px))}
 .hero h1{font-size:clamp(38px,5.6vw,68px);max-width:15ch;color:#fff;margin-bottom:20px}
 .hero h1 em{font-style:normal;color:var(--green-light)}
 .hero p.lead{color:#CBD2DC;font-size:17.5px;max-width:48ch;margin-bottom:32px}
@@ -339,6 +355,7 @@ section.tight{padding:60px 0}
 .industry-card:last-child{border-right:none}
 .industry-card__media{aspect-ratio:8/5;overflow:hidden;background:var(--surface-2)}
 .industry-card__media img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease),filter .35s var(--ease)}
+.industry-card--construction .industry-card__media img{object-position:62% 44%}
 .industry-card h4{font-size:14.5px;margin:0;padding:20px 16px}
 @media (hover:hover){
   .industry-card:hover{background:var(--green-light)}
@@ -633,6 +650,7 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
   .counter-row{grid-template-columns:1fr}
   .installation-grid{grid-template-columns:1fr}
   .installation-card{min-height:320px}
+  .industry-card--construction .industry-card__media img{object-position:68% 46%}
   .photo-strip{grid-template-columns:repeat(2,1fr)}
   .form-row{grid-template-columns:1fr}
   footer.site .fgrid{grid-template-columns:1fr;gap:30px}
@@ -659,4 +677,6 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
   [data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}
   .hero__slide.is-active .hero__img{animation:none}
   .ripple{display:none}
+  .site-transition__ring{animation:none}
+  .site-transition{transition:none}
 }
