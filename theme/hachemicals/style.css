@@ -4,7 +4,7 @@ Theme URI: https://hachemicals.com/
 Description: Production child theme for HA International Chemicals Trading LLC.
 Author: HA International Chemicals Trading LLC
 Template: hello-elementor
-Version: 1.0.21
+Version: 1.0.22
 Text Domain: hachemicals
 Requires at least: 6.6
 Requires PHP: 8.1
@@ -113,8 +113,8 @@ p{margin:0 0 1em}
 .site-transition__mark{position:absolute;display:flex;gap:1px;color:#fff;font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:-.08em}
 .site-transition__mark span:last-child{color:var(--green-light)}
 .site-transition__ring{width:64px;height:64px;border:1px solid rgba(255,255,255,.2);border-top-color:var(--green-light);border-radius:50%;animation:site-transition-spin .8s linear infinite}
-html.is-transitioning .site-transition,html.is-loading .site-transition{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .18s var(--ease)}
-html.is-transitioning body>:not(.site-transition),html.is-loading body>:not(.site-transition){filter:blur(5px)}
+html.is-transitioning .site-transition{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .18s var(--ease)}
+html.is-transitioning body>:not(.site-transition){filter:blur(5px)}
 @keyframes site-transition-spin{to{transform:rotate(360deg)}}
 
 /* ---------------------------------------------------------- ripple
@@ -200,7 +200,7 @@ nav.main a.active{color:var(--green)}
 .mobile-nav-quote{display:none}
 
 /* ---------------------------------------------------------- hero */
-.hero{position:relative;overflow:clip;background:var(--navy);color:#fff;isolation:isolate}
+.hero{position:relative;overflow:clip;background:var(--navy);color:#fff;isolation:isolate;padding:0}
 .hero__slides{position:absolute;inset:0;z-index:0}
 .hero__slide{
   position:absolute;inset:0;opacity:0;
@@ -221,7 +221,7 @@ nav.main a.active{color:var(--green)}
   display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:end;
   min-height:min(760px,calc(100svh - 126px));
 }
-.admin-bar .hero .wrap{min-height:min(760px,calc(100svh - 158px))}
+.admin-bar .hero .wrap{min-height:min(760px,calc(100svh - 161px))}
 .hero h1{font-size:clamp(38px,5.6vw,68px);max-width:15ch;color:#fff;margin-bottom:20px}
 .hero h1 em{font-style:normal;color:var(--green-light)}
 .hero p.lead{color:#CBD2DC;font-size:17.5px;max-width:48ch;margin-bottom:32px}

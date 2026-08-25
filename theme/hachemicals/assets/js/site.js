@@ -7,15 +7,12 @@
 
   /* Short page transition with no forced waiting. */
   function clearTransition() {
-    document.documentElement.classList.remove("is-loading", "is-transitioning");
+    document.documentElement.classList.remove("is-transitioning");
   }
 
-  document.documentElement.classList.add("is-loading");
   window.addEventListener("pageshow", function () {
     window.requestAnimationFrame(clearTransition);
   });
-  window.addEventListener("load", clearTransition);
-  setTimeout(clearTransition, 1400);
 
   document.addEventListener("click", function (e) {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
