@@ -4,7 +4,7 @@ Theme URI: https://hachemicals.com/
 Description: Production child theme for HA International Chemicals Trading LLC.
 Author: HA International Chemicals Trading LLC
 Template: hello-elementor
-Version: 1.0.22
+Version: 1.0.23
 Text Domain: hachemicals
 Requires at least: 6.6
 Requires PHP: 8.1
@@ -56,6 +56,7 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:clip;
 }
+body.hachemicals-site{background-image:none!important}
 .admin-bar header.site{top:32px}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -373,6 +374,15 @@ section.tight{padding:60px 0}
 .service-item h3{margin-bottom:12px;font-size:22px}
 .service-item p{margin:0 0 .9em;color:var(--grey);font-size:15px;max-width:72ch}
 .service-item p:last-child{margin-bottom:0}
+.services-showcase{position:relative;isolation:isolate;overflow:hidden;background:#fff}
+.services-showcase::after{
+  content:"";position:absolute;z-index:0;right:0;bottom:0;width:min(36vw,520px);height:100%;
+  background:url('/wp-content/uploads/2025/05/october-2018-building-construction-skyscrapers-dubai1.jpg') right bottom/100% auto no-repeat;
+  opacity:.88;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 26%);
+  mask-image:linear-gradient(to right,transparent 0%,#000 26%);
+}
+.services-showcase .wrap{position:relative;z-index:1;max-width:1240px;padding-right:min(38vw,548px)}
 
 /* ---------------------------------------------------------- product detail */
 .breadcrumb{font-family:var(--mono);font-size:12px;color:var(--faint);padding:22px 0;border-bottom:1px solid var(--line)}
@@ -655,6 +665,12 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
   .form-row{grid-template-columns:1fr}
   footer.site .fgrid{grid-template-columns:1fr;gap:30px}
   .service-item{grid-template-columns:1fr;gap:10px}
+  .services-showcase::after{
+    width:100%;height:300px;opacity:.3;background-size:auto 100%;background-position:center bottom;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 34%);
+    mask-image:linear-gradient(to bottom,transparent 0%,#000 34%);
+  }
+  .services-showcase .wrap{padding-right:24px;padding-bottom:240px}
   .section-head{margin-bottom:34px}
   section{padding:60px 0}
   .topbar .wrap{justify-content:center;text-align:center;font-size:11.5px}
@@ -663,6 +679,7 @@ footer.site .fbottom{display:flex;justify-content:space-between;padding-top:26px
 @media (max-width:380px){
   .hero-stats{grid-template-columns:1fr}
   .wrap{padding:0 18px}
+  .services-showcase .wrap{padding-right:18px}
   .pd-media .quote-box .btn{width:100%;max-width:100%;padding-inline:14px;white-space:normal;text-align:center}
 }
 
