@@ -2,19 +2,19 @@
 /** Existing public Free Quote page, backed by WPForms form 1265. */
 get_header();
 ?>
-<section class="page-hero"><div class="wrap"><div class="eyebrow on-dark">We Trade You Gain</div><h1>Free quote</h1><p>Tell us what you need and our team will respond with pricing and availability.</p></div></section>
+<section class="page-hero"><div class="wrap"><div class="eyebrow on-dark">Request Pricing &amp; Availability</div><h1>Free quote</h1><p>Tell us what you need and our team will respond with pricing and availability.</p></div></section>
 <section><div class="wrap contact-grid">
     <div>
         <div class="eyebrow" data-reveal>Why us?</div>
         <h2 data-reveal="wipe">Reliable chemical and electrical supply</h2>
         <p data-reveal style="--i:1">Feel free to write our team anytime — we usually respond within one business day.</p>
-        <p class="lede" data-reveal style="--i:2">At HA Chemicals International, we prioritize quality and reliability in chemical trading. Our team ensures timely deliveries of a wide range of chemicals tailored to your needs. By focusing on efficient logistics and exceptional service, we make sure you have the right materials when it matters most.</p>
+        <p class="lede" data-reveal style="--i:2">At HA International Chemicals Trading LLC, we prioritize quality and reliability in chemical and electrical supply. Our team coordinates responsive sourcing and timely delivery around your technical and quantity requirements.</p>
         <div class="contact-card" data-reveal style="--i:3"><h4>Direct support</h4><a href="tel:<?php echo esc_attr( HACHEMICALS_PHONE_LINK ); ?>"><?php echo esc_html( HACHEMICALS_PHONE ); ?></a></div>
         <div class="contact-card" data-reveal style="--i:4"><h4>Email</h4><a href="mailto:<?php echo esc_attr( HACHEMICALS_EMAIL ); ?>"><?php echo esc_html( HACHEMICALS_EMAIL ); ?></a></div>
         <div class="contact-card" data-reveal style="--i:5"><h4>Address</h4><p><?php echo esc_html( HACHEMICALS_ADDRESS ); ?></p></div>
     </div>
     <div class="hachemicals-form-shell" data-reveal="right">
-        <h2>Products</h2>
+        <h2>Quote request details</h2>
         <?php if ( shortcode_exists( 'wpforms' ) ) : ?>
             <?php
             $form_html         = do_shortcode( '[wpforms id="1265" title="false"]' );

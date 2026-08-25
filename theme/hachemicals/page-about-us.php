@@ -21,15 +21,15 @@ $installation_capabilities = array(
         <p class="lede" data-reveal style="--i:3">We understand that the journey to this ideal future is multifaceted, requiring dedication, vision, and a clear sense of direction. At HA International Chemicals Trading LLC, we strive to stay at the forefront of technological advancements while nurturing a deep-rooted sense of responsibility towards our planet. We are acutely aware that progress is not merely measured in profit margins but in the positive change we bring to our world.</p>
         <div class="counter-row" style="margin-top:34px"><div data-reveal><b data-count="38">0</b><span>Years of Experience</span></div></div>
     </div>
-    <div class="shot" data-reveal="right"><img src="<?php echo esc_url( hachemicals_asset( 'img/img_about_Home01-7DPAR8H.webp' ) ); ?>" alt="HA International Chemicals warehouse operations" loading="lazy"></div>
+    <div class="shot" data-reveal="right"><img src="<?php echo esc_url( hachemicals_asset( 'img/one-professional-working-as-electrical-technical.webp' ) ); ?>" alt="Electrical technician inspecting industrial control equipment" loading="lazy"></div>
 </div></section>
 <section class="bg-navy"><div class="wrap">
     <div class="section-head section-head--wide"><div><div class="eyebrow on-dark" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical equipment installation</h2></div></div>
     <div class="installation-grid"><?php foreach ( $installation_capabilities as $index => $capability ) : ?><article class="installation-card" data-reveal style="--i:<?php echo esc_attr( $index ); ?>"><img src="<?php echo esc_url( hachemicals_asset( 'img/' . $capability['image'] ) ); ?>" alt="" loading="lazy" aria-hidden="true"><h3><?php echo esc_html( $capability['label'] ); ?></h3></article><?php endforeach; ?></div>
 </div></section>
 <section><div class="wrap">
-    <div class="section-head"><div><div class="eyebrow" data-reveal>Our Operations</div><h2 data-reveal="wipe">Inside the business</h2></div></div>
-    <div class="photo-strip"><?php foreach ( $photos as $index => $photo ) : ?><figure data-reveal="scale" style="--i:<?php echo esc_attr( $index ); ?>"><img src="<?php echo esc_url( hachemicals_asset( 'img/' . $photo ) ); ?>" alt="HA International Chemicals facility" loading="lazy"></figure><?php endforeach; ?></div>
+    <div class="section-head"><div><div class="eyebrow" data-reveal>Electrical &amp; Automation</div><h2 data-reveal="wipe">VFD &amp; Electrical Product Range</h2></div></div>
+    <div class="photo-strip"><?php foreach ( $photos as $index => $photo ) : ?><figure data-reveal="scale" style="--i:<?php echo esc_attr( $index ); ?>"><img src="<?php echo esc_url( hachemicals_asset( 'img/' . $photo ) ); ?>" alt="Inovance variable frequency drive, product view <?php echo esc_attr( $index + 1 ); ?>" loading="lazy"></figure><?php endforeach; ?></div>
 </div></section>
 <section class="bg-surface"><div class="wrap">
     <div class="section-head"><div><div class="eyebrow" data-reveal>What Drives Us</div><h2 data-reveal="wipe">Quality, range, and expertise</h2></div></div>

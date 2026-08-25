@@ -49,12 +49,12 @@ $services = array(
 );
 ?>
 <section class="page-hero"><div class="wrap">
-    <div class="eyebrow on-dark">Explore Our Solutions</div>
-    <h1>Innovative Solutions to Meet Every Need</h1>
-    <p>At HA International Chemicals Trading LLC, we offer a wide selection of high-quality chemicals suitable for many industries. From industrial solutions to specialty products, our range is crafted to enhance your operations and fuel your success.</p>
+    <div class="eyebrow on-dark">Electromechanical Services</div>
+    <h1>Industrial Equipment Installation Expertise</h1>
+    <p>Electrical installation, earthing systems, cathodic protection, ELV, and telecommunication installation delivered by experienced technical professionals.</p>
 </div></section>
 <section class="services-showcase"><div class="wrap">
-    <div class="section-head"><div><div class="eyebrow" data-reveal>Services Offered</div><h2 data-reveal="wipe">What we do</h2></div><a class="btn btn-outline" href="<?php echo esc_url( hachemicals_shop_url() ); ?>" data-reveal data-ripple>View Products <span class="arw" aria-hidden="true">→</span></a></div>
+    <div class="section-head section-head--wide"><div><div class="eyebrow" data-reveal>Installation Capabilities</div><h2 data-reveal="wipe">Electromechanical Installation Services</h2></div><a class="btn btn-outline" href="<?php echo esc_url( hachemicals_shop_url() ); ?>" data-reveal data-ripple>View Products <span class="arw" aria-hidden="true">→</span></a></div>
     <?php foreach ( $services as $index => $service ) : ?>
         <article class="service-item<?php echo 1 === $index % 2 ? ' service-item--media-left' : ''; ?>" data-reveal style="--i:<?php echo esc_attr( $index ); ?>">
             <div class="service-item__copy">

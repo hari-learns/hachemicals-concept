@@ -64,12 +64,12 @@ $installation_capabilities = array(
 <section>
     <div class="wrap about-grid">
         <div>
-            <div class="eyebrow" data-reveal>We Trade You Gain</div>
-            <h2 data-reveal="wipe">The Best Prices For You</h2>
+            <div class="eyebrow" data-reveal>About HA International</div>
+            <h2 data-reveal="wipe">38 years of reliable industrial supply</h2>
             <p class="lede" data-reveal style="--i:1">HA International Chemicals Trading LLC is a leading chemical trading company in the UAE, specializing in the supply and distribution of high-quality industrial chemicals, specialty chemicals, and electrical products for diverse industries.</p>
             <p class="lede" data-reveal style="--i:2">With 38 years of experience, we have built a strong reputation for reliability, quality, and customer satisfaction, serving businesses across the UAE and international markets. Our commitment to excellence, timely delivery, and competitive pricing makes us a trusted partner for construction, manufacturing, water treatment, oil &amp; gas, and industrial sectors. We deliver premium products and dependable solutions tailored to meet modern industry demands.</p>
         </div>
-        <div class="shot" data-reveal="right"><img src="<?php echo esc_url( hachemicals_asset( 'img/img_bg_business_Home01-STE4HQX-e1686194116880.webp' ) ); ?>" alt="HA International Chemicals operations" loading="lazy"></div>
+        <div class="shot" data-reveal="right"><img src="<?php echo esc_url( hachemicals_asset( 'img/petrochemical-complex-storage-tanks-industrial-landscape-oil-refinery-factory.webp' ) ); ?>" alt="Industrial chemical storage and processing facility" loading="lazy"></div>
     </div>
 </section>
 
@@ -89,12 +89,12 @@ $installation_capabilities = array(
 
 <section>
     <div class="wrap">
-        <div class="section-head"><div><div class="eyebrow" data-reveal>What Else We Do</div><h2 data-reveal="wipe">Committed to exceptional service</h2><p data-reveal style="--i:1">We offer an extensive selection of electrical products and chemicals, catering to various industries' needs.</p></div></div>
+        <div class="section-head"><div><div class="eyebrow" data-reveal>Why Businesses Choose Us</div><h2 data-reveal="wipe">Reliable supply, technical support, and value</h2><p data-reveal style="--i:1">Our supply relationships, product knowledge, and responsive service help industrial buyers source the right materials and equipment.</p></div></div>
         <div class="grid grid-3">
-            <div class="feature" data-reveal><div class="num">01</div><div><h4>Timely Delivery</h4><p>Our team of experienced professionals possesses in-depth knowledge and technical expertise in the electrical and chemical fields.</p></div></div>
+            <div class="feature" data-reveal><div class="num">01</div><div><h4>Timely Delivery</h4><p>Responsive coordination and dependable logistics help keep customer requirements and project schedules on track.</p></div></div>
             <div class="feature" data-reveal style="--i:1"><div class="num">02</div><div><h4>Quality Assurance</h4><p>At HA International Chemicals Trading LLC, quality is our top priority. We partner with reputable manufacturers and suppliers to ensure that all our products meet strict quality standards and comply with safety regulations.</p></div></div>
             <div class="feature" data-reveal style="--i:2"><div class="num">03</div><div><h4>Extensive Product Range</h4><p>From cutting-edge electrical equipment to premium-grade chemicals, we've got you covered.</p></div></div>
-            <div class="feature" data-reveal style="--i:3"><div class="num">04</div><div><h4>Technical Expertise</h4><p>We can assist you in finding the right products that best suit your specific requirements.</p></div></div>
+            <div class="feature" data-reveal style="--i:3"><div class="num">04</div><div><h4>Technical Expertise</h4><p>Our team helps customers assess specifications and select products suited to their operating requirements.</p></div></div>
             <div class="feature" data-reveal style="--i:4"><div class="num">05</div><div><h4>Competitive Pricing</h4><p>Direct sourcing relationships keep our pricing sharp without compromising on quality.</p></div></div>
             <div class="feature" data-reveal style="--i:5"><div class="num">06</div><div><h4>38+ Years Trading</h4><p>Four decades of relationships across UAE construction, industrial, and energy sectors.</p></div></div>
         </div>

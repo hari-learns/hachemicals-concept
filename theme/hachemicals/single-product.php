@@ -34,7 +34,7 @@ while ( have_posts() ) :
     </section>
     <?php if ( $related ) : ?>
         <section class="bg-surface"><div class="wrap">
-            <div class="section-head"><div><div class="eyebrow" data-reveal>Related</div><h2 data-reveal="wipe" style="font-size:26px">More <?php echo esc_html( hachemicals_product_label( $product ) ); ?>s</h2></div></div>
+            <div class="section-head"><div><div class="eyebrow" data-reveal>Related Products</div><h2 data-reveal="wipe" style="font-size:26px"><?php echo esc_html( hachemicals_product_is_vfd( $product ) ? 'More VFD & Electrical Products' : 'More Industrial Chemicals' ); ?></h2></div></div>
             <div class="grid grid-4"><?php foreach ( $related as $index => $item ) { hachemicals_render_product_card( $item, $index ); } ?></div>
         </div></section>
     <?php endif; ?>
